@@ -1,5 +1,219 @@
-.calender-container {
-  width: 1000px;
-  height: 1000px;
+@import url(//fonts.googleapis.com/earlyaccess/notosanstc.css);
+
+* {
+  box-sizing: border-box;
+  font-size: 18px;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  height: 100%;
+  font-family: "Noto Sans TC", "微軟正黑體", sans-serif;
+}
+
+/* ==================================================
+                      navbar 
+===================================================*/
+
+.navbar {
+  height: 50px;
+  width: 100%;
+  background-color: white;
+  /* box-shadow: 0 30px rgb(200, 200, 198); */
+}
+
+/* ==================================================
+                    content
+===================================================*/
+
+.content {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.sidebar {
+  width: 20%;
+  padding: 20px;
+}
+
+.searchBar {
+  height: 40px;
+  padding: 0px 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 3px solid rgb(63, 83, 134);
+  border-radius: 10px;
+}
+
+.search {
+  width: 90%;
+  height: 25px;
+  border: none;
+}
+
+.search:focus {
+  outline: none;
+  /* 去邊框 */
+}
+
+/* 搜尋icon */
+.fa-magnifying-glass {
+  cursor: pointer;
+}
+
+.functionButton {
+  width: 100%;
+  margin: 10px auto 0px auto;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+}
+
+/* ----- addEvent ----- */
+
+.addEvent {
+  background-color: rgb(195, 130, 130);
+}
+
+.addEvent:hover {
+  background-color: rgb(172, 63, 63);
+}
+
+.newEvent {
+  width: 100%;
+  padding: 10px;
+  border-radius: 0px 0px 15px 15px;
+  background-color: rgb(232, 217, 217);
+  transition: 0.3s;
+  text-align: center;
+}
+
+.newEvent > div {
+  margin: 10px 0px;
+}
+
+.newEvent .title {
+  font-weight: bold;
+  font-size: 16px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  border-radius: 15px;
+  padding: 5px 15px;
+  background-color: white;
+  /* color: rgb(199, 109, 109); */
+}
+
+.newEvent .newEvent-title {
+  width: 100%;
+  height: 30px;
+  font-size: 20px;
+  /* border-color: rgb(180, 179, 179);
+  border-style: solid;
+  border-radius: 10px; */
+  border: none;
+  /* padding: 0px 10px; */
+}
+
+.newEvent-title:focus {
+  outline: none;
+  /* 去邊框 */
+}
+
+.newEvent .start,
+.newEvent .end {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  font-weight: bold;
+  font-size: 16px;
+  border-radius: 15px;
+  padding: 5px 15px;
+  background-color: white;
+  /* color: rgb(199, 109, 109); */
+}
+
+.newEvent .start input,
+.newEvent .end input {
+  display: block;
+  font-size: 16px;
+  width: 100%;
+  height: 30px;
+  text-align: center;
+  border-color: rgb(180, 179, 179);
+  border-style: solid;
+  border-radius: 20px;
+}
+.subTitle {
+  width: 20%;
+  margin-right: 5px;
+}
+
+.input-container {
+  width: 80%;
+}
+.input-container input:first-child {
+  margin-bottom: 5px;
+}
+
+.newEvent-button {
+  background-color: #c38282;
+  color: white;
+  text-align: center;
+  border: none;
+  border-radius: 10px;
+  width: 50%;
+  height: 40px;
   margin: 0px auto;
+  cursor: pointer;
+}
+
+.newEvent-button:hover {
+  background-color: #ac3f3f;
+}
+
+.newEvent-active {
+  background-color: #ac3f3f;
+}
+
+/* ----- inviteFriend ----- */
+
+.inviteFriend {
+  background-color: rgb(221, 198, 126);
+}
+
+.inviteFriend:hover {
+  background-color: rgb(205, 166, 50);
+}
+
+/* ----- addCategory ----- */
+
+.addCategory {
+  background-color: rgb(173, 218, 207);
+}
+
+.addCategory:hover {
+  background-color: rgb(51, 190, 160);
+}
+
+.calendar-container {
+  width: 70%;
+  margin: 0px auto;
+}
+
+.fc-event-time {
+  font-size: 14px;
+}
+
+.fc-event-title {
+  font-size: 14px;
 }

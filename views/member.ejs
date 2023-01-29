@@ -2,21 +2,59 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="/index.css" />
     <script src="/member.js"></script>
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        var calendarEl = document.getElementById("calendar");
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-          initialView: "dayGridMonth",
-        });
-        calendar.render();
-      });
-    </script>
+    <script src="/locales-all.global.js"></script>
+
+    <link rel="stylesheet" href="/index.css" />
+    <script
+      src="https://kit.fontawesome.com/605526aab0.js"
+      crossorigin="anonymous"
+    ></script>
   </head>
   <body>
-    <div class="calender-container">
-      <div id="calendar"></div>
+    <nav class="navbar"></nav>
+    <div class="content">
+      <div class="sidebar">
+        <div class="searchBar">
+          <input type="text" placeholder="查詢行程" class="search" />
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </div>
+        <div class="functionButton addEvent">
+          <i class="fa-solid fa-plus"></i>&nbsp;<b>新增行程</b>
+        </div>
+        <div class="newEvent" style="display: none">
+          <div class="title">
+            <!-- <div class="subTitle">標題</div> -->
+            <input type="text" class="newEvent-title" placeholder="標題" />
+          </div>
+          <div class="start">
+            <div class="subTitle">開始</div>
+            <div class="input-container">
+              <input type="date" class="newEvent-startDate date" />
+              <input type="time" class="newEvent-startTime time" />
+            </div>
+          </div>
+          <div class="end">
+            <div class="subTitle">結束</div>
+            <div class="input-container">
+              <input type="date" class="newEvent-endDate date" />
+              <input type="time" class="newEvent-endTime time" />
+            </div>
+          </div>
+          <button class="newEvent-button">新增</button>
+        </div>
+        <div class="functionButton inviteFriend">
+          <i class="fa-solid fa-user-group"></i>&nbsp;邀請朋友
+        </div>
+        <div class="functionButton addCategory">
+          <i class="fa-solid fa-box-open"></i>&nbsp;建立分類
+        </div>
+      </div>
+
+      <div class="calendar-container">
+        <div id="calendar"></div>
+      </div>
     </div>
+    <script src="/event.js"></script>
   </body>
 </html>
