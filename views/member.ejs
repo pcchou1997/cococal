@@ -11,9 +11,15 @@
       crossorigin="anonymous"
     ></script>
   </head>
+
   <body>
+    <!-- navbar -->
     <nav class="navbar"></nav>
+    <!-- navbar end-->
+
+    <!-- content -->
     <div class="content">
+      <!-- sidebar -->
       <div class="sidebar">
         <div class="searchBar">
           <input type="text" placeholder="查詢行程" class="search" />
@@ -50,11 +56,71 @@
           <i class="fa-solid fa-box-open"></i>&nbsp;建立分類
         </div>
       </div>
+      <!-- sidebar end-->
 
+      <!-- calendar -->
       <div class="calendar-container">
         <div id="calendar"></div>
       </div>
+      <!-- calendar end-->
     </div>
+    <!-- content end-->
+
+    <!-- edit-container -->
+    <div class="edit-container">
+      <h1 class="edit-title title-font">Edit Event</h1>
+      <div class="edit-eventName">
+        <div class="edit-vertical"></div>
+        <input
+          class="edit-eventName-input"
+          type="text"
+          class="newEvent-title"
+          placeholder="Event Title"
+        />
+      </div>
+      <div class="edit-time">
+        <i class="fa-solid fa-clock"></i>
+        <div>
+          <div class="edit-allDay">All-Day</div>
+          <div class="edit-period">
+            <div class="edit-start">
+              <input type="date" /><input type="time" />
+            </div>
+            <i class="fa-solid fa-angle-right"></i>
+            <div class="edit-end">
+              <input type="date" /><input type="time" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="edit-category">
+        <i class="fa-solid fa-box-open"></i>
+        <div class="edit-category-content">
+          <div>Category</div>
+          <select name="" id="">
+            <option value="">1</option>
+            <option value="">2</option>
+            <option value="">3</option>
+            <option value="">4</option>
+            <option value="">5</option>
+            <option value="">6</option>
+          </select>
+        </div>
+      </div>
+      <div class="edit-description">
+        <i class="fa-solid fa-pen-to-square"></i>
+        <div class="edit-description-content">
+          <div>Description</div>
+          <textarea class="edit-description-input">
+Enter your comments...</textarea
+          >
+        </div>
+      </div>
+      <div class="edit-button">revise</div>
+      <i class="fa-solid fa-xmark"></i>
+    </div>
+    <!-- edit-container end-->
+
     <script src="/event.js"></script>
   </body>
 </html>

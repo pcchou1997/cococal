@@ -6,7 +6,8 @@ const NEW_EVENT_START_TIME = document.querySelector(".newEvent-startTime");
 const NEW_EVENT_END_DATE = document.querySelector(".newEvent-endDate");
 const NEW_EVENT_END_TIME = document.querySelector(".newEvent-endTime");
 const NEW_EVENT_BUTTON = document.querySelector(".newEvent-button");
-
+const EDIT_CONTAINER = document.querySelector(".edit-container");
+const EDIT_CLOSE = document.querySelector(".fa-xmark");
 // get DB data
 
 fetch("/readEvent")
@@ -24,32 +25,26 @@ fetch("/readEvent")
       let startTime = jsonResponse[i].startTime;
       let endDate = jsonResponse[i].endDate;
       let endTime = jsonResponse[i].endTime;
+      let allDay = jsonResponse[i].allDay;
+      let color = jsonResponse[i].color;
 
       eventDict["title"] = title;
       eventDict["start"] = startDate + "T" + startTime + ":00";
       eventDict["end"] = endDate + "T" + endTime + ":00";
+      eventDict["allDay"] = allDay;
+      eventDict["color"] = color;
       events.push(eventDict);
     }
     console.log("events:", events);
-    // events = [
-    //   {
-    //     title: "做專案啦啦啦啦",
-    //     start: "2023-01-20T14:00:00",
-    //     end: "2023-01-20T16:00:00",
-    //   },
-    //   {
-    //     title: "專案報告",
-    //     start: "2023-01-30",
-    //     alllDay: false,
-    //   },
-    // ];
 
     // create calendar
 
     var calendarEl = document.getElementById("calendar");
     var calendar = new FullCalendar.Calendar(calendarEl, {
       initialView: "dayGridMonth",
+      // 支援中文，至locales-all.global.js下載抓中文資料
       locale: "zh-tw",
+      initialDate: new Date(),
       editable: true,
       selectable: true,
       navLinks: true,
@@ -58,9 +53,30 @@ fetch("/readEvent")
         center: "title",
         right: "dayGridMonth,timeGridWeek,timeGridDay,listMonth",
       },
-      events: events,
+      // buttonText: {
+      //   today: "good",
+      //   month: "",
+      //   week: "",
+      //   day: "",
+      //   list: "",
+      // },
+      events: {
+        events,
+        color: "yellow",
+        textColor: "black",
+      },
+      eventColor: "red",
     });
     calendar.render();
+
+    // Edit events
+    const EVENT = document.querySelectorAll(".fc-event");
+    Array.from(EVENT).forEach((el) => {
+      el.addEventListener("click", async function () {
+        console.log(this);
+        EDIT_CONTAINER.style.display = "block";
+      });
+    });
   })
   .catch((err) => {
     // handle error
@@ -107,9 +123,16 @@ NEW_EVENT_BUTTON.addEventListener("click", async function () {
         startTime: startTime,
         endDate: endDate,
         endTime: endTime,
+        allDay: false,
+        color: "red",
       }),
     });
 
     window.location.reload();
   }
+});
+
+// EDIT_CONTAINER
+EDIT_CLOSE.addEventListener("click", function () {
+  EDIT_CONTAINER.style.display = "none";
 });

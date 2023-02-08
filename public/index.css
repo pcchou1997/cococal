@@ -26,6 +26,14 @@ body {
 }
 
 /* ==================================================
+                    self-setting
+===================================================*/
+
+.title-font {
+  font-size: 24px;
+}
+
+/* ==================================================
                     content
 ===================================================*/
 
@@ -216,4 +224,134 @@ body {
 
 .fc-event-title {
   font-size: 14px;
+}
+
+/* ==================================================
+                  edit-container 
+===================================================*/
+
+.edit-container {
+  display: none;
+  width: 500px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  top: 80px;
+  padding: 30px;
+  border-radius: 20px;
+  border: 1px solid gray;
+  background-color: #ffffff;
+  z-index: 1;
+}
+
+.edit-container > div {
+  margin-bottom: 10px;
+}
+
+.edit-container .fa-solid {
+  margin-right: 10px;
+}
+
+.edit-title {
+  margin: 0px auto 10px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.edit-eventName {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.edit-vertical {
+  width: 5px;
+  height: 25px;
+  border-radius: 5px;
+  background-color: green;
+  margin-right: 5px;
+}
+
+.edit-eventName-input {
+  border: none;
+  font-size: 20px;
+}
+.edit-eventName-input:focus {
+  outline: none;
+  /* 去邊框 */
+}
+.edit-time {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.edit-start input,
+.edit-end input {
+  display: block;
+}
+
+.edit-period {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.fa-angle-right {
+  margin: 0px 10px;
+}
+
+.fa-box-open {
+  width: 18px;
+}
+
+.edit-description {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: baseline;
+}
+
+.edit-description-content {
+  width: 95%;
+}
+.edit-description-input {
+  width: 100%;
+  height: 100px;
+}
+
+.edit-button {
+  width: 80px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  border-radius: 10px;
+  background-color: rgb(240, 240, 240);
+  margin: 0px auto;
+}
+.edit-category {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: baseline;
+}
+
+.edit-category-content {
+  display: flex;
+  justify-content: flex-start;
+  align-items: baseline;
+}
+.edit-category-content div {
+  margin-right: 5px;
+}
+
+.fa-xmark {
+  font-size: 24px;
+  position: absolute;
+  right: 20px;
+  top: 20px;
 }

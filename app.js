@@ -24,12 +24,16 @@ app.post("/insertEvent", async function (req, res) {
   const startTime = data.startTime;
   const endDate = data.endDate;
   const endTime = data.endTime;
+  const allDay = data.allDay;
+  const color = data.color;
   const result = await insertEvent(
     title,
     startDate,
     startTime,
     endDate,
-    endTime
+    endTime,
+    allDay,
+    color
   );
   res.send(result);
 });

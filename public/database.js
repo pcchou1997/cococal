@@ -18,12 +18,20 @@ connection.getConnection((err) => {
   console.log("Connected!");
 });
 
-async function insertEvent(title, startDate, startTime, endDate, endTime) {
+async function insertEvent(
+  title,
+  startDate,
+  startTime,
+  endDate,
+  endTime,
+  allDay,
+  color
+) {
   // 新增行程
   let sql =
-    "INSERT INTO calendarEvents (title, startDate,startTime,endDate,endTime) VALUES ?";
+    "INSERT INTO calendarEvents (title, startDate,startTime,endDate,endTime,allDay,color) VALUES ?";
   // (?,?)
-  let values = [[title, startDate, startTime, endDate, endTime]];
+  let values = [[title, startDate, startTime, endDate, endTime, allDay, color]];
   connection.query(sql, [values], function (err, result) {
     if (err) throw err;
     console.log("insert new event");
