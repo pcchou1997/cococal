@@ -114,5 +114,25 @@ async function updateEvent(
 }
 
 // Delete event
+async function deleteEvent(oldTitle, oldStartDate, oldStartTime) {
+  let sql =
+    "DELETE FROM calendarEvents WHERE title=? and startDate=? and startTime=?";
+  let values = [oldTitle, oldStartDate, oldStartTime];
+  let data = await new Promise((resolve, reject) => {
+    connection.query(sql, values, function (err, result) {
+      if (err) throw err;
+      else {
+        return resolve(result);
+      }
+    });
+  });
+  return data;
+}
 
-module.exports = { insertEvent, readEvent, readSpecificEvent, updateEvent };
+module.exports = {
+  insertEvent,
+  readEvent,
+  readSpecificEvent,
+  updateEvent,
+  deleteEvent,
+};

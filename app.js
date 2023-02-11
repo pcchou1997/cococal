@@ -4,6 +4,7 @@ const {
   readEvent,
   readSpecificEvent,
   updateEvent,
+  deleteEvent,
 } = require("./public/database");
 const express = require("express");
 const app = express();
@@ -94,6 +95,16 @@ app.post("/updateEvent", async (req, res) => {
     oldStartDate,
     oldStartTime
   );
+  res.send(result);
+});
+
+app.post("/deleteEvent", async (req, res) => {
+  let data = req.body;
+  const oldTitle = data.oldTitle;
+  const oldStartDate = data.oldStartDate;
+  const oldStartTime = data.oldStartTime;
+  console.log(oldTitle, oldStartDate, oldStartTime);
+  const result = await deleteEvent(oldTitle, oldStartDate, oldStartTime);
   res.send(result);
 });
 

@@ -335,6 +335,7 @@ body {
   border-radius: 10px;
   background-color: rgb(240, 240, 240);
   margin: 0px 10px;
+  cursor: pointer;
 }
 
 .edit-category {
@@ -361,5 +362,15 @@ body {
   cursor: pointer;
 }
 .fc-event {
+  cursor: pointer;
+}
+.edit-category-select {
+  cursor: pointer;
+}
+
+.edit-startDate,
+.edit-startTime,
+.edit-endDate,
+.edit-endTime {
   cursor: pointer;
 }

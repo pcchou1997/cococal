@@ -15,6 +15,7 @@ const EDIT_ENDDATE = document.querySelector(".edit-endDate");
 const EDIT_ENDTIME = document.querySelector(".edit-endTime");
 const EDIT_VERTICAL = document.querySelector(".edit-vertical");
 const EDIT_REVISE = document.querySelector(".edit-revise");
+const EDIT_DELETE = document.querySelector(".edit-delete");
 let oldTitle;
 let oldStartDate;
 let oldStartTime;
@@ -31,7 +32,7 @@ function getEvents() {
       let endDate;
       let color;
 
-      // different event
+      // two types of events
 
       try {
         startTime = this.firstChild.firstChild.firstChild.innerHTML;
@@ -95,6 +96,7 @@ function getEvents() {
     });
   });
 }
+
 // get DB events
 
 fetch("/readEvent")
@@ -180,7 +182,7 @@ fetch("/readEvent")
     console.error(err);
   });
 
-// ADD_EVENT BUTTON
+// ADD_EVENT button
 
 ADD_EVENT.addEventListener("click", function () {
   NEW_EVENT.style.display =
@@ -190,7 +192,7 @@ ADD_EVENT.addEventListener("click", function () {
   ADD_EVENT.classList.toggle("newEvent-active");
 });
 
-// NEW_EVENT_BUTTON
+// NEW_EVENT button
 
 NEW_EVENT_BUTTON.addEventListener("click", async function () {
   const title = NEW_EVENT_TITLE.value;
@@ -229,11 +231,12 @@ NEW_EVENT_BUTTON.addEventListener("click", async function () {
   }
 });
 
-// EDIT_CONTAINER
+// EDIT_CONTAINER - close container
 EDIT_CLOSE.addEventListener("click", function () {
   EDIT_CONTAINER.style.display = "none";
 });
 
+// EDIT_CONTAINER - revise event
 EDIT_REVISE.addEventListener("click", function () {
   EDIT_CONTAINER.style.display = "none";
   const title = EDIT_EVENTNAME_INPUT.value;
@@ -276,4 +279,21 @@ EDIT_REVISE.addEventListener("click", function () {
     });
     window.location.reload();
   }
+});
+
+// EDIT_CONTAINER - delete event
+EDIT_DELETE.addEventListener("click", function () {
+  EDIT_CONTAINER.style.display = "none";
+  fetch("/deleteEvent", {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json",
+    },
+    body: JSON.stringify({
+      oldTitle: oldTitle,
+      oldStartDate: oldStartDate,
+      oldStartTime: oldStartTime,
+    }),
+  });
+  window.location.reload();
 });
