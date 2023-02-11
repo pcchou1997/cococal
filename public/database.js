@@ -18,6 +18,8 @@ connection.getConnection((err) => {
   console.log("Connected!");
 });
 
+// Insert event
+
 async function insertEvent(
   title,
   startDate,
@@ -27,7 +29,6 @@ async function insertEvent(
   allDay,
   color
 ) {
-  // 新增行程
   let sql =
     "INSERT INTO calendarEvents (title, startDate,startTime,endDate,endTime,allDay,color) VALUES ?";
   // (?,?)
@@ -39,7 +40,8 @@ async function insertEvent(
   });
 }
 
-// 查詢行程
+// Read All Event
+
 async function readEvent() {
   let sql = "SELECT * FROM calendarEvents";
   let data = await new Promise((resolve, reject) => {
@@ -54,4 +56,63 @@ async function readEvent() {
   return data;
 }
 
-module.exports = { insertEvent, readEvent };
+// Read specific Event
+
+async function readSpecificEvent(title, startDate, startTime) {
+  console.log("Hi");
+  let sql =
+    "SELECT * FROM calendarEvents WHERE title = ? AND startDate = ? AND startTime = ?";
+  let values = [title, startDate, startTime];
+  let data = await new Promise((resolve, reject) => {
+    connection.query(sql, values, function (err, result) {
+      if (err) throw err;
+      else {
+        return resolve(result);
+      }
+    });
+  });
+  return data;
+}
+
+// Update event
+
+async function updateEvent(
+  title,
+  startDate,
+  startTime,
+  endDate,
+  endTime,
+  allDay,
+  color,
+  oldTitle,
+  oldStartDate,
+  oldStartTime
+) {
+  let sql =
+    "UPDATE calendarEvents SET title=?,startDate=?,startTime=?, endDate=?,endTime=?,allDay=?,color=? WHERE title=? and startDate=? and startTime=?";
+  let values = [
+    title,
+    startDate,
+    startTime,
+    endDate,
+    endTime,
+    allDay,
+    color,
+    oldTitle,
+    oldStartDate,
+    oldStartTime,
+  ];
+  let data = await new Promise((resolve, reject) => {
+    connection.query(sql, values, function (err, result) {
+      if (err) throw err;
+      else {
+        return resolve(result);
+      }
+    });
+  });
+  return data;
+}
+
+// Delete event
+
+module.exports = { insertEvent, readEvent, readSpecificEvent, updateEvent };

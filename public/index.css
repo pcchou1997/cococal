@@ -271,7 +271,7 @@ body {
   width: 5px;
   height: 25px;
   border-radius: 5px;
-  background-color: green;
+  /* background-color: green; */
   margin-right: 5px;
 }
 
@@ -287,7 +287,7 @@ body {
   width: 100%;
   display: flex;
   justify-content: flex-start;
-  align-items: center;
+  align-items: baseline;
 }
 
 .edit-start input,
@@ -325,14 +325,18 @@ body {
 }
 
 .edit-button {
-  width: 80px;
-  height: 30px;
+  width: 100%;
   display: flex;
   justify-content: center;
+}
+
+.edit-button-item {
+  width: 80px;
   border-radius: 10px;
   background-color: rgb(240, 240, 240);
-  margin: 0px auto;
+  margin: 0px 10px;
 }
+
 .edit-category {
   width: 100%;
   display: flex;
@@ -354,4 +358,8 @@ body {
   position: absolute;
   right: 20px;
   top: 20px;
+  cursor: pointer;
+}
+.fc-event {
+  cursor: pointer;
 }

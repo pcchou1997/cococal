@@ -84,26 +84,32 @@
           <div class="edit-allDay">All-Day</div>
           <div class="edit-period">
             <div class="edit-start">
-              <input type="date" /><input type="time" />
+              <input type="date" class="edit-startDate" /><input
+                type="time"
+                class="edit-startTime"
+              />
             </div>
-            <i class="fa-solid fa-angle-right"></i>
+            <i class="fa-solid fa-angles-right"></i>
             <div class="edit-end">
-              <input type="date" /><input type="time" />
+              <input type="date" class="edit-endDate" /><input
+                type="time"
+                class="edit-endTime"
+              />
             </div>
           </div>
         </div>
       </div>
-      <div class="edit-category">
+      <div class="edit-ç">
         <i class="fa-solid fa-box-open"></i>
         <div class="edit-category-content">
           <div>Category</div>
-          <select name="" id="">
-            <option value="">1</option>
-            <option value="">2</option>
-            <option value="">3</option>
-            <option value="">4</option>
-            <option value="">5</option>
-            <option value="">6</option>
+          <select name="" id="" class="edit-category-select">
+            <option value="11">1</option>
+            <option value="22">2</option>
+            <option value="33">3</option>
+            <option value="44">4</option>
+            <option value="55">5</option>
+            <option value="6666">6</option>
           </select>
         </div>
       </div>
@@ -111,12 +117,13 @@
         <i class="fa-solid fa-pen-to-square"></i>
         <div class="edit-description-content">
           <div>Description</div>
-          <textarea class="edit-description-input">
-Enter your comments...</textarea
-          >
+          <textarea class="edit-description-input"></textarea>
         </div>
       </div>
-      <div class="edit-button">revise</div>
+      <div class="edit-button">
+        <div class="edit-button-item edit-revise">revise</div>
+        <div class="edit-button-item edit-delete">delete</div>
+      </div>
       <i class="fa-solid fa-xmark"></i>
     </div>
     <!-- edit-container end-->

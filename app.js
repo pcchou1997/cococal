@@ -1,5 +1,10 @@
 const http = require("http");
-const { insertEvent, readEvent } = require("./public/database");
+const {
+  insertEvent,
+  readEvent,
+  readSpecificEvent,
+  updateEvent,
+} = require("./public/database");
 const express = require("express");
 const app = express();
 
@@ -41,6 +46,55 @@ app.post("/insertEvent", async function (req, res) {
 app.get("/readEvent", async (req, res) => {
   const result = await readEvent();
   res.json(result);
+});
+
+app.post("/readSpecificEvent", async (req, res) => {
+  let data = req.body;
+  const title = data.title;
+  const startDate = data.startDate;
+  const startTime = data.startTime;
+  console.log(title, startDate, startTime);
+  const result = await readSpecificEvent(title, startDate, startTime);
+  res.send(result);
+});
+
+app.post("/updateEvent", async (req, res) => {
+  let data = req.body;
+  const title = data.title;
+  const startDate = data.startDate;
+  const startTime = data.startTime;
+  const endDate = data.endDate;
+  const endTime = data.endTime;
+  const allDay = data.allDay;
+  const color = data.color;
+  const oldTitle = data.oldTitle;
+  const oldStartDate = data.oldStartDate;
+  const oldStartTime = data.oldStartTime;
+  console.log(
+    title,
+    startDate,
+    startTime,
+    endDate,
+    endTime,
+    allDay,
+    color,
+    oldTitle,
+    oldStartDate,
+    oldStartTime
+  );
+  const result = await updateEvent(
+    title,
+    startDate,
+    startTime,
+    endDate,
+    endTime,
+    allDay,
+    color,
+    oldTitle,
+    oldStartDate,
+    oldStartTime
+  );
+  res.send(result);
 });
 
 app.listen(port, hostname, () => {
