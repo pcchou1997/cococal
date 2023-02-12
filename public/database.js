@@ -129,10 +129,26 @@ async function deleteEvent(oldTitle, oldStartDate, oldStartTime) {
   return data;
 }
 
+// Add Category
+async function insertCategory(categoryName, color) {
+  let sql = "INSERT INTO categories (categoryName,color) VALUES ?";
+  let values = [[categoryName, color]];
+  let data = await new Promise((resolve, reject) => {
+    connection.query(sql, [values], function (err, result) {
+      if (err) throw err;
+      else {
+        return resolve(result);
+      }
+    });
+  });
+  return data;
+}
+
 module.exports = {
   insertEvent,
   readEvent,
   readSpecificEvent,
   updateEvent,
   deleteEvent,
+  insertCategory,
 };

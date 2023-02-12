@@ -1,0 +1,112 @@
+.category-container {
+  /* display: none; */
+  width: 400px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  top: 80px;
+  padding: 25px;
+  border-radius: 20px;
+  border: 1px solid gray;
+  background-color: #ffffff;
+  z-index: 1;
+}
+
+.category-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.categoryName {
+  width: 100%;
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+  margin: 10px 0px;
+}
+
+.category-vertical {
+  width: 5px;
+  height: 25px;
+  border-radius: 5px;
+  background-color: red;
+  margin-right: 5px;
+}
+
+.categoryName-input {
+  font-size: 20px;
+  border: none;
+}
+
+.categoryName-input:focus {
+  outline: none;
+  /* 去邊框 */
+}
+
+.categoryColors {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.categoryColor {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  cursor: pointer;
+  margin: 10px 0px;
+}
+
+.category1 {
+  background-color: red;
+}
+
+.category2 {
+  background-color: orange;
+}
+
+.category3 {
+  background-color: yellow;
+}
+
+.category4 {
+  background-color: green;
+}
+
+.category5 {
+  background-color: blue;
+}
+
+.category6 {
+  background-color: blueviolet;
+}
+
+.category7 {
+  background-color: purple;
+}
+
+.category8 {
+  background-color: black;
+}
+
+.category-button {
+  cursor: pointer;
+  width: 80px;
+  height: 30px;
+  border-radius: 10px;
+  border: none;
+  background-color: rgb(235, 235, 235);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px auto;
+}
+
+.category-button:hover {
+  background-color: black;
+  color: white;
+}

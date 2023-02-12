@@ -5,6 +5,7 @@ const {
   readSpecificEvent,
   updateEvent,
   deleteEvent,
+  insertCategory,
 } = require("./public/database");
 const express = require("express");
 const app = express();
@@ -102,6 +103,15 @@ app.post("/deleteEvent", async (req, res) => {
   const oldStartTime = data.oldStartTime;
   console.log(oldTitle, oldStartDate, oldStartTime);
   const result = await deleteEvent(oldTitle, oldStartDate, oldStartTime);
+  res.send(result);
+});
+
+app.post("/insertCategory", async (req, res) => {
+  let data = req.body;
+  const categoryName = data.categoryName;
+  const color = data.color;
+  console.log(categoryName, color);
+  const result = await insertCategory(categoryName, color);
   res.send(result);
 });
 
