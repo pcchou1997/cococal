@@ -52,7 +52,6 @@ app.post("/readSpecificEvent", async (req, res) => {
   const title = data.title;
   const startDate = data.startDate;
   const startTime = data.startTime;
-  console.log(title, startDate, startTime);
   const result = await readSpecificEvent(title, startDate, startTime);
   res.send(result);
 });
@@ -69,18 +68,6 @@ app.post("/updateEvent", async (req, res) => {
   const oldTitle = data.oldTitle;
   const oldStartDate = data.oldStartDate;
   const oldStartTime = data.oldStartTime;
-  console.log(
-    title,
-    startDate,
-    startTime,
-    endDate,
-    endTime,
-    allDay,
-    color,
-    oldTitle,
-    oldStartDate,
-    oldStartTime
-  );
   const result = await updateEvent(
     title,
     startDate,
@@ -101,7 +88,6 @@ app.post("/deleteEvent", async (req, res) => {
   const oldTitle = data.oldTitle;
   const oldStartDate = data.oldStartDate;
   const oldStartTime = data.oldStartTime;
-  console.log(oldTitle, oldStartDate, oldStartTime);
   const result = await deleteEvent(oldTitle, oldStartDate, oldStartTime);
   res.send(result);
 });
@@ -110,7 +96,6 @@ app.post("/insertCategory", async (req, res) => {
   let data = req.body;
   const categoryName = data.categoryName;
   const color = data.color;
-  console.log(categoryName, color);
   const result = await insertCategory(categoryName, color);
   res.send(result);
 });

@@ -1,5 +1,4 @@
 const ADD_CATEGORY = document.querySelector(".addCategory");
-const CATEGORY_CONTAINER = document.querySelector(".category-container");
 const CATEGORY_DELETE = document.querySelector(".category-container .fa-xmark");
 const CATEGORY_BUTTON = document.querySelector(".category-button");
 const CATEGORY_COLOR = document.querySelectorAll(".categoryColor");

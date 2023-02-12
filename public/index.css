@@ -106,7 +106,7 @@ body {
 }
 
 .newEvent > div {
-  margin: 10px 0px;
+  margin: 20px 0px;
 }
 
 .newEvent .title {
@@ -247,11 +247,15 @@ body {
 }
 
 .edit-container > div {
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 
 .edit-container .fa-solid {
-  margin-right: 10px;
+  margin-right: 20px;
+}
+.fa-angles-right {
+  /* margin-right: 20px; */
+  margin-left: 20px;
 }
 
 .edit-title {
@@ -296,9 +300,19 @@ body {
 }
 
 .edit-period {
+  width: 100%;
+  /* padding: 12px; */
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  /* background-color: rgb(240, 240, 240);
+  border-radius: 15px; */
+}
+
+.edit-çategory {
+  display: flex;
+  justify-content: flex-start;
+  align-items: baseline;
 }
 
 .fa-angle-right {
@@ -316,12 +330,12 @@ body {
   align-items: baseline;
 }
 
-.edit-description-content {
-  width: 95%;
-}
 .edit-description-input {
-  width: 100%;
+  width: 355px;
   height: 100px;
+  border-radius: 10px;
+  padding: 10px;
+  border-color: rgb(200, 200, 200);
 }
 
 .edit-button {
@@ -332,10 +346,25 @@ body {
 
 .edit-button-item {
   width: 80px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
   border-radius: 10px;
   background-color: rgb(240, 240, 240);
+  text-align: center;
   margin: 0px 10px;
   cursor: pointer;
+}
+
+.edit-revise:hover {
+  background-color: black;
+  color: white;
+}
+
+.edit-delete:hover {
+  background-color: red;
+  color: white;
 }
 
 .edit-category {
@@ -366,6 +395,12 @@ body {
 }
 .edit-category-select {
   cursor: pointer;
+  width: 150px;
+  height: 35px;
+  border: none;
+  border-radius: 15px;
+  padding: 0px 10px;
+  background: rgb(240, 240, 240);
 }
 
 .edit-startDate,
@@ -373,4 +408,15 @@ body {
 .edit-endDate,
 .edit-endTime {
   cursor: pointer;
+  width: 150px;
+  height: 35px;
+  background-color: rgb(240, 240, 240);
+  border-radius: 15px;
+  padding: 0px 8px;
+  border: none;
+}
+
+.edit-startTime,
+.edit-endTime {
+  margin-top: 5px;
 }

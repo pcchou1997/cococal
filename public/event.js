@@ -16,6 +16,7 @@ const EDIT_ENDTIME = document.querySelector(".edit-endTime");
 const EDIT_VERTICAL = document.querySelector(".edit-vertical");
 const EDIT_REVISE = document.querySelector(".edit-revise");
 const EDIT_DELETE = document.querySelector(".edit-delete");
+const CATEGORY_CONTAINER = document.querySelector(".category-container");
 let oldTitle;
 let oldStartDate;
 let oldStartTime;
@@ -45,7 +46,6 @@ function getEvents() {
         this.parentNode.parentNode.parentNode.parentNode.getAttribute(
           "data-date"
         );
-      console.log(startTime.substr(-1));
       if (startTime.substr(-1) == "a") {
         let hour = startTime.substring(0, startTime.length - 1);
         if (hour.length == 1) {
@@ -61,13 +61,13 @@ function getEvents() {
           ":" +
           String(startTimeSplit[1]);
       }
+      CATEGORY_CONTAINER.style.display = "none";
       EDIT_CONTAINER.style.display = "block";
       EDIT_EVENTNAME_INPUT.value = title;
       oldTitle = title;
       oldStartDate = startDate;
       oldStartTime = startTime;
 
-      console.log(title, startDate, startTime);
       await fetch("/readSpecificEvent", {
         method: "POST",
         headers: {
@@ -83,7 +83,6 @@ function getEvents() {
           return res.json();
         })
         .then((jsonResponse) => {
-          console.log("jsonResponse:,", jsonResponse);
           endTime = jsonResponse[0].endTime;
           endDate = jsonResponse[0].endDate;
           color = jsonResponse[0].color;
@@ -104,8 +103,6 @@ fetch("/readEvent")
     return res.json();
   })
   .then((jsonResponse) => {
-    console.log(jsonResponse);
-
     let events = [];
     for (let i = 0; i < jsonResponse.length; i++) {
       let eventDict = {};
@@ -124,7 +121,6 @@ fetch("/readEvent")
       eventDict["color"] = color;
       events.push(eventDict);
     }
-    console.log("events:", events);
 
     // create calendar
 
