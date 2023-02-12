@@ -1,6 +1,8 @@
 const ADD_EVENT = document.querySelector(".addEvent");
 const CREATE_EVENT_CONTAINER = document.querySelector(".createEvent-container");
-const CREATE_EVENT_TITLE = document.querySelector(".createEvent-title");
+const CREATE_EVENT_EVENTNAME_INPUT = document.querySelector(
+  ".createEvent-eventName-input"
+);
 const CREATE_EVENT_START_DATE = document.querySelector(
   ".createEvent-startDate"
 );
@@ -24,6 +26,7 @@ const EDIT_ENDTIME = document.querySelector(".edit-endTime");
 const EDIT_VERTICAL = document.querySelector(".edit-vertical");
 const EDIT_REVISE = document.querySelector(".edit-revise");
 const EDIT_DELETE = document.querySelector(".edit-delete");
+const EDIT_CATEGORY_SELECT = document.querySelector(".edit-category-select");
 const CATEGORY_CONTAINER = document.querySelector(".category-container");
 const CREATEEVENT_CATEGORY_SELECT = document.querySelector(
   ".createEvent-category-select"
@@ -75,6 +78,7 @@ function getEvents() {
           ":" +
           String(startTimeSplit[1]);
       }
+      console.log(title, startDate, startTime);
       CATEGORY_CONTAINER.style.display = "none";
       EDIT_CONTAINER.style.display = "block";
       EDIT_EVENTNAME_INPUT.value = title;
@@ -106,6 +110,7 @@ function getEvents() {
       EDIT_ENDDATE.value = endDate;
       EDIT_ENDTIME.value = endTime;
       EDIT_VERTICAL.style.backgroundColor = color;
+      EDIT_CATEGORY_SELECT.value = color;
     });
   });
 }
@@ -236,7 +241,7 @@ CREATE_EVENT_CLOSE.addEventListener("click", function () {
 // NEW_EVENT button
 
 CREATE_EVENT_BUTTON.addEventListener("click", async function () {
-  const title = CREATE_EVENT_TITLE.value;
+  const title = CREATE_EVENT_EVENTNAME_INPUT.value;
   const startDate = CREATE_EVENT_START_DATE.value;
   const startTime = CREATE_EVENT_START_TIME.value;
   const endDate = CREATE_EVENT_END_DATE.value;
@@ -254,7 +259,7 @@ CREATE_EVENT_BUTTON.addEventListener("click", async function () {
   ) {
     alert("任一欄位不可空白");
   } else {
-    NEW_EVENT.style.display = "none";
+    CREATE_EVENT_CONTAINER.style.display = "none";
     await fetch("/insertEvent", {
       method: "POST",
       headers: {
@@ -303,7 +308,7 @@ EDIT_REVISE.addEventListener("click", function () {
   ) {
     alert("任一欄位不可空白");
   } else {
-    NEW_EVENT.style.display = "none";
+    CREATE_EVENT_CONTAINER.style.display = "none";
     fetch("/updateEvent", {
       method: "POST",
       headers: {

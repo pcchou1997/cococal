@@ -4,7 +4,6 @@ const CATEGORY_BUTTON = document.querySelector(".category-button");
 const CATEGORY_COLOR = document.querySelectorAll(".categoryColor");
 const CATEGORY_VERTICAL = document.querySelector(".category-vertical");
 const CATEGORYNAME_INPUT = document.querySelector(".categoryName-input");
-const EDIT_CATEGORY_SELECT = document.querySelector(".edit-category-select");
 
 // get DB categories
 
@@ -51,7 +50,7 @@ Array.from(CATEGORY_COLOR).forEach((element) => {
 
 CATEGORY_BUTTON.addEventListener("click", async function () {
   CATEGORY_CONTAINER.style.display = "none";
-  let color = CATEGORY_VERTICAL.style.backgroundColor;
+  let color = getComputedStyle(CATEGORY_VERTICAL).backgroundColor;
   let categoryName = CATEGORYNAME_INPUT.value;
 
   await fetch("/insertCategory", {
