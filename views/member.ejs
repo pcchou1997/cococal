@@ -29,27 +29,6 @@
         <div class="functionButton addEvent">
           <i class="fa-solid fa-plus"></i>&nbsp;<b>新增行程</b>
         </div>
-        <div class="newEvent" style="display: none">
-          <div class="title">
-            <!-- <div class="subTitle">標題</div> -->
-            <input type="text" class="newEvent-title" placeholder="標題" />
-          </div>
-          <div class="start">
-            <div class="subTitle">開始</div>
-            <div class="input-container">
-              <input type="date" class="newEvent-startDate date" />
-              <input type="time" class="newEvent-startTime time" />
-            </div>
-          </div>
-          <div class="end">
-            <div class="subTitle">結束</div>
-            <div class="input-container">
-              <input type="date" class="newEvent-endDate date" />
-              <input type="time" class="newEvent-endTime time" />
-            </div>
-          </div>
-          <button class="newEvent-button">新增</button>
-        </div>
         <div class="functionButton inviteFriend">
           <i class="fa-solid fa-user-group"></i>&nbsp;邀請朋友
         </div>
@@ -66,7 +45,54 @@
       <!-- calendar end-->
     </div>
     <!-- content end-->
-
+    <!-- createEvent-container -->
+    <div class="createEvent-container">
+      <h1 class="createEvent-title title-font">New Event</h1>
+      <div class="createEvent-eventName">
+        <div class="createEvent-vertical"></div>
+        <input
+          type="text"
+          class="createEvent-eventName-input"
+          placeholder="Event Title"
+        />
+      </div>
+      <div class="createEvent-time">
+        <i class="fa-solid fa-clock"></i>
+        <div>
+          <!-- <div class="edit-allDay">All-Day</div> -->
+          <div class="createEvent-period">
+            <div class="createEvent-start">
+              <input type="date" class="createEvent-startDate" /><input
+                type="time"
+                class="createEvent-startTime"
+              />
+            </div>
+            <i class="fa-solid fa-angles-right"></i>
+            <div class="createEvent-end">
+              <input type="date" class="createEvent-endDate" /><input
+                type="time"
+                class="createEvent-endTime"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="createEvent-çategory">
+        <i class="fa-solid fa-box-open"></i>
+        <div class="createEvent-category-content">
+          <select name="" id="" class="createEvent-category-select">
+            <option value="" selected="selected">-- options --</option>
+          </select>
+        </div>
+      </div>
+      <div class="createEvent-description">
+        <i class="fa-solid fa-pen-to-square"></i>
+        <textarea class="createEvent-description-input"></textarea>
+      </div>
+      <div class="createEvent-button">create</div>
+      <i class="fa-solid fa-xmark"></i>
+    </div>
+    <!-- createEvent-container end-->
     <!-- edit-container -->
     <div class="edit-container">
       <h1 class="edit-title title-font">Edit Event</h1>

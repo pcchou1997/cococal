@@ -87,7 +87,6 @@ body {
 }
 
 /* ----- addEvent ----- */
-
 .addEvent {
   background-color: rgb(195, 130, 130);
 }
@@ -96,103 +95,148 @@ body {
   background-color: rgb(172, 63, 63);
 }
 
-.newEvent {
-  width: 100%;
-  padding: 10px;
-  border-radius: 0px 0px 15px 15px;
-  background-color: rgb(232, 217, 217);
-  transition: 0.3s;
-  text-align: center;
+.createEvent-container {
+  /* display: none; */
+  width: 500px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  top: 80px;
+  padding: 30px;
+  border-radius: 20px;
+  border: 1px solid gray;
+  background-color: #ffffff;
+  z-index: 1;
 }
 
-.newEvent > div {
-  margin: 20px 0px;
+.createEvent-container .fa-solid {
+  margin-right: 20px;
 }
 
-.newEvent .title {
-  font-weight: bold;
-  font-size: 16px;
+.createEvent-title {
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
-  border-radius: 15px;
-  padding: 5px 15px;
-  background-color: white;
-  /* color: rgb(199, 109, 109); */
+  margin: 0px auto 10px auto;
 }
 
-.newEvent .newEvent-title {
+.createEvent-eventName {
   width: 100%;
-  height: 30px;
-  font-size: 20px;
-  /* border-color: rgb(180, 179, 179);
-  border-style: solid;
-  border-radius: 10px; */
-  border: none;
-  /* padding: 0px 10px; */
+  display: flex;
+  align-items: center;
 }
 
-.newEvent-title:focus {
+.createEvent-vertical {
+  width: 5px;
+  height: 25px;
+  border-radius: 5px;
+  background-color: gray;
+  margin-right: 5px;
+}
+
+.createEvent-eventName-input {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+}
+
+.createEvent-eventName-input:focus {
   outline: none;
   /* 去邊框 */
 }
 
-.newEvent .start,
-.newEvent .end {
+.createEvent-container > div {
+  margin-bottom: 20px;
+}
+
+.createEvent-startDate,
+.createEvent-startTime,
+.createEvent-endDate,
+.createEvent-endTime {
+  cursor: pointer;
+  width: 150px;
+  height: 35px;
+  background-color: rgb(240, 240, 240);
+  border-radius: 15px;
+  padding: 0px 8px;
+  border: none;
+}
+
+.createEvent-time {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: baseline;
+  margin-bottom: 20px;
+}
+
+.createEvent-start input,
+.createEvent-end input {
+  display: block;
+}
+.createEvent-startTime,
+.createEvent-endTime {
+  margin-top: 5px;
+}
+.createEvent-period {
+  width: 100%;
+  /* padding: 12px; */
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  font-weight: bold;
-  font-size: 16px;
-  border-radius: 15px;
-  padding: 5px 15px;
-  background-color: white;
-  /* color: rgb(199, 109, 109); */
+  /* background-color: rgb(240, 240, 240);
+  border-radius: 15px; */
 }
-
-.newEvent .start input,
-.newEvent .end input {
-  display: block;
-  font-size: 16px;
-  width: 100%;
-  height: 30px;
-  text-align: center;
-  border-color: rgb(180, 179, 179);
-  border-style: solid;
-  border-radius: 20px;
+.fa-angle-right {
+  margin: 0px 10px;
 }
-.subTitle {
-  width: 20%;
-  margin-right: 5px;
+.createEvent-çategory {
+  display: flex;
+  justify-content: flex-start;
+  align-items: baseline;
 }
-
-.input-container {
-  width: 80%;
-}
-.input-container input:first-child {
-  margin-bottom: 5px;
-}
-
-.newEvent-button {
-  background-color: #c38282;
-  color: white;
-  text-align: center;
+.createEvent-category-select {
+  cursor: pointer;
+  width: 150px;
+  height: 35px;
   border: none;
+  border-radius: 15px;
+  padding: 0px 10px;
+  background: rgb(240, 240, 240);
+}
+.createEvent-description {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: baseline;
+}
+.createEvent-description-input {
+  width: 355px;
+  height: 100px;
   border-radius: 10px;
-  width: 50%;
-  height: 40px;
+  padding: 10px;
+  border-color: rgb(200, 200, 200);
+}
+.createEvent-button {
+  width: 80px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  border-radius: 10px;
+  background-color: rgb(240, 240, 240);
+  text-align: center;
   margin: 0px auto;
   cursor: pointer;
 }
 
-.newEvent-button:hover {
-  background-color: #ac3f3f;
+.createEvent-button:hover {
+  background-color: black;
+  color: white;
 }
-
-.newEvent-active {
-  background-color: #ac3f3f;
-}
-
 /* ----- inviteFriend ----- */
 
 .inviteFriend {
@@ -313,10 +357,6 @@ body {
   display: flex;
   justify-content: flex-start;
   align-items: baseline;
-}
-
-.fa-angle-right {
-  margin: 0px 10px;
 }
 
 .fa-box-open {

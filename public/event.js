@@ -1,14 +1,22 @@
 const ADD_EVENT = document.querySelector(".addEvent");
-const NEW_EVENT = document.querySelector(".newEvent");
-const NEW_EVENT_TITLE = document.querySelector(".newEvent-title");
-const NEW_EVENT_START_DATE = document.querySelector(".newEvent-startDate");
-const NEW_EVENT_START_TIME = document.querySelector(".newEvent-startTime");
-const NEW_EVENT_END_DATE = document.querySelector(".newEvent-endDate");
-const NEW_EVENT_END_TIME = document.querySelector(".newEvent-endTime");
-const NEW_EVENT_BUTTON = document.querySelector(".newEvent-button");
+const CREATE_EVENT_CONTAINER = document.querySelector(".createEvent-container");
+const CREATE_EVENT_TITLE = document.querySelector(".createEvent-title");
+const CREATE_EVENT_START_DATE = document.querySelector(
+  ".createEvent-startDate"
+);
+const CREATE_EVENT_START_TIME = document.querySelector(
+  ".createEvent-startTime"
+);
+const CREATE_EVENT_END_DATE = document.querySelector(".createEvent-endDate");
+const CREATE_EVENT_END_TIME = document.querySelector(".createEvent-endTime");
+const CREATE_EVENT_VERTICAL = document.querySelector(".createEvent-vertical");
+const CREATE_EVENT_BUTTON = document.querySelector(".createEvent-button");
+const CREATE_EVENT_CLOSE = document.querySelector(
+  ".createEvent-container .fa-xmark"
+);
 const EDIT_CONTAINER = document.querySelector(".edit-container");
 const EDIT_EVENTNAME_INPUT = document.querySelector(".edit-eventName-input");
-const EDIT_CLOSE = document.querySelector(".fa-xmark");
+const EDIT_CLOSE = document.querySelector(".edit-container .fa-xmark");
 const EDIT_STARTDATE = document.querySelector(".edit-startDate");
 const EDIT_STARTTIME = document.querySelector(".edit-startTime");
 const EDIT_ENDDATE = document.querySelector(".edit-endDate");
@@ -17,6 +25,12 @@ const EDIT_VERTICAL = document.querySelector(".edit-vertical");
 const EDIT_REVISE = document.querySelector(".edit-revise");
 const EDIT_DELETE = document.querySelector(".edit-delete");
 const CATEGORY_CONTAINER = document.querySelector(".category-container");
+const CREATEEVENT_CATEGORY_SELECT = document.querySelector(
+  ".createEvent-category-select"
+);
+const CREATEEVENT_DESCRIPTION_INPUT = document.querySelector(
+  ".createEvent-description-input"
+);
 let oldTitle;
 let oldStartDate;
 let oldStartTime;
@@ -178,31 +192,65 @@ fetch("/readEvent")
     console.error(err);
   });
 
+// CREATE_EVENT_CONTAINER - init
+let today = new Date();
+let today_year = today.getFullYear();
+let today_month = today.getMonth() + 1;
+let today_day = today.getDate();
+let today_hour = today.getHours();
+let today_minute = today.getMinutes();
+
+if (String(today_month).length < 2) {
+  CREATE_EVENT_START_DATE.value =
+    today_year + "-0" + today_month + "-" + today_day;
+  CREATE_EVENT_END_DATE.value =
+    today_year + "-0" + today_month + "-" + today_day;
+} else {
+  CREATE_EVENT_START_DATE.value =
+    today_year + "-" + today_month + "-" + today_day;
+  CREATE_EVENT_END_DATE.value =
+    today_year + "-" + today_month + "-" + today_day;
+}
+
+if (String(today_hour).length < 2) {
+  CREATE_EVENT_START_TIME.value = "0" + String(today_hour) + ":00";
+  CREATE_EVENT_END_TIME.value = "0" + String(today_hour) + ":00";
+} else {
+  CREATE_EVENT_START_TIME.value = String(today_hour) + ":00";
+  CREATE_EVENT_END_TIME.value = String(today_hour) + ":00";
+}
+
 // ADD_EVENT button
 
 ADD_EVENT.addEventListener("click", function () {
-  NEW_EVENT.style.display =
-    NEW_EVENT.style.display == "none" ? "block" : "none";
-  // ADD_EVENT.style.backgroundColor =
-  //   NEW_EVENT.style.display === "none" ? "#c38282" : "#ac3f3f";
-  ADD_EVENT.classList.toggle("newEvent-active");
+  CREATE_EVENT_CONTAINER.style.display = "block";
+  // CREATE_EVENT_CONTAINER.style.display == "none" ? "block" : "none";
+});
+
+// CREATE_EVENT_CLOSE - close container
+
+CREATE_EVENT_CLOSE.addEventListener("click", function () {
+  CREATE_EVENT_CONTAINER.style.display = "none";
 });
 
 // NEW_EVENT button
 
-NEW_EVENT_BUTTON.addEventListener("click", async function () {
-  const title = NEW_EVENT_TITLE.value;
-  const startDate = NEW_EVENT_START_DATE.value;
-  const startTime = NEW_EVENT_START_TIME.value;
-  const endDate = NEW_EVENT_END_DATE.value;
-  const endTime = NEW_EVENT_END_TIME.value;
+CREATE_EVENT_BUTTON.addEventListener("click", async function () {
+  const title = CREATE_EVENT_TITLE.value;
+  const startDate = CREATE_EVENT_START_DATE.value;
+  const startTime = CREATE_EVENT_START_TIME.value;
+  const endDate = CREATE_EVENT_END_DATE.value;
+  const endTime = CREATE_EVENT_END_TIME.value;
+  const color = CREATEEVENT_CATEGORY_SELECT.value;
+  const description = CREATEEVENT_DESCRIPTION_INPUT.value;
 
   if (
     title == "" ||
     startDate == "" ||
     startTime == "" ||
     endDate == "" ||
-    endTime == ""
+    endTime == "" ||
+    color == ""
   ) {
     alert("任一欄位不可空白");
   } else {
@@ -219,7 +267,7 @@ NEW_EVENT_BUTTON.addEventListener("click", async function () {
         endDate: endDate,
         endTime: endTime,
         allDay: false,
-        color: "rgb(246, 225, 225)",
+        color: color,
       }),
     });
 

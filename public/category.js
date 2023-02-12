@@ -1,5 +1,5 @@
 const ADD_CATEGORY = document.querySelector(".addCategory");
-const CATEGORY_DELETE = document.querySelector(".category-container .fa-xmark");
+const CATEGORY_CLOSE = document.querySelector(".category-container .fa-xmark");
 const CATEGORY_BUTTON = document.querySelector(".category-button");
 const CATEGORY_COLOR = document.querySelectorAll(".categoryColor");
 const CATEGORY_VERTICAL = document.querySelector(".category-vertical");
@@ -18,12 +18,18 @@ fetch("/readCategory")
       option.value = element.color;
       option.innerHTML = element.categoryName;
       EDIT_CATEGORY_SELECT.appendChild(option);
+      option = document.createElement("option");
+      option.value = element.color;
+      option.innerHTML = element.categoryName;
+      CREATEEVENT_CATEGORY_SELECT.appendChild(option);
     });
   })
   .then((jsonResponse) => {
     EDIT_CATEGORY_SELECT.addEventListener("change", function () {
-      //   console.log(EDIT_CATEGORY_SELECT.value);
       EDIT_VERTICAL.style.backgroundColor = this.value;
+    });
+    CREATEEVENT_CATEGORY_SELECT.addEventListener("change", function () {
+      CREATE_EVENT_VERTICAL.style.backgroundColor = this.value;
     });
   });
 
@@ -32,7 +38,7 @@ ADD_CATEGORY.addEventListener("click", function () {
   CATEGORY_CONTAINER.style.display = "block";
 });
 
-CATEGORY_DELETE.addEventListener("click", function () {
+CATEGORY_CLOSE.addEventListener("click", function () {
   CATEGORY_CONTAINER.style.display = "none";
 });
 
