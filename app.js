@@ -6,6 +6,7 @@ const {
   updateEvent,
   deleteEvent,
   insertCategory,
+  readCategory,
 } = require("./public/database");
 const express = require("express");
 const app = express();
@@ -98,6 +99,11 @@ app.post("/insertCategory", async (req, res) => {
   const color = data.color;
   const result = await insertCategory(categoryName, color);
   res.send(result);
+});
+
+app.get("/readCategory", async (req, res) => {
+  const result = await readCategory();
+  res.json(result);
 });
 
 app.listen(3000, function () {

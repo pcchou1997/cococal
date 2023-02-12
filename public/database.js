@@ -47,7 +47,6 @@ async function readEvent() {
   let data = await new Promise((resolve, reject) => {
     connection.query(sql, function (err, result) {
       if (err) throw err;
-      // console.log(result);
       else {
         return resolve(result);
       }
@@ -59,7 +58,6 @@ async function readEvent() {
 // Read specific Event
 
 async function readSpecificEvent(title, startDate, startTime) {
-  console.log("Hi");
   let sql =
     "SELECT * FROM calendarEvents WHERE title = ? AND startDate = ? AND startTime = ?";
   let values = [title, startDate, startTime];
@@ -129,12 +127,28 @@ async function deleteEvent(oldTitle, oldStartDate, oldStartTime) {
   return data;
 }
 
-// Add Category
+// Insert Category
+
 async function insertCategory(categoryName, color) {
   let sql = "INSERT INTO categories (categoryName,color) VALUES ?";
   let values = [[categoryName, color]];
   let data = await new Promise((resolve, reject) => {
     connection.query(sql, [values], function (err, result) {
+      if (err) throw err;
+      else {
+        return resolve(result);
+      }
+    });
+  });
+  return data;
+}
+
+// Read specific Event
+
+async function readCategory() {
+  let sql = "SELECT * FROM categories";
+  let data = await new Promise((resolve, reject) => {
+    connection.query(sql, function (err, result) {
       if (err) throw err;
       else {
         return resolve(result);
@@ -151,4 +165,5 @@ module.exports = {
   updateEvent,
   deleteEvent,
   insertCategory,
+  readCategory,
 };

@@ -241,7 +241,8 @@ EDIT_REVISE.addEventListener("click", function () {
   const endDate = EDIT_ENDDATE.value;
   const endTime = EDIT_ENDTIME.value;
   const allDay = false;
-  const color = "rgb(246, 225, 225)";
+  const color = EDIT_VERTICAL.style.backgroundColor;
+  // console.log(EDIT_VERTICAL.style.backgroundColor);
   if (
     title == "" ||
     startDate == "" ||

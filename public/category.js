@@ -4,6 +4,28 @@ const CATEGORY_BUTTON = document.querySelector(".category-button");
 const CATEGORY_COLOR = document.querySelectorAll(".categoryColor");
 const CATEGORY_VERTICAL = document.querySelector(".category-vertical");
 const CATEGORYNAME_INPUT = document.querySelector(".categoryName-input");
+const EDIT_CATEGORY_SELECT = document.querySelector(".edit-category-select");
+
+// get DB categories
+
+fetch("/readCategory")
+  .then((res) => {
+    return res.json();
+  })
+  .then((jsonResponse) => {
+    Array.from(jsonResponse).forEach((element) => {
+      let option = document.createElement("option");
+      option.value = element.color;
+      option.innerHTML = element.categoryName;
+      EDIT_CATEGORY_SELECT.appendChild(option);
+    });
+  })
+  .then((jsonResponse) => {
+    EDIT_CATEGORY_SELECT.addEventListener("change", function () {
+      //   console.log(EDIT_CATEGORY_SELECT.value);
+      EDIT_VERTICAL.style.backgroundColor = this.value;
+    });
+  });
 
 ADD_CATEGORY.addEventListener("click", function () {
   EDIT_CONTAINER.style.display = "none";
