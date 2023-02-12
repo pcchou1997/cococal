@@ -16,9 +16,6 @@ app.set("view engine", "ejs");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const hostname = "127.0.0.1";
-const port = 3000;
-
 app.get("/", function (req, res) {
   res.render("member");
 });
@@ -108,6 +105,6 @@ app.post("/deleteEvent", async (req, res) => {
   res.send(result);
 });
 
-app.listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`);
+app.listen(3000, function () {
+  console.log("伺服器已經啟動在port=3000，網址：http://127.0.0.1:3000/"); // 成功啟動後顯示在終端機的文字
 });
