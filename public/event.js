@@ -64,19 +64,40 @@ function getEvents() {
           "data-date"
         );
       if (startTime.substr(-1) == "a") {
-        let hour = startTime.substring(0, startTime.length - 1);
-        if (hour.length == 1) {
-          hour = "0" + hour;
+        let time = startTime.substring(0, startTime.length - 1);
+        console.log(time);
+        if (time.length == 1) {
+          time = "0" + time;
+          startTime = time + ":00";
+        } else if (time.length == 2) {
+        } else {
+          // 字串>2
+          console.log(time.split(":")[0]);
+          if (time.split(":")[0].length == 1) {
+            startTime = "0" + time;
+          } else {
+            if (time.split(":")[0] == "12") {
+              startTime = "00:" + time.split(":")[1];
+            } else {
+              startTime = time;
+            }
+          }
         }
-        startTime = hour + ":00";
       } else {
-        let startTimeSplit = startTime
-          .substring(0, startTime.length - 1)
-          .split(":");
-        startTime =
-          String(Number(startTimeSplit[0]) + 12) +
-          ":" +
-          String(startTimeSplit[1]);
+        console.log(startTime);
+        let time = startTime.substring(0, startTime.length - 1);
+        if (time.length == 1 || time.length == 2) {
+          startTime = String(Number(time) + 12) + ":00";
+        } else {
+          let startTimeSplit = startTime
+            .substring(0, startTime.length - 1)
+            .split(":");
+          console.log(startTimeSplit);
+          startTime =
+            String(Number(startTimeSplit[0]) + 12) +
+            ":" +
+            String(startTimeSplit[1]);
+        }
       }
       console.log(title, startDate, startTime);
       CATEGORY_CONTAINER.style.display = "none";
@@ -101,6 +122,7 @@ function getEvents() {
           return res.json();
         })
         .then((jsonResponse) => {
+          console.log(jsonResponse);
           endTime = jsonResponse[0].endTime;
           endDate = jsonResponse[0].endDate;
           color = jsonResponse[0].color;
