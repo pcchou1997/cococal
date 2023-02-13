@@ -27,12 +27,15 @@ async function insertEvent(
   endDate,
   endTime,
   allDay,
-  color
+  color,
+  description
 ) {
   let sql =
-    "INSERT INTO calendarEvents (title, startDate,startTime,endDate,endTime,allDay,color) VALUES ?";
+    "INSERT INTO calendarEvents (title, startDate,startTime,endDate,endTime,allDay,color,description) VALUES ?";
   // (?,?)
-  let values = [[title, startDate, startTime, endDate, endTime, allDay, color]];
+  let values = [
+    [title, startDate, startTime, endDate, endTime, allDay, color, description],
+  ];
   connection.query(sql, [values], function (err, result) {
     if (err) throw err;
     console.log("insert new event");
@@ -82,12 +85,13 @@ async function updateEvent(
   endTime,
   allDay,
   color,
+  description,
   oldTitle,
   oldStartDate,
   oldStartTime
 ) {
   let sql =
-    "UPDATE calendarEvents SET title=?,startDate=?,startTime=?, endDate=?,endTime=?,allDay=?,color=? WHERE title=? and startDate=? and startTime=?";
+    "UPDATE calendarEvents SET title=?,startDate=?,startTime=?, endDate=?,endTime=?,allDay=?,color=?,description=? WHERE title=? and startDate=? and startTime=?";
   let values = [
     title,
     startDate,
@@ -96,6 +100,7 @@ async function updateEvent(
     endTime,
     allDay,
     color,
+    description,
     oldTitle,
     oldStartDate,
     oldStartTime,

@@ -27,6 +27,9 @@ const EDIT_VERTICAL = document.querySelector(".edit-vertical");
 const EDIT_REVISE = document.querySelector(".edit-revise");
 const EDIT_DELETE = document.querySelector(".edit-delete");
 const EDIT_CATEGORY_SELECT = document.querySelector(".edit-category-select");
+const EDIT_DESCRIPTION_INPUT = document.querySelector(
+  ".edit-description-input"
+);
 const CATEGORY_CONTAINER = document.querySelector(".category-container");
 const CREATEEVENT_CATEGORY_SELECT = document.querySelector(
   ".createEvent-category-select"
@@ -126,6 +129,7 @@ function getEvents() {
           endTime = jsonResponse[0].endTime;
           endDate = jsonResponse[0].endDate;
           color = jsonResponse[0].color;
+          description = jsonResponse[0].description;
         });
       EDIT_STARTDATE.value = startDate;
       EDIT_STARTTIME.value = startTime;
@@ -133,6 +137,7 @@ function getEvents() {
       EDIT_ENDTIME.value = endTime;
       EDIT_VERTICAL.style.backgroundColor = color;
       EDIT_CATEGORY_SELECT.value = color;
+      EDIT_DESCRIPTION_INPUT.value = description;
     });
   });
 }
@@ -154,12 +159,14 @@ fetch("/readEvent")
       let endTime = jsonResponse[i].endTime;
       let allDay = jsonResponse[i].allDay;
       let color = jsonResponse[i].color;
+      let description = jsonResponse[i].description;
 
       eventDict["title"] = title;
       eventDict["start"] = startDate + "T" + startTime + ":00";
       eventDict["end"] = endDate + "T" + endTime + ":00";
       eventDict["allDay"] = allDay;
       eventDict["color"] = color;
+      eventDict["description"] = description;
       events.push(eventDict);
     }
 
@@ -295,6 +302,7 @@ CREATE_EVENT_BUTTON.addEventListener("click", async function () {
         endTime: endTime,
         allDay: false,
         color: color,
+        description: description,
       }),
     });
 
@@ -317,6 +325,7 @@ EDIT_REVISE.addEventListener("click", function () {
   const endTime = EDIT_ENDTIME.value;
   const allDay = false;
   const color = EDIT_VERTICAL.style.backgroundColor;
+  const description = EDIT_DESCRIPTION_INPUT.value;
   // console.log(EDIT_VERTICAL.style.backgroundColor);
   if (
     title == "" ||
@@ -344,6 +353,7 @@ EDIT_REVISE.addEventListener("click", function () {
         endTime: endTime,
         allDay: allDay,
         color: color,
+        description: description,
         oldTitle: oldTitle,
         oldStartDate: oldStartDate,
         oldStartTime: oldStartTime,

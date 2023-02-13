@@ -31,6 +31,7 @@ app.post("/insertEvent", async function (req, res) {
   const endTime = data.endTime;
   const allDay = data.allDay;
   const color = data.color;
+  const description = data.description;
   const result = await insertEvent(
     title,
     startDate,
@@ -38,7 +39,8 @@ app.post("/insertEvent", async function (req, res) {
     endDate,
     endTime,
     allDay,
-    color
+    color,
+    description
   );
   res.send(result);
 });
@@ -66,6 +68,7 @@ app.post("/updateEvent", async (req, res) => {
   const endTime = data.endTime;
   const allDay = data.allDay;
   const color = data.color;
+  const description = data.description;
   const oldTitle = data.oldTitle;
   const oldStartDate = data.oldStartDate;
   const oldStartTime = data.oldStartTime;
@@ -77,6 +80,7 @@ app.post("/updateEvent", async (req, res) => {
     endTime,
     allDay,
     color,
+    description,
     oldTitle,
     oldStartDate,
     oldStartTime
