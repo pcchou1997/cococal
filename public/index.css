@@ -46,6 +46,7 @@ body {
 .sidebar {
   width: 20%;
   padding: 20px;
+  /* background-color: rgb(240, 240, 240); */
 }
 
 .searchBar {
@@ -113,6 +114,10 @@ body {
 
 .createEvent-container .fa-solid {
   margin-right: 20px;
+}
+
+.createEvent-container .fa-xmark {
+  margin-right: 0px;
 }
 
 .createEvent-title {
@@ -270,6 +275,50 @@ body {
   font-size: 14px;
 }
 
+/* ----- categoryList ----- */
+
+.categoryList {
+  width: 100%;
+  height: 300px;
+  /* max-height: 645px; */
+  border-radius: 5px;
+  border: 1px solid rgb(220, 220, 220);
+  margin-top: 10px;
+  padding: 15px;
+  /* background-color: white; */
+}
+
+.categoryList-item {
+  position: relative;
+  padding: 3px 10px;
+  width: 100%;
+  border: none;
+  border-radius: 15px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: baseline;
+  margin-bottom: 5px;
+  cursor: pointer;
+}
+
+.categoryList-item:hover {
+  background-color: rgb(240, 240, 240);
+}
+
+.categoryList-item-dot {
+  border: none;
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+  margin-right: 10px;
+}
+
+.categoryList .fa-check {
+  position: absolute;
+  right: 10px;
+  top: 7px;
+}
+
 /* ==================================================
                   edit-container 
 ===================================================*/
@@ -297,6 +346,7 @@ body {
 .edit-container .fa-solid {
   margin-right: 20px;
 }
+
 .fa-angles-right {
   /* margin-right: 20px; */
   margin-left: 20px;
