@@ -279,30 +279,34 @@ body {
 
 .categoryList {
   width: 100%;
-  height: 300px;
+  /* height: 300px; */
   /* max-height: 645px; */
   border-radius: 5px;
   border: 1px solid rgb(220, 220, 220);
   margin-top: 10px;
-  padding: 15px;
-  /* background-color: white; */
+  padding: 5px;
 }
 
 .categoryList-item {
   position: relative;
   padding: 3px 10px;
   width: 100%;
-  border: none;
-  border-radius: 15px;
+  border: 2px solid rgb(240, 240, 240);
+  border-radius: 5px;
   display: flex;
-  justify-content: flex-start;
-  align-items: baseline;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 5px;
-  cursor: pointer;
 }
 
 .categoryList-item:hover {
   background-color: rgb(240, 240, 240);
+}
+
+.categoryList-category-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: baseline;
 }
 
 .categoryList-item-dot {
@@ -313,10 +317,29 @@ body {
   margin-right: 10px;
 }
 
-.categoryList .fa-check {
-  position: absolute;
-  right: 10px;
-  top: 7px;
+.categoryList-button-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.categoryList .fa-square-check-regular {
+  display: none;
+  margin-left: 5px;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.categoryList .fa-square-check-solid {
+  margin-left: 5px;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.categoryList .fa-pen-to-square {
+  margin-left: 5px;
+  cursor: pointer;
+  z-index: 1;
 }
 
 /* ==================================================

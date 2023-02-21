@@ -17,7 +17,10 @@ fetch("/readCategory")
     Array.from(jsonResponse).forEach((element) => {
       let option = document.createElement("option");
       let div = document.createElement("div");
+      let categoryList_category_container = document.createElement("div");
+      let categoryList_category = document.createElement("div");
       let dot = document.createElement("div");
+      let addContent = `<div class="categoryList-button-container"><i class="fa-regular fa-square-check fa-square-check-regular"></i></i><i class="fa-solid fa-square-check fa-square-check-solid"></i><i class="fa-regular fa-pen-to-square"></i></div>`;
 
       // Edit Event Block
       option.value = element.color;
@@ -33,32 +36,47 @@ fetch("/readCategory")
       // Category List
       div.setAttribute("class", "categoryList-item");
       dot.setAttribute("class", "categoryList-item-dot");
+      categoryList_category_container.setAttribute(
+        "class",
+        "categoryList-category-container"
+      );
       dot.style.backgroundColor = element.color;
-      div.appendChild(dot);
-      div.appendChild(document.createTextNode(element.categoryName));
+      categoryList_category.innerHTML = element.categoryName;
+      categoryList_category_container.appendChild(dot);
+      categoryList_category_container.appendChild(categoryList_category);
+      div.appendChild(categoryList_category_container);
+      div.innerHTML += addContent;
       CATEGORYLIST.appendChild(div);
     });
   })
   .then((jsonResponse) => {
-    const CATEGORYLIST_ITEM = document.querySelectorAll(".categoryList-item");
+    const PRESSED_BUTTON = document.querySelectorAll(".fa-square-check-solid");
+    const UNPRESSED_BUTTON = document.querySelectorAll(
+      ".fa-square-check-regular"
+    );
 
     EDIT_CATEGORY_SELECT.addEventListener("change", function () {
       EDIT_VERTICAL.style.backgroundColor = this.value;
     });
+
     CREATEEVENT_CATEGORY_SELECT.addEventListener("change", function () {
       CREATE_EVENT_VERTICAL.style.backgroundColor = this.value;
     });
-    console.log(CATEGORYLIST_ITEM);
-    Array.from(CATEGORYLIST_ITEM).forEach((element) => {
-      console.log(element);
+
+    // PRESSED_BUTTON
+    Array.from(PRESSED_BUTTON).forEach((element) => {
       element.addEventListener("click", function () {
-        console.log(this.innerHTML);
-        // this.innerHTML.indexOf("<i class=‘fa-solid fa-check’></i>") !== -1
-        if (this.innerHTML.includes("<i class=‘fa-solid fa-check’></i>")) {
-          this.innerHTML.replace("<i class=‘fa-solid fa-check’></i>", "");
-        } else {
-          this.innerHTML = this.innerHTML + `<i class='fa-solid fa-check'></i>`;
-        }
+        console.log(this.previousSibling);
+        this.style.display = "none";
+        this.previousSibling.style.display = "block";
+      });
+    });
+
+    // UNPRESSED_BUTTON
+    Array.from(UNPRESSED_BUTTON).forEach((element) => {
+      element.addEventListener("click", function () {
+        this.style.display = "none";
+        this.nextSibling.style.display = "block";
       });
     });
   });
