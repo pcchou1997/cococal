@@ -8,6 +8,7 @@ const {
   insertCategory,
   readCategory,
   updateCategory,
+  deleteCategory,
 } = require("./public/database");
 const express = require("express");
 const app = express();
@@ -123,6 +124,14 @@ app.post("/updateCategory", async (req, res) => {
     oldCategoryName,
     oldColor
   );
+  res.send(result);
+});
+
+app.post("/deleteCategory", async (req, res) => {
+  let data = req.body;
+  const oldCategoryName = data.oldCategoryName;
+  const oldColor = data.oldColor;
+  const result = await deleteCategory(oldCategoryName, oldColor);
   res.send(result);
 });
 

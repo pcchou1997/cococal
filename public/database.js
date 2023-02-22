@@ -117,6 +117,7 @@ async function updateEvent(
 }
 
 // Delete event
+
 async function deleteEvent(oldTitle, oldStartDate, oldStartTime) {
   let sql =
     "DELETE FROM calendarEvents WHERE title=? and startDate=? and startTime=?";
@@ -180,6 +181,22 @@ async function updateCategory(categoryName, color, oldCategoryName, oldColor) {
   return data;
 }
 
+// Delete event
+
+async function deleteCategory(oldCategoryName, oldColor) {
+  let sql = "DELETE FROM categories WHERE categoryName=? and color=?";
+  let values = [oldCategoryName, oldColor];
+  let data = await new Promise((resolve, reject) => {
+    connection.query(sql, values, function (err, result) {
+      if (err) throw err;
+      else {
+        return resolve(result);
+      }
+    });
+  });
+  return data;
+}
+
 module.exports = {
   insertEvent,
   readEvent,
@@ -189,4 +206,5 @@ module.exports = {
   insertCategory,
   readCategory,
   updateCategory,
+  deleteCategory,
 };

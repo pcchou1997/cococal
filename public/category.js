@@ -19,6 +19,7 @@ const EDIT_CATEGORY_VERTICAL = document.querySelector(
 );
 const EDIT_CATEGORY_COLOR = document.querySelectorAll(".edit-categoryColor");
 const EDIT_CATEGORY_REVISE = document.querySelector(".edit-category-revise");
+const EDIT_CATEGORY_DELETE = document.querySelector(".edit-category-delete");
 
 let oldColor;
 let oldCategoryName;
@@ -150,7 +151,7 @@ CATEGORY_BUTTON.addEventListener("click", async function () {
   window.location.reload();
 });
 
-// EDIT_CATEGORY
+// EDIT_CATEGORY - revise category
 
 EDIT_CATEGORY_CONTAINER_CLOSE.addEventListener("click", function () {
   EDIT_CATEGORY_CONTAINER.style.display = "none";
@@ -191,6 +192,27 @@ EDIT_CATEGORY_REVISE.addEventListener("click", async function () {
       }),
     });
 
+    window.location.reload();
+  }
+});
+
+// EDIT_CATEGORY - delete category
+
+EDIT_CATEGORY_DELETE.addEventListener("click", function () {
+  if (oldCategoryName == "" || oldColor == "") {
+    alert("Not allow any unfilled field");
+  } else {
+    EDIT_CATEGORY_CONTAINER.style.display = "none";
+    fetch("/deleteCategory", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        oldCategoryName: oldCategoryName,
+        oldColor: oldColor,
+      }),
+    });
     window.location.reload();
   }
 });
