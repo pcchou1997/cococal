@@ -111,3 +111,93 @@
   background-color: black;
   color: white;
 }
+
+/* ==================================================
+              edit-category-container 
+===================================================*/
+
+.edit-category-container {
+  /* display: none; */
+  width: 400px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  top: 80px;
+  padding: 30px;
+  border-radius: 20px;
+  border: 1px solid gray;
+  background-color: #ffffff;
+  z-index: 1;
+}
+
+.edit-category-title {
+  margin: 0px auto 10px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.edit-category-categoryName {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.edit-category-vertical {
+  width: 5px;
+  height: 25px;
+  background-color: gray;
+  border-radius: 5px;
+  margin-right: 5px;
+}
+
+.edit-categoryName-input {
+  border: none;
+  font-size: 20px;
+}
+
+.edit-categoryName-input:focus {
+  outline: none;
+  /* 去邊框 */
+}
+
+.edit-categoryColors {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 20px 0px;
+}
+
+.edit-categoryColor {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.edit-category-button {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.edit-category-button-item {
+  width: 80px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  border-radius: 10px;
+  background-color: rgb(240, 240, 240);
+  text-align: center;
+  margin: 0px 10px;
+  cursor: pointer;
+}
+
+.edit-category-button-item:hover {
+  background-color: black;
+  color: white;
+}

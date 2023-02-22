@@ -195,14 +195,17 @@ body {
   /* background-color: rgb(240, 240, 240);
   border-radius: 15px; */
 }
+
 .fa-angle-right {
   margin: 0px 10px;
 }
+
 .createEvent-çategory {
   display: flex;
   justify-content: flex-start;
   align-items: baseline;
 }
+
 .createEvent-category-select {
   cursor: pointer;
   width: 150px;
@@ -212,12 +215,14 @@ body {
   padding: 0px 10px;
   background: rgb(240, 240, 240);
 }
+
 .createEvent-description {
   width: 100%;
   display: flex;
   justify-content: flex-start;
   align-items: baseline;
 }
+
 .createEvent-description-input {
   width: 355px;
   height: 100px;
@@ -225,6 +230,7 @@ body {
   padding: 10px;
   border-color: rgb(200, 200, 200);
 }
+
 .createEvent-button {
   width: 80px;
   height: 30px;
@@ -242,6 +248,7 @@ body {
   background-color: black;
   color: white;
 }
+
 /* ----- inviteFriend ----- */
 
 .inviteFriend {
