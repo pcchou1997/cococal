@@ -148,12 +148,29 @@ async function insertCategory(categoryName, color) {
   return data;
 }
 
-// Read specific Event
+// Read All Categories
 
 async function readCategory() {
   let sql = "SELECT * FROM categories";
   let data = await new Promise((resolve, reject) => {
     connection.query(sql, function (err, result) {
+      if (err) throw err;
+      else {
+        return resolve(result);
+      }
+    });
+  });
+  return data;
+}
+
+// Update Category
+
+async function updateCategory(categoryName, color, oldCategoryName, oldColor) {
+  let sql =
+    "UPDATE categories SET categoryName=?,color=? WHERE categoryName=? and color=?";
+  let values = [categoryName, color, oldCategoryName, oldColor];
+  let data = await new Promise((resolve, reject) => {
+    connection.query(sql, values, function (err, result) {
       if (err) throw err;
       else {
         return resolve(result);
@@ -171,4 +188,5 @@ module.exports = {
   deleteEvent,
   insertCategory,
   readCategory,
+  updateCategory,
 };

@@ -5,6 +5,23 @@ const CATEGORY_COLOR = document.querySelectorAll(".categoryColor");
 const CATEGORY_VERTICAL = document.querySelector(".category-vertical");
 const CATEGORYNAME_INPUT = document.querySelector(".categoryName-input");
 const CATEGORYLIST = document.querySelector(".categoryList");
+const EDIT_CATEGORY_CONTAINER = document.querySelector(
+  ".edit-category-container"
+);
+const EDIT_CATEGORY_CONTAINER_CLOSE = document.querySelector(
+  ".edit-category-close"
+);
+const EDIT_CATEGORYNAME_INPUT = document.querySelector(
+  ".edit-categoryName-input"
+);
+const EDIT_CATEGORY_VERTICAL = document.querySelector(
+  ".edit-category-vertical"
+);
+const EDIT_CATEGORY_COLOR = document.querySelectorAll(".edit-categoryColor");
+const EDIT_CATEGORY_REVISE = document.querySelector(".edit-category-revise");
+
+let oldColor;
+let oldCategoryName;
 
 // get DB categories
 
@@ -54,6 +71,7 @@ fetch("/readCategory")
     const UNPRESSED_BUTTON = document.querySelectorAll(
       ".fa-square-check-regular"
     );
+    const EDIT_CATEGORY_BUTTON = document.querySelectorAll(".fa-pen-to-square");
 
     EDIT_CATEGORY_SELECT.addEventListener("change", function () {
       EDIT_VERTICAL.style.backgroundColor = this.value;
@@ -79,7 +97,23 @@ fetch("/readCategory")
         this.nextSibling.style.display = "block";
       });
     });
+
+    // EDIT_CATEGORY_BUTTON
+    Array.from(EDIT_CATEGORY_BUTTON).forEach((element) => {
+      element.addEventListener("click", function () {
+        EDIT_CATEGORY_CONTAINER.style.display = "block";
+        oldCategoryName = this.parentNode.previousSibling.children[1].innerHTML;
+        EDIT_CATEGORYNAME_INPUT.value =
+          this.parentNode.previousSibling.children[1].innerHTML;
+        oldColor =
+          this.parentNode.previousSibling.firstChild.style.backgroundColor;
+        EDIT_CATEGORY_VERTICAL.style.backgroundColor =
+          this.parentNode.previousSibling.firstChild.style.backgroundColor;
+      });
+    });
   });
+
+// NEW_CATEGORY
 
 ADD_CATEGORY.addEventListener("click", function () {
   EDIT_CONTAINER.style.display = "none";
@@ -114,4 +148,49 @@ CATEGORY_BUTTON.addEventListener("click", async function () {
   });
 
   window.location.reload();
+});
+
+// EDIT_CATEGORY
+
+EDIT_CATEGORY_CONTAINER_CLOSE.addEventListener("click", function () {
+  EDIT_CATEGORY_CONTAINER.style.display = "none";
+});
+
+Array.from(EDIT_CATEGORY_COLOR).forEach((element) => {
+  element.addEventListener("click", async function () {
+    let color = getComputedStyle(this).backgroundColor;
+    EDIT_CATEGORY_VERTICAL.style.backgroundColor = color;
+  });
+});
+
+EDIT_CATEGORY_REVISE.addEventListener("click", async function () {
+  EDIT_CATEGORY_CONTAINER.style.display = "none";
+  let color = getComputedStyle(EDIT_CATEGORY_VERTICAL).backgroundColor;
+  console.log(color);
+  let categoryName = EDIT_CATEGORYNAME_INPUT.value;
+  console.log(categoryName);
+
+  if (
+    color == "" ||
+    categoryName == "" ||
+    oldColor == "" ||
+    oldCategoryName == ""
+  ) {
+    alert("Not allow any unfilled field");
+  } else {
+    await fetch("/updateCategory", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        color: color,
+        categoryName: categoryName,
+        oldColor: oldColor,
+        oldCategoryName: oldCategoryName,
+      }),
+    });
+
+    window.location.reload();
+  }
 });
