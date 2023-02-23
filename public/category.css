@@ -33,7 +33,7 @@
   width: 5px;
   height: 25px;
   border-radius: 5px;
-  background-color: red;
+  background-color: gray;
   margin-right: 5px;
 }
 
@@ -47,54 +47,28 @@
   /* 去邊框 */
 }
 
-.categoryColors {
+.category-color-selector {
   width: 100%;
   display: flex;
-  justify-content: space-around;
+  justify-content: flex-start;
   align-items: center;
   margin: 20px 0px;
 }
 
-.categoryColor {
-  width: 25px;
-  height: 25px;
-  border-radius: 50%;
+.category-colorpicker-label {
   cursor: pointer;
 }
 
-.category1 {
-  background-color: red;
+#category-colorpicker {
+  width: 30px;
+  height: 30px;
+  border: 1px solid rgb(200, 200, 200);
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 1px 2px 0px 2px;
 }
 
-.category2 {
-  background-color: orange;
-}
-
-.category3 {
-  background-color: yellow;
-}
-
-.category4 {
-  background-color: green;
-}
-
-.category5 {
-  background-color: blue;
-}
-
-.category6 {
-  background-color: blueviolet;
-}
-
-.category7 {
-  background-color: purple;
-}
-
-.category8 {
-  background-color: black;
-}
-
-.category-button {
+.create-category-button {
   cursor: pointer;
   width: 80px;
   height: 30px;
@@ -107,7 +81,7 @@
   margin: 20px auto 0px auto;
 }
 
-.category-button:hover {
+.create-category-button:hover {
   background-color: black;
   color: white;
 }
@@ -163,19 +137,25 @@
   /* 去邊框 */
 }
 
-.edit-categoryColors {
+.edit-category-color-selector {
   width: 100%;
   display: flex;
-  justify-content: space-around;
+  justify-content: flex-start;
   align-items: center;
   margin: 20px 0px;
 }
 
-.edit-categoryColor {
-  width: 25px;
-  height: 25px;
-  border-radius: 50%;
+.edit-category-colorpicker-label {
   cursor: pointer;
+}
+
+#edit-category-colorpicker {
+  width: 30px;
+  height: 30px;
+  border: 1px solid rgb(200, 200, 200);
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 1px 2px 0px 2px;
 }
 
 .edit-category-button {
@@ -197,7 +177,12 @@
   cursor: pointer;
 }
 
-.edit-category-button-item:hover {
+.edit-category-revise:hover {
   background-color: black;
+  color: white;
+}
+
+.edit-category-delete:hover {
+  background-color: red;
   color: white;
 }

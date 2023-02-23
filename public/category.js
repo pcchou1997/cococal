@@ -1,10 +1,13 @@
 const ADD_CATEGORY = document.querySelector(".addCategory");
 const CATEGORY_CLOSE = document.querySelector(".category-container .fa-xmark");
-const CATEGORY_BUTTON = document.querySelector(".category-button");
+const CREATE_CATEGORY_BUTTON = document.querySelector(
+  ".create-category-button"
+);
 const CATEGORY_COLOR = document.querySelectorAll(".categoryColor");
 const CATEGORY_VERTICAL = document.querySelector(".category-vertical");
 const CATEGORYNAME_INPUT = document.querySelector(".categoryName-input");
 const CATEGORYLIST = document.querySelector(".categoryList");
+const CATEGORY_COLOR_PICKER = document.querySelector("#category-colorpicker");
 const EDIT_CATEGORY_CONTAINER = document.querySelector(
   ".edit-category-container"
 );
@@ -20,6 +23,9 @@ const EDIT_CATEGORY_VERTICAL = document.querySelector(
 const EDIT_CATEGORY_COLOR = document.querySelectorAll(".edit-categoryColor");
 const EDIT_CATEGORY_REVISE = document.querySelector(".edit-category-revise");
 const EDIT_CATEGORY_DELETE = document.querySelector(".edit-category-delete");
+const EDIT_CATEGORY_COLOR_PICKER = document.querySelector(
+  "#edit-category-colorpicker"
+);
 
 let oldColor;
 let oldCategoryName;
@@ -66,8 +72,10 @@ fetch("/readCategory")
       div.innerHTML += addContent;
       CATEGORYLIST.appendChild(div);
     });
+    return jsonResponse;
   })
   .then((jsonResponse) => {
+    console.log(jsonResponse);
     const PRESSED_BUTTON = document.querySelectorAll(".fa-square-check-solid");
     const UNPRESSED_BUTTON = document.querySelectorAll(
       ".fa-square-check-regular"
@@ -110,9 +118,38 @@ fetch("/readCategory")
           this.parentNode.previousSibling.firstChild.style.backgroundColor;
         EDIT_CATEGORY_VERTICAL.style.backgroundColor =
           this.parentNode.previousSibling.firstChild.style.backgroundColor;
+        let rgbToHexColor =
+          this.parentNode.previousSibling.firstChild.style.backgroundColor.split(
+            ","
+          );
+
+        // change color from RGB to HEX
+
+        rgbToHexColor[0] = rgbToHexColor[0].replace("rgb(", "");
+        rgbToHexColor[1] = rgbToHexColor[1].replace(" ", "");
+        rgbToHexColor[2] = rgbToHexColor[2].replace(")", "");
+        rgbToHexColor[2] = rgbToHexColor[2].replace(" ", "");
+        console.log(rgbToHexColor);
+
+        EDIT_CATEGORY_COLOR_PICKER.value = rgbToHex(
+          Number(rgbToHexColor[0]),
+          Number(rgbToHexColor[1]),
+          Number(rgbToHexColor[2])
+        );
       });
     });
   });
+
+// the function of changing color from RGB to HEX
+
+function componentToHex(c) {
+  var hex = c.toString(16);
+  return hex.length == 1 ? "0" + hex : hex;
+}
+
+function rgbToHex(r, g, b) {
+  return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+}
 
 // NEW_CATEGORY
 
@@ -125,14 +162,11 @@ CATEGORY_CLOSE.addEventListener("click", function () {
   CATEGORY_CONTAINER.style.display = "none";
 });
 
-Array.from(CATEGORY_COLOR).forEach((element) => {
-  element.addEventListener("click", async function () {
-    let color = getComputedStyle(this).backgroundColor;
-    CATEGORY_VERTICAL.style.backgroundColor = color;
-  });
+CATEGORY_COLOR_PICKER.addEventListener("change", function () {
+  CATEGORY_VERTICAL.style.backgroundColor = this.value;
 });
 
-CATEGORY_BUTTON.addEventListener("click", async function () {
+CREATE_CATEGORY_BUTTON.addEventListener("click", async function () {
   CATEGORY_CONTAINER.style.display = "none";
   let color = getComputedStyle(CATEGORY_VERTICAL).backgroundColor;
   let categoryName = CATEGORYNAME_INPUT.value;
@@ -167,9 +201,7 @@ Array.from(EDIT_CATEGORY_COLOR).forEach((element) => {
 EDIT_CATEGORY_REVISE.addEventListener("click", async function () {
   EDIT_CATEGORY_CONTAINER.style.display = "none";
   let color = getComputedStyle(EDIT_CATEGORY_VERTICAL).backgroundColor;
-  console.log(color);
   let categoryName = EDIT_CATEGORYNAME_INPUT.value;
-  console.log(categoryName);
 
   if (
     color == "" ||
@@ -215,4 +247,8 @@ EDIT_CATEGORY_DELETE.addEventListener("click", function () {
     });
     window.location.reload();
   }
+});
+
+EDIT_CATEGORY_COLOR_PICKER.addEventListener("change", function () {
+  EDIT_CATEGORY_VERTICAL.style.backgroundColor = this.value;
 });
