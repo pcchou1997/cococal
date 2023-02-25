@@ -162,7 +162,7 @@ CATEGORY_CLOSE.addEventListener("click", function () {
   CATEGORY_CONTAINER.style.display = "none";
 });
 
-CATEGORY_COLOR_PICKER.addEventListener("change", function () {
+CATEGORY_COLOR_PICKER.addEventListener("input", function () {
   CATEGORY_VERTICAL.style.backgroundColor = this.value;
 });
 
@@ -249,6 +249,6 @@ EDIT_CATEGORY_DELETE.addEventListener("click", function () {
   }
 });
 
-EDIT_CATEGORY_COLOR_PICKER.addEventListener("change", function () {
+EDIT_CATEGORY_COLOR_PICKER.addEventListener("input", function () {
   EDIT_CATEGORY_VERTICAL.style.backgroundColor = this.value;
 });
