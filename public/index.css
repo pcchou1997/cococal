@@ -59,13 +59,13 @@ body {
   border-radius: 10px;
 }
 
-.search {
+.search-input {
   width: 90%;
   height: 25px;
   border: none;
 }
 
-.search:focus {
+.search-input:focus {
   outline: none;
   /* 去邊框 */
 }

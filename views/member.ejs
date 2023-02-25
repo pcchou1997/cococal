@@ -7,6 +7,7 @@
 
     <link rel="stylesheet" href="/index.css" />
     <link rel="stylesheet" href="/category.css" />
+    <link rel="stylesheet" href="/search.css" />
     <script
       src="https://kit.fontawesome.com/605526aab0.js"
       crossorigin="anonymous"
@@ -23,8 +24,8 @@
       <!-- sidebar -->
       <div class="sidebar">
         <div class="searchBar">
-          <input type="text" placeholder="查詢行程" class="search" />
-          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" placeholder="search event" class="search-input" />
+          <i class="fa-solid fa-magnifying-glass search-icon"></i>
         </div>
         <div class="functionButton addEvent">
           <i class="fa-solid fa-plus"></i>&nbsp;<b>新增行程</b>
@@ -195,6 +196,12 @@
       <i class="fa-solid fa-xmark edit-category-close"></i>
     </div>
     <!-- edit-category-container end-->
+    <!-- search-result-container -->
+    <div class="search-result-container">
+      <h1 class="search-result-title title-font">Search Result</h1>
+      <i class="fa-solid fa-xmark search-result-close"></i>
+    </div>
+    <!-- search-result-container end-->
 
     <script src="/event.js"></script>
     <script src="/category.js"></script>
