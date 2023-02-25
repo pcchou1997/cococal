@@ -9,6 +9,7 @@ const {
   readCategory,
   updateCategory,
   deleteCategory,
+  searchEvent,
 } = require("./public/database");
 const express = require("express");
 const app = express();
@@ -132,6 +133,13 @@ app.post("/deleteCategory", async (req, res) => {
   const oldCategoryName = data.oldCategoryName;
   const oldColor = data.oldColor;
   const result = await deleteCategory(oldCategoryName, oldColor);
+  res.send(result);
+});
+
+app.post("/searchEvent", async (req, res) => {
+  let data = req.body;
+  const keyword = data.keyword;
+  const result = await searchEvent(keyword);
   res.send(result);
 });
 

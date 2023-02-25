@@ -181,11 +181,27 @@ async function updateCategory(categoryName, color, oldCategoryName, oldColor) {
   return data;
 }
 
-// Delete event
+// Delete Category
 
 async function deleteCategory(oldCategoryName, oldColor) {
   let sql = "DELETE FROM categories WHERE categoryName=? and color=?";
   let values = [oldCategoryName, oldColor];
+  let data = await new Promise((resolve, reject) => {
+    connection.query(sql, values, function (err, result) {
+      if (err) throw err;
+      else {
+        return resolve(result);
+      }
+    });
+  });
+  return data;
+}
+
+// search event
+
+async function searchEvent(keyword) {
+  let sql = "SELECT * FROM calendarEvents WHERE title REGEXP ?;";
+  let values = [keyword];
   let data = await new Promise((resolve, reject) => {
     connection.query(sql, values, function (err, result) {
       if (err) throw err;
@@ -207,4 +223,5 @@ module.exports = {
   readCategory,
   updateCategory,
   deleteCategory,
+  searchEvent,
 };
