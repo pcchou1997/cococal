@@ -70,6 +70,7 @@ SERACH_BUTTON.addEventListener("click", function () {
         }
 
         // confirm if event duration > 1 day or not
+        // event duration > 1 day
         if (event.startDate == event.endDate) {
           eventTime.innerHTML =
             "<b>" +
@@ -78,7 +79,9 @@ SERACH_BUTTON.addEventListener("click", function () {
             startTime +
             " - " +
             endTime;
-        } else {
+        }
+        // event duration <= 1 day
+        else {
           eventTime.innerHTML =
             "<b>" +
             event.startDate +
@@ -100,5 +103,65 @@ SERACH_BUTTON.addEventListener("click", function () {
         resultDiv.appendChild(eventDiv);
       });
       SERACH_RESULT_CONTAINER.appendChild(resultDiv);
+      return searchEvents;
+    })
+    .then((searchEvents) => {
+      const SERACH_RESULT_EVENT = document.querySelectorAll(
+        ".search-result-event"
+      );
+      Array.from(SERACH_RESULT_EVENT).forEach((element) => {
+        element.addEventListener("click", async function () {
+          EDIT_CONTAINER.style.display = "block";
+          let title;
+          let startDate;
+          let startTime;
+
+          // whether event duration > 1 day or <= 1 day
+          title = this.childNodes[1].childNodes[0].innerHTML;
+          //   console.log(title);
+          startDate = this.childNodes[1].childNodes[1].childNodes[0].innerHTML;
+          //   console.log(startDate);
+          startTime = this.childNodes[1].childNodes[1].innerHTML.replace(
+            "<b>" + startDate + "</b>",
+            ""
+          );
+          startTime = startTime
+            .replaceAll("&nbsp;", "")
+            .replaceAll(" ", "")
+            .split("-")[0];
+          startTime = startTime.substring(0, startTime.length - 1);
+          //   console.log(startTime);
+
+          await fetch("/readSpecificEvent", {
+            method: "POST",
+            headers: {
+              "Content-type": "application/json",
+            },
+            body: JSON.stringify({
+              title: title,
+              startDate: startDate,
+              startTime: startTime,
+            }),
+          })
+            .then((res) => {
+              return res.json();
+            })
+            .then((specificEvent) => {
+              console.log(specificEvent);
+              endTime = specificEvent[0].endTime;
+              endDate = specificEvent[0].endDate;
+              color = specificEvent[0].color;
+              description = specificEvent[0].description;
+            });
+          EDIT_EVENTNAME_INPUT.value = title;
+          EDIT_STARTDATE.value = startDate;
+          EDIT_STARTTIME.value = startTime;
+          EDIT_ENDDATE.value = endDate;
+          EDIT_ENDTIME.value = endTime;
+          EDIT_VERTICAL.style.backgroundColor = color;
+          EDIT_CATEGORY_SELECT.value = color;
+          EDIT_DESCRIPTION_INPUT.value = description;
+        });
+      });
     });
 });
