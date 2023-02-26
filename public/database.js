@@ -116,6 +116,22 @@ async function updateEvent(
   return data;
 }
 
+// Update event category
+
+async function updateEventCategory(color, oldColor) {
+  let sql = "UPDATE calendarEvents SET color=? WHERE color=?";
+  let values = [color, oldColor];
+  let data = await new Promise((resolve, reject) => {
+    connection.query(sql, values, function (err, result) {
+      if (err) throw err;
+      else {
+        return resolve(result);
+      }
+    });
+  });
+  return data;
+}
+
 // Delete event
 
 async function deleteEvent(oldTitle, oldStartDate, oldStartTime) {
@@ -218,6 +234,7 @@ module.exports = {
   readEvent,
   readSpecificEvent,
   updateEvent,
+  updateEventCategory,
   deleteEvent,
   insertCategory,
   readCategory,

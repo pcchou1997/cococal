@@ -4,6 +4,7 @@ const {
   readEvent,
   readSpecificEvent,
   updateEvent,
+  updateEventCategory,
   deleteEvent,
   insertCategory,
   readCategory,
@@ -88,6 +89,14 @@ app.post("/updateEvent", async (req, res) => {
     oldStartDate,
     oldStartTime
   );
+  res.send(result);
+});
+
+app.post("/updateEventCategory", async (req, res) => {
+  let data = req.body;
+  const oldColor = data.oldColor;
+  const color = data.color;
+  const result = await updateEventCategory(color, oldColor);
   res.send(result);
 });
 

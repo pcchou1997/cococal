@@ -129,7 +129,6 @@ fetch("/readCategory")
         rgbToHexColor[1] = rgbToHexColor[1].replace(" ", "");
         rgbToHexColor[2] = rgbToHexColor[2].replace(")", "");
         rgbToHexColor[2] = rgbToHexColor[2].replace(" ", "");
-        console.log(rgbToHexColor);
 
         EDIT_CATEGORY_COLOR_PICKER.value = rgbToHex(
           Number(rgbToHexColor[0]),
@@ -222,7 +221,18 @@ EDIT_CATEGORY_REVISE.addEventListener("click", async function () {
         oldColor: oldColor,
         oldCategoryName: oldCategoryName,
       }),
-    });
+    }).then(
+      fetch("/updateEventCategory", {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({
+          color: color,
+          oldColor: oldColor,
+        }),
+      })
+    );
 
     window.location.reload();
   }
