@@ -177,5 +177,5 @@ SERACH_BUTTON.addEventListener("click", function () {
 });
 
 SERACH_INPUT.addEventListener("change", function () {
-  SERACH_BAR.style.borderColor = "rgb(63, 83, 134)";
+  SERACH_BAR.style.borderColor = "gray";
 });
