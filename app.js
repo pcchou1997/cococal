@@ -27,6 +27,11 @@ io.on("connection", (socket) => {
   socket.on("disconnect", () => {
     console.log("user disconnected");
   });
+
+  // socket: server 傳送給所有 client
+  socket.on("insert-event", (msg) => {
+    io.emit("insert-event", msg);
+  });
 });
 
 app.use(express.static("public"));

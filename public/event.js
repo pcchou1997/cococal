@@ -300,6 +300,21 @@ CREATE_EVENT_BUTTON.addEventListener("click", async function () {
   ) {
     alert("任一欄位不可空白");
   } else {
+    // socket.io
+    let message = {
+      title: title,
+      startDate: startDate,
+      startTime: startTime,
+      endDate: endDate,
+      endTime: endTime,
+      allDay: false,
+      color: color,
+      description: description,
+    };
+
+    // socket: client 傳送到 server
+    socket.emit("insert-event", message);
+
     CREATE_EVENT_CONTAINER.style.display = "none";
     await fetch("/insertEvent", {
       method: "POST",
@@ -429,4 +444,39 @@ EDIT_DELETE.addEventListener("click", function () {
     }),
   });
   window.location.reload();
+});
+
+// socket.io
+
+// socket: client 捕捉 server 傳來的資料，並進行後續處理
+socket.on("insert-event", async function (msg) {
+  let eventDict = {};
+  let title = msg.title;
+  let startDate = msg.startDate;
+  let startTime = msg.startTime;
+  let endDate = msg.endDate;
+  let endTime = msg.endTime;
+  let allDay = msg.allDay;
+  let color = msg.color;
+  let description = msg.description;
+
+  eventDict["title"] = title;
+  eventDict["start"] = startDate + "T" + startTime + ":00";
+  eventDict["end"] = endDate + "T" + endTime + ":00";
+  eventDict["allDay"] = allDay;
+  eventDict["color"] = color;
+  eventDict["description"] = description;
+  events.push(eventDict);
+  console.log(events);
+
+  let addthisevent = {
+    title: title,
+    start: startDate + "T" + startTime + ":00",
+    end: endDate + "T" + endTime + ":00",
+    color: color,
+    description: description,
+  };
+  console.log(addthisevent);
+  calendar.addEvent(addthisevent);
+  editCalendarEvents();
 });
