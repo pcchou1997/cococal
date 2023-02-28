@@ -90,15 +90,22 @@ function editCalendarEvents() {
         this.parentNode.parentNode.parentNode.parentNode.getAttribute(
           "data-date"
         );
+
+      // time (a)
       if (startTime.substr(-1) == "a") {
         let time = startTime.substring(0, startTime.length - 1);
         console.log(time);
-        if (time.length == 1) {
+        // only hour
+        if (time == 12) {
+          startTime = "00:00";
+        } else if (time.length == 1) {
           time = "0" + time;
           startTime = time + ":00";
         } else if (time.length == 2) {
-        } else {
-          // 字串>2
+          startTime = time + ":00";
+        }
+        // hour:minute
+        else {
           console.log(time.split(":")[0]);
           if (time.split(":")[0].length == 1) {
             startTime = "0" + time;
@@ -110,23 +117,33 @@ function editCalendarEvents() {
             }
           }
         }
-      } else {
-        console.log(startTime);
+      }
+      // time (p)
+      else {
         let time = startTime.substring(0, startTime.length - 1);
-        if (time.length == 1 || time.length == 2) {
+        // only hour
+        if (time == 12) {
+          startTime = "12:00";
+        } else if (time.length == 1 || time.length == 2) {
           startTime = String(Number(time) + 12) + ":00";
-        } else {
+        }
+        // hour:minute
+        else {
           let startTimeSplit = startTime
             .substring(0, startTime.length - 1)
             .split(":");
           console.log(startTimeSplit);
-          startTime =
-            String(Number(startTimeSplit[0]) + 12) +
-            ":" +
-            String(startTimeSplit[1]);
+          if (startTimeSplit[0] == "12") {
+            startTime = "12:" + String(startTimeSplit[1]);
+          } else {
+            startTime =
+              String(Number(startTimeSplit[0]) + 12) +
+              ":" +
+              String(startTimeSplit[1]);
+          }
         }
       }
-      console.log(title, startDate, startTime);
+
       CATEGORY_CONTAINER.style.display = "none";
       EDIT_CONTAINER.style.display = "block";
       EDIT_EVENTNAME_INPUT.value = title;
