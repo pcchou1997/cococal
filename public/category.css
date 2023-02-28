@@ -91,7 +91,7 @@
 ===================================================*/
 
 .edit-category-container {
-  /* display: none; */
+  display: none;
   width: 400px;
   position: absolute;
   left: 0;
