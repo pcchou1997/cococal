@@ -64,6 +64,7 @@ function createCalendar(events) {
     eventColor: "rgb(246, 225, 225)",
   });
   calendar.render();
+  calendar.getEvents();
 }
 
 function editCalendarEvents() {
@@ -180,7 +181,7 @@ function editCalendarEvents() {
       EDIT_CATEGORY_SELECT.value = color;
       EDIT_DESCRIPTION_INPUT.value = description;
     });
-  });
+  }, true);
 }
 
 function reloadEvents() {
@@ -223,8 +224,10 @@ fetch("/readEvent")
     return res.json();
   })
   .then((jsonResponse) => {
+    console.log(jsonResponse);
     for (let i = 0; i < jsonResponse.length; i++) {
       let eventDict = {};
+      let id = jsonResponse[i].id;
       let title = jsonResponse[i].title;
       let startDate = jsonResponse[i].startDate;
       let startTime = jsonResponse[i].startTime;
@@ -234,6 +237,7 @@ fetch("/readEvent")
       let color = jsonResponse[i].color;
       let description = jsonResponse[i].description;
 
+      eventDict["id"] = id;
       eventDict["title"] = title;
       eventDict["start"] = startDate + "T" + startTime + ":00";
       eventDict["end"] = endDate + "T" + endTime + ":00";
@@ -242,6 +246,7 @@ fetch("/readEvent")
       eventDict["description"] = description;
       events.push(eventDict);
     }
+    console.log(events);
 
     // create calendar
 
@@ -279,7 +284,7 @@ fetch("/readEvent")
     console.error(err);
   });
 
-// NEW_EVENT button
+// add event
 
 CREATE_EVENT_BUTTON.addEventListener("click", async function () {
   const title = CREATE_EVENT_EVENTNAME_INPUT.value;
@@ -381,9 +386,11 @@ EDIT_CLOSE.addEventListener("click", function () {
   EDIT_CONTAINER.style.display = "none";
 });
 
-// EDIT_CONTAINER - revise event
-EDIT_REVISE.addEventListener("click", function () {
+// edit event
+
+EDIT_REVISE.addEventListener("click", async function () {
   EDIT_CONTAINER.style.display = "none";
+  let id;
   const title = EDIT_EVENTNAME_INPUT.value;
   const startDate = EDIT_STARTDATE.value;
   const startTime = EDIT_STARTTIME.value;
@@ -405,8 +412,47 @@ EDIT_REVISE.addEventListener("click", function () {
   ) {
     alert("任一欄位不可空白");
   } else {
+    // socket.io
+
+    // 進入資料庫得到事件id
+
+    await fetch("/readSpecificEvent", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        title: oldTitle,
+        startDate: oldStartDate,
+        startTime: oldStartTime,
+      }),
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((jsonResponse) => {
+        console.log(jsonResponse);
+        id = jsonResponse[0].id;
+      });
+
+    // client 傳送到 server
+    let message = {
+      id: id,
+      title: title,
+      startDate: startDate,
+      startTime: startTime,
+      endDate: endDate,
+      endTime: endTime,
+      allDay: false,
+      color: color,
+      description: description,
+    };
+
+    // socket: client 傳送到 server
+    socket.emit("edit-event", message);
+
     CREATE_EVENT_CONTAINER.style.display = "none";
-    fetch("/updateEvent", {
+    await fetch("/updateEvent", {
       method: "POST",
       headers: {
         "Content-type": "application/json",
@@ -425,7 +471,6 @@ EDIT_REVISE.addEventListener("click", function () {
         oldStartTime: oldStartTime,
       }),
     });
-    window.location.reload();
   }
 });
 
@@ -449,6 +494,7 @@ EDIT_DELETE.addEventListener("click", function () {
 // socket.io
 
 // socket: client 捕捉 server 傳來的資料，並進行後續處理
+// add event
 socket.on("insert-event", async function (msg) {
   let eventDict = {};
   let title = msg.title;
@@ -478,5 +524,17 @@ socket.on("insert-event", async function (msg) {
   };
   console.log(addthisevent);
   calendar.addEvent(addthisevent);
+  editCalendarEvents();
+});
+
+// edit event
+socket.on("edit-event", async function (msg) {
+  let calendarEventId = calendar.getEventById(msg.id);
+  console.log(calendarEventId);
+  calendarEventId.setStart(msg.startDate + "T" + msg.startTime + ":00");
+  calendarEventId.setEnd(msg.endDate + "T" + msg.endTime + ":00");
+  calendarEventId.setProp("color", msg.color);
+  calendarEventId.setProp("title", msg.title);
+  calendarEventId.setExtendedProp("description", msg.description);
   editCalendarEvents();
 });

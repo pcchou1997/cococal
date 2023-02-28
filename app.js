@@ -32,6 +32,10 @@ io.on("connection", (socket) => {
   socket.on("insert-event", (msg) => {
     io.emit("insert-event", msg);
   });
+
+  socket.on("edit-event", (msg) => {
+    io.emit("edit-event", msg);
+  });
 });
 
 app.use(express.static("public"));
