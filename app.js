@@ -1,4 +1,3 @@
-const http = require("http");
 const {
   insertEvent,
   readEvent,
@@ -12,8 +11,23 @@ const {
   deleteCategory,
   searchEvent,
 } = require("./public/database");
+
 const express = require("express");
 const app = express();
+const http = require("http");
+const server = http.createServer(app);
+const io = require("socket.io")(server);
+// const { Server } = require("socket.io");
+// const io = new Server(server);
+
+// socket.io 連線
+io.on("connection", (socket) => {
+  console.log("a user connected");
+
+  socket.on("disconnect", () => {
+    console.log("user disconnected");
+  });
+});
 
 app.use(express.static("public"));
 
@@ -152,6 +166,10 @@ app.post("/searchEvent", async (req, res) => {
   res.send(result);
 });
 
-app.listen(3000, function () {
-  console.log("伺服器已經啟動在port=3000，網址：http://127.0.0.1:3000/"); // 成功啟動後顯示在終端機的文字
+// app.listen(3000, function () {
+//   console.log("伺服器已經啟動在port=3000，網址：http://127.0.0.1:3000/"); // 成功啟動後顯示在終端機的文字
+// });
+
+server.listen(3000, () => {
+  console.log("伺服器已經啟動在port=3000，網址：http://127.0.0.1:3000/");
 });

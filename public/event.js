@@ -40,9 +40,33 @@ const CREATEEVENT_DESCRIPTION_INPUT = document.querySelector(
 let oldTitle;
 let oldStartDate;
 let oldStartTime;
+let events = [];
+let calendar;
 
-function getEvents() {
-  // Edit events
+let socket = io();
+
+function createCalendar(events) {
+  let calendarEl = document.getElementById("calendar");
+  calendar = new FullCalendar.Calendar(calendarEl, {
+    initialView: "dayGridMonth",
+    initialDate: new Date(),
+    // editable: true,
+    selectable: true,
+    navLinks: true,
+    headerToolbar: {
+      left: "prev,next today",
+      center: "title",
+      right: "dayGridMonth,timeGridWeek,timeGridDay,listMonth",
+    },
+    events: {
+      events,
+    },
+    eventColor: "rgb(246, 225, 225)",
+  });
+  calendar.render();
+}
+
+function editCalendarEvents() {
   const EVENT = document.querySelectorAll(".fc-event");
   Array.from(EVENT).forEach((el) => {
     el.addEventListener("click", async function () {
@@ -142,6 +166,39 @@ function getEvents() {
   });
 }
 
+function reloadEvents() {
+  fetch("/readEvent")
+    .then((res) => {
+      return res.json();
+    })
+    .then(function (jsonResponse) {
+      events = [];
+      for (let i = 0; i < jsonResponse.length; i++) {
+        let eventDict = {};
+        let title = jsonResponse[i].title;
+        let startDate = jsonResponse[i].startDate;
+        let startTime = jsonResponse[i].startTime;
+        let endDate = jsonResponse[i].endDate;
+        let endTime = jsonResponse[i].endTime;
+        let allDay = jsonResponse[i].allDay;
+        let color = jsonResponse[i].color;
+        let description = jsonResponse[i].description;
+
+        eventDict["title"] = title;
+        eventDict["start"] = startDate + "T" + startTime + ":00";
+        eventDict["end"] = endDate + "T" + endTime + ":00";
+        eventDict["allDay"] = allDay;
+        eventDict["color"] = color;
+        eventDict["description"] = description;
+        events.push(eventDict);
+      }
+    })
+    .then(function () {
+      CREATE_EVENT_CONTAINER.removeChild(CREATE_EVENT_CONTAINER.firstChild);
+      createCalendar(events);
+    });
+}
+
 // get DB events
 
 fetch("/readEvent")
@@ -149,7 +206,6 @@ fetch("/readEvent")
     return res.json();
   })
   .then((jsonResponse) => {
-    let events = [];
     for (let i = 0; i < jsonResponse.length; i++) {
       let eventDict = {};
       let title = jsonResponse[i].title;
@@ -172,28 +228,8 @@ fetch("/readEvent")
 
     // create calendar
 
-    var calendarEl = document.getElementById("calendar");
-    var calendar = new FullCalendar.Calendar(calendarEl, {
-      initialView: "dayGridMonth",
-      initialDate: new Date(),
-      // editable: true,
-      selectable: true,
-      navLinks: true,
-      headerToolbar: {
-        left: "prev,next today",
-        center: "title",
-        right: "dayGridMonth,timeGridWeek,timeGridDay,listMonth",
-      },
-      events: {
-        events,
-        color: "yellow",
-        textColor: "black",
-      },
-      eventColor: "rgb(246, 225, 225)",
-    });
-    calendar.render();
-
-    getEvents();
+    createCalendar(events);
+    editCalendarEvents();
 
     const PREV_BUTTON = document.querySelector(".fc-prev-button");
     const NEXT_BUTTON = document.querySelector(".fc-next-button");
@@ -217,7 +253,7 @@ fetch("/readEvent")
     ];
     buttonList.forEach((el) => {
       el.addEventListener("click", function () {
-        getEvents();
+        editCalendarEvents();
       });
     });
   })
@@ -225,6 +261,47 @@ fetch("/readEvent")
     // handle error
     console.error(err);
   });
+
+// NEW_EVENT button
+
+CREATE_EVENT_BUTTON.addEventListener("click", async function () {
+  const title = CREATE_EVENT_EVENTNAME_INPUT.value;
+  const startDate = CREATE_EVENT_START_DATE.value;
+  const startTime = CREATE_EVENT_START_TIME.value;
+  const endDate = CREATE_EVENT_END_DATE.value;
+  const endTime = CREATE_EVENT_END_TIME.value;
+  const color = CREATEEVENT_CATEGORY_SELECT.value;
+  const description = CREATEEVENT_DESCRIPTION_INPUT.value;
+
+  if (
+    title == "" ||
+    startDate == "" ||
+    startTime == "" ||
+    endDate == "" ||
+    endTime == "" ||
+    color == ""
+  ) {
+    alert("任一欄位不可空白");
+  } else {
+    CREATE_EVENT_CONTAINER.style.display = "none";
+    await fetch("/insertEvent", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        title: title,
+        startDate: startDate,
+        startTime: startTime,
+        endDate: endDate,
+        endTime: endTime,
+        allDay: false,
+        color: color,
+        description: description,
+      }),
+    });
+  }
+});
 
 // CREATE_EVENT_CONTAINER - init
 let today = new Date();
@@ -265,49 +342,6 @@ ADD_EVENT.addEventListener("click", function () {
 
 CREATE_EVENT_CLOSE.addEventListener("click", function () {
   CREATE_EVENT_CONTAINER.style.display = "none";
-});
-
-// NEW_EVENT button
-
-CREATE_EVENT_BUTTON.addEventListener("click", async function () {
-  const title = CREATE_EVENT_EVENTNAME_INPUT.value;
-  const startDate = CREATE_EVENT_START_DATE.value;
-  const startTime = CREATE_EVENT_START_TIME.value;
-  const endDate = CREATE_EVENT_END_DATE.value;
-  const endTime = CREATE_EVENT_END_TIME.value;
-  const color = CREATEEVENT_CATEGORY_SELECT.value;
-  const description = CREATEEVENT_DESCRIPTION_INPUT.value;
-
-  if (
-    title == "" ||
-    startDate == "" ||
-    startTime == "" ||
-    endDate == "" ||
-    endTime == "" ||
-    color == ""
-  ) {
-    alert("任一欄位不可空白");
-  } else {
-    CREATE_EVENT_CONTAINER.style.display = "none";
-    await fetch("/insertEvent", {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify({
-        title: title,
-        startDate: startDate,
-        startTime: startTime,
-        endDate: endDate,
-        endTime: endTime,
-        allDay: false,
-        color: color,
-        description: description,
-      }),
-    });
-
-    window.location.reload();
-  }
 });
 
 // EDIT_CONTAINER - close container
