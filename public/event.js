@@ -294,6 +294,7 @@ CREATE_EVENT_BUTTON.addEventListener("click", async function () {
   const endTime = CREATE_EVENT_END_TIME.value;
   const color = CREATEEVENT_CATEGORY_SELECT.value;
   const description = CREATEEVENT_DESCRIPTION_INPUT.value;
+  let id;
 
   if (
     title == "" ||
@@ -305,21 +306,6 @@ CREATE_EVENT_BUTTON.addEventListener("click", async function () {
   ) {
     alert("任一欄位不可空白");
   } else {
-    // socket.io
-    let message = {
-      title: title,
-      startDate: startDate,
-      startTime: startTime,
-      endDate: endDate,
-      endTime: endTime,
-      allDay: false,
-      color: color,
-      description: description,
-    };
-
-    // socket: client 傳送到 server
-    socket.emit("insert-event", message);
-
     CREATE_EVENT_CONTAINER.style.display = "none";
     await fetch("/insertEvent", {
       method: "POST",
@@ -337,6 +323,41 @@ CREATE_EVENT_BUTTON.addEventListener("click", async function () {
         description: description,
       }),
     });
+
+    await fetch("/readSpecificEvent", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        title: title,
+        startDate: startDate,
+        startTime: startTime,
+      }),
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((jsonResponse) => {
+        console.log(jsonResponse);
+        id = jsonResponse[0].id;
+      });
+
+    // socket.io
+    let message = {
+      id: id,
+      title: title,
+      startDate: startDate,
+      startTime: startTime,
+      endDate: endDate,
+      endTime: endTime,
+      allDay: false,
+      color: color,
+      description: description,
+    };
+
+    // socket: client 傳送到 server
+    socket.emit("insert-event", message);
   }
 });
 
@@ -496,6 +517,7 @@ EDIT_DELETE.addEventListener("click", function () {
 // socket: client 捕捉 server 傳來的資料，並進行後續處理
 // add event
 socket.on("insert-event", async function (msg) {
+  let id = msg.id;
   let eventDict = {};
   let title = msg.title;
   let startDate = msg.startDate;
@@ -505,7 +527,7 @@ socket.on("insert-event", async function (msg) {
   let allDay = msg.allDay;
   let color = msg.color;
   let description = msg.description;
-
+  eventDict["id"] = id;
   eventDict["title"] = title;
   eventDict["start"] = startDate + "T" + startTime + ":00";
   eventDict["end"] = endDate + "T" + endTime + ":00";
@@ -516,6 +538,7 @@ socket.on("insert-event", async function (msg) {
   console.log(events);
 
   let addthisevent = {
+    id: id,
     title: title,
     start: startDate + "T" + startTime + ":00",
     end: endDate + "T" + endTime + ":00",
