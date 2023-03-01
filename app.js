@@ -36,6 +36,10 @@ io.on("connection", (socket) => {
   socket.on("edit-event", (msg) => {
     io.emit("edit-event", msg);
   });
+
+  socket.on("delete-event", (msg) => {
+    io.emit("delete-event", msg);
+  });
 });
 
 app.use(express.static("public"));

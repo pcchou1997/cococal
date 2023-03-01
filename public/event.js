@@ -495,10 +495,63 @@ EDIT_REVISE.addEventListener("click", async function () {
   }
 });
 
-// EDIT_CONTAINER - delete event
-EDIT_DELETE.addEventListener("click", function () {
+// delete event
+EDIT_DELETE.addEventListener("click", async function () {
   EDIT_CONTAINER.style.display = "none";
-  fetch("/deleteEvent", {
+  let id;
+  let title;
+  let startDate;
+  let startTime;
+  let endDate;
+  let endTime;
+  let allDay;
+  let color;
+  let description;
+
+  // socket.io
+  // 進入資料庫得到欲刪除事件
+  await fetch("/readSpecificEvent", {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json",
+    },
+    body: JSON.stringify({
+      title: oldTitle,
+      startDate: oldStartDate,
+      startTime: oldStartTime,
+    }),
+  })
+    .then((res) => {
+      return res.json();
+    })
+    .then((jsonResponse) => {
+      id = jsonResponse[0].id;
+      title = jsonResponse[0].title;
+      startDate = jsonResponse[0].startDate;
+      startTime = jsonResponse[0].startTime;
+      endDate = jsonResponse[0].endDate;
+      endTime = jsonResponse[0].endTime;
+      allDay = jsonResponse[0].allDay;
+      color = jsonResponse[0].color;
+      description = jsonResponse[0].description;
+    });
+
+  // client 傳送到 server
+  let message = {
+    id: id,
+    title: title,
+    start: startDate + "T" + startTime + ":00",
+    end: endDate + "T" + endTime + ":00",
+    allDay: allDay,
+    color: color,
+    description: description,
+  };
+
+  // socket: client 傳送到 server
+  socket.emit("delete-event", message);
+
+  // 從資料庫刪除該事件
+  await fetch("/deleteEvent", {
     method: "POST",
     headers: {
       "Content-type": "application/json",
@@ -509,7 +562,6 @@ EDIT_DELETE.addEventListener("click", function () {
       oldStartTime: oldStartTime,
     }),
   });
-  window.location.reload();
 });
 
 // socket.io
@@ -560,4 +612,17 @@ socket.on("edit-event", async function (msg) {
   calendarEventId.setProp("title", msg.title);
   calendarEventId.setExtendedProp("description", msg.description);
   editCalendarEvents();
+});
+
+// delete event
+socket.on("delete-event", async function (msg) {
+  console.log(msg);
+  console.log(msg.id);
+  let index = events.indexOf(msg);
+  if (index !== -1) {
+    events.splice(index, 1);
+  }
+  let calendarEventId = calendar.getEventById(msg.id);
+  console.log(calendarEventId);
+  calendarEventId.remove();
 });
