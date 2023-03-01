@@ -31,10 +31,10 @@ const EDIT_DESCRIPTION_INPUT = document.querySelector(
   ".edit-description-input"
 );
 const CATEGORY_CONTAINER = document.querySelector(".category-container");
-const CREATEEVENT_CATEGORY_SELECT = document.querySelector(
+const CREATE_EVENT_CATEGORY_SELECT = document.querySelector(
   ".createEvent-category-select"
 );
-const CREATEEVENT_DESCRIPTION_INPUT = document.querySelector(
+const CREATE_EVENT_DESCRIPTION_INPUT = document.querySelector(
   ".createEvent-description-input"
 );
 let oldTitle;
@@ -236,6 +236,7 @@ fetch("/readEvent")
       let allDay = jsonResponse[i].allDay;
       let color = jsonResponse[i].color;
       let description = jsonResponse[i].description;
+      let className = jsonResponse[i].className;
 
       eventDict["id"] = id;
       eventDict["title"] = title;
@@ -244,6 +245,7 @@ fetch("/readEvent")
       eventDict["allDay"] = allDay;
       eventDict["color"] = color;
       eventDict["description"] = description;
+      eventDict["className"] = className;
       events.push(eventDict);
     }
     console.log(events);
@@ -292,8 +294,12 @@ CREATE_EVENT_BUTTON.addEventListener("click", async function () {
   const startTime = CREATE_EVENT_START_TIME.value;
   const endDate = CREATE_EVENT_END_DATE.value;
   const endTime = CREATE_EVENT_END_TIME.value;
-  const color = CREATEEVENT_CATEGORY_SELECT.value;
-  const description = CREATEEVENT_DESCRIPTION_INPUT.value;
+  const color = CREATE_EVENT_CATEGORY_SELECT.value;
+  const description = CREATE_EVENT_DESCRIPTION_INPUT.value;
+  let className =
+    CREATE_EVENT_CATEGORY_SELECT.options[
+      CREATE_EVENT_CATEGORY_SELECT.selectedIndex
+    ].text;
   let id;
 
   if (
@@ -302,7 +308,8 @@ CREATE_EVENT_BUTTON.addEventListener("click", async function () {
     startTime == "" ||
     endDate == "" ||
     endTime == "" ||
-    color == ""
+    color == "" ||
+    className == "-- options --"
   ) {
     alert("任一欄位不可空白");
   } else {
@@ -320,6 +327,7 @@ CREATE_EVENT_BUTTON.addEventListener("click", async function () {
         endTime: endTime,
         allDay: false,
         color: color,
+        className: className,
         description: description,
       }),
     });
@@ -353,6 +361,7 @@ CREATE_EVENT_BUTTON.addEventListener("click", async function () {
       endTime: endTime,
       allDay: false,
       color: color,
+      className: className,
       description: description,
     };
 
@@ -420,6 +429,9 @@ EDIT_REVISE.addEventListener("click", async function () {
   const allDay = false;
   const color = EDIT_VERTICAL.style.backgroundColor;
   const description = EDIT_DESCRIPTION_INPUT.value;
+  const className =
+    EDIT_CATEGORY_SELECT.options[CREATE_EVENT_CATEGORY_SELECT.selectedIndex]
+      .text;
   // console.log(EDIT_VERTICAL.style.backgroundColor);
   if (
     title == "" ||
@@ -427,6 +439,8 @@ EDIT_REVISE.addEventListener("click", async function () {
     startTime == "" ||
     endDate == "" ||
     endTime == "" ||
+    color == "" ||
+    className == "-- options --" ||
     oldTitle == "" ||
     oldStartDate == "" ||
     oldStartTime == ""
@@ -466,6 +480,7 @@ EDIT_REVISE.addEventListener("click", async function () {
       endTime: endTime,
       allDay: false,
       color: color,
+      className: className,
       description: description,
     };
 
@@ -486,6 +501,7 @@ EDIT_REVISE.addEventListener("click", async function () {
         endTime: endTime,
         allDay: allDay,
         color: color,
+        className: className,
         description: description,
         oldTitle: oldTitle,
         oldStartDate: oldStartDate,
@@ -507,6 +523,7 @@ EDIT_DELETE.addEventListener("click", async function () {
   let allDay;
   let color;
   let description;
+  let className;
 
   // socket.io
   // 進入資料庫得到欲刪除事件
@@ -533,6 +550,7 @@ EDIT_DELETE.addEventListener("click", async function () {
       endTime = jsonResponse[0].endTime;
       allDay = jsonResponse[0].allDay;
       color = jsonResponse[0].color;
+      className = jsonResponse[0].className;
       description = jsonResponse[0].description;
     });
 
@@ -544,6 +562,7 @@ EDIT_DELETE.addEventListener("click", async function () {
     end: endDate + "T" + endTime + ":00",
     allDay: allDay,
     color: color,
+    className: className,
     description: description,
   };
 
@@ -578,6 +597,7 @@ socket.on("insert-event", async function (msg) {
   let endTime = msg.endTime;
   let allDay = msg.allDay;
   let color = msg.color;
+  let className = msg.className;
   let description = msg.description;
   eventDict["id"] = id;
   eventDict["title"] = title;
@@ -585,6 +605,7 @@ socket.on("insert-event", async function (msg) {
   eventDict["end"] = endDate + "T" + endTime + ":00";
   eventDict["allDay"] = allDay;
   eventDict["color"] = color;
+  eventDict["className"] = className;
   eventDict["description"] = description;
   events.push(eventDict);
   console.log(events);
@@ -595,6 +616,7 @@ socket.on("insert-event", async function (msg) {
     start: startDate + "T" + startTime + ":00",
     end: endDate + "T" + endTime + ":00",
     color: color,
+    className: className,
     description: description,
   };
   console.log(addthisevent);
@@ -610,6 +632,7 @@ socket.on("edit-event", async function (msg) {
   calendarEventId.setEnd(msg.endDate + "T" + msg.endTime + ":00");
   calendarEventId.setProp("color", msg.color);
   calendarEventId.setProp("title", msg.title);
+  calendarEventId.setExtendedProp("className", msg.className);
   calendarEventId.setExtendedProp("description", msg.description);
   editCalendarEvents();
 });

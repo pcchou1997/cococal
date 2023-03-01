@@ -55,7 +55,7 @@ fetch("/readCategory")
       option = document.createElement("option");
       option.value = element.color;
       option.innerHTML = element.categoryName;
-      CREATEEVENT_CATEGORY_SELECT.appendChild(option);
+      CREATE_EVENT_CATEGORY_SELECT.appendChild(option);
 
       // Category List
       div.setAttribute("class", "categoryList-item");
@@ -86,7 +86,7 @@ fetch("/readCategory")
       EDIT_VERTICAL.style.backgroundColor = this.value;
     });
 
-    CREATEEVENT_CATEGORY_SELECT.addEventListener("change", function () {
+    CREATE_EVENT_CATEGORY_SELECT.addEventListener("change", function () {
       CREATE_EVENT_VERTICAL.style.backgroundColor = this.value;
     });
 
@@ -230,6 +230,8 @@ EDIT_CATEGORY_REVISE.addEventListener("click", async function () {
         body: JSON.stringify({
           color: color,
           oldColor: oldColor,
+          className: categoryName,
+          oldClassName: oldCategoryName,
         }),
       })
     );

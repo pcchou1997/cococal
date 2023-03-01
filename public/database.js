@@ -28,13 +28,24 @@ async function insertEvent(
   endTime,
   allDay,
   color,
+  className,
   description
 ) {
   let sql =
-    "INSERT INTO calendarEvents (title, startDate,startTime,endDate,endTime,allDay,color,description) VALUES ?";
+    "INSERT INTO calendarEvents (title, startDate,startTime,endDate,endTime,allDay,color,className,description) VALUES ?";
   // (?,?)
   let values = [
-    [title, startDate, startTime, endDate, endTime, allDay, color, description],
+    [
+      title,
+      startDate,
+      startTime,
+      endDate,
+      endTime,
+      allDay,
+      color,
+      className,
+      description,
+    ],
   ];
   connection.query(sql, [values], function (err, result) {
     if (err) throw err;
@@ -85,13 +96,14 @@ async function updateEvent(
   endTime,
   allDay,
   color,
+  className,
   description,
   oldTitle,
   oldStartDate,
   oldStartTime
 ) {
   let sql =
-    "UPDATE calendarEvents SET title=?,startDate=?,startTime=?, endDate=?,endTime=?,allDay=?,color=?,description=? WHERE title=? and startDate=? and startTime=?";
+    "UPDATE calendarEvents SET title=?,startDate=?,startTime=?, endDate=?,endTime=?,allDay=?,color=?,className=?,description=? WHERE title=? and startDate=? and startTime=?";
   let values = [
     title,
     startDate,
@@ -100,6 +112,7 @@ async function updateEvent(
     endTime,
     allDay,
     color,
+    className,
     description,
     oldTitle,
     oldStartDate,
@@ -118,9 +131,10 @@ async function updateEvent(
 
 // Update event category
 
-async function updateEventCategory(color, oldColor) {
-  let sql = "UPDATE calendarEvents SET color=? WHERE color=?";
-  let values = [color, oldColor];
+async function updateEventCategory(color, className, oldColor, oldClassName) {
+  let sql =
+    "UPDATE calendarEvents SET color=?, className=? WHERE color=? and className=?";
+  let values = [color, className, oldColor, oldClassName];
   let data = await new Promise((resolve, reject) => {
     connection.query(sql, values, function (err, result) {
       if (err) throw err;

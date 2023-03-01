@@ -62,6 +62,7 @@ app.post("/insertEvent", async function (req, res) {
   const endTime = data.endTime;
   const allDay = data.allDay;
   const color = data.color;
+  const className = data.className;
   const description = data.description;
   const result = await insertEvent(
     title,
@@ -71,6 +72,7 @@ app.post("/insertEvent", async function (req, res) {
     endTime,
     allDay,
     color,
+    className,
     description
   );
   res.send(result);
@@ -99,6 +101,7 @@ app.post("/updateEvent", async (req, res) => {
   const endTime = data.endTime;
   const allDay = data.allDay;
   const color = data.color;
+  const className = data.className;
   const description = data.description;
   const oldTitle = data.oldTitle;
   const oldStartDate = data.oldStartDate;
@@ -111,6 +114,7 @@ app.post("/updateEvent", async (req, res) => {
     endTime,
     allDay,
     color,
+    className,
     description,
     oldTitle,
     oldStartDate,
@@ -123,7 +127,14 @@ app.post("/updateEventCategory", async (req, res) => {
   let data = req.body;
   const oldColor = data.oldColor;
   const color = data.color;
-  const result = await updateEventCategory(color, oldColor);
+  const className = data.className;
+  const oldClassName = data.oldClassName;
+  const result = await updateEventCategory(
+    color,
+    className,
+    oldColor,
+    oldClassName
+  );
   res.send(result);
 });
 
