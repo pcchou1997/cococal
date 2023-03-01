@@ -94,16 +94,22 @@ fetch("/readCategory")
     Array.from(PRESSED_BUTTON).forEach((element) => {
       element.addEventListener("click", function () {
         console.log(this.previousSibling);
+        let className =
+          this.parentNode.parentNode.children[0].children[1].innerHTML;
         this.style.display = "none";
         this.previousSibling.style.display = "block";
+        document.querySelector("." + className).style.display = "none";
       });
     });
 
     // UNPRESSED_BUTTON
     Array.from(UNPRESSED_BUTTON).forEach((element) => {
       element.addEventListener("click", function () {
+        let className =
+          this.parentNode.parentNode.children[0].children[1].innerHTML;
         this.style.display = "none";
         this.nextSibling.style.display = "block";
+        document.querySelector("." + className).style.display = "flex";
       });
     });
 
