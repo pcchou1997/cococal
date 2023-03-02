@@ -464,8 +464,7 @@ EDIT_REVISE.addEventListener("click", async function () {
   const color = EDIT_VERTICAL.style.backgroundColor;
   const description = EDIT_DESCRIPTION_INPUT.value;
   const className =
-    EDIT_CATEGORY_SELECT.options[CREATE_EVENT_CATEGORY_SELECT.selectedIndex]
-      .text;
+    EDIT_CATEGORY_SELECT.options[EDIT_CATEGORY_SELECT.selectedIndex].text;
   // console.log(EDIT_VERTICAL.style.backgroundColor);
   if (
     title == "" ||
