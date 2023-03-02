@@ -176,6 +176,8 @@ CATEGORY_COLOR_PICKER.addEventListener("input", function () {
   CATEGORY_VERTICAL.style.backgroundColor = this.value;
 });
 
+// add category
+
 CREATE_CATEGORY_BUTTON.addEventListener("click", async function () {
   CATEGORY_CONTAINER.style.display = "none";
   let color = getComputedStyle(CATEGORY_VERTICAL).backgroundColor;
@@ -192,7 +194,14 @@ CREATE_CATEGORY_BUTTON.addEventListener("click", async function () {
     }),
   });
 
-  window.location.reload();
+  // socket.io
+  let message = {
+    color: color,
+    categoryName: categoryName,
+  };
+
+  // socket: client 傳送到 server
+  socket.emit("insert-category", message);
 });
 
 // EDIT_CATEGORY - revise category
@@ -274,4 +283,75 @@ EDIT_CATEGORY_DELETE.addEventListener("click", function () {
 
 EDIT_CATEGORY_COLOR_PICKER.addEventListener("input", function () {
   EDIT_CATEGORY_VERTICAL.style.backgroundColor = this.value;
+});
+
+// socket.io
+
+// socket: client 捕捉 server 傳來的資料，並進行後續處理
+// add category
+socket.on("insert-category", async function (msg) {
+  let color = msg.color;
+  let categoryName = msg.categoryName;
+
+  let option = document.createElement("option");
+  let div = document.createElement("div");
+  let categoryList_category_container = document.createElement("div");
+  let categoryList_category = document.createElement("div");
+  let dot = document.createElement("div");
+  let addContent = `<div class="categoryList-button-container"><i class="fa-regular fa-square-check fa-square-check-regular"></i></i><i class="fa-solid fa-square-check fa-square-check-solid"></i><i class="fa-regular fa-pen-to-square"></i></div>`;
+
+  // Edit Event Block
+  option.value = color;
+  option.innerHTML = categoryName;
+  EDIT_CATEGORY_SELECT.appendChild(option);
+
+  // Create Event Block
+  option = document.createElement("option");
+  option.value = color;
+  option.innerHTML = categoryName;
+  CREATE_EVENT_CATEGORY_SELECT.appendChild(option);
+
+  // Category List
+  div.setAttribute("class", "categoryList-item");
+  dot.setAttribute("class", "categoryList-item-dot");
+  categoryList_category_container.setAttribute(
+    "class",
+    "categoryList-category-container"
+  );
+  dot.style.backgroundColor = color;
+  categoryList_category.innerHTML = categoryName;
+  categoryList_category_container.appendChild(dot);
+  categoryList_category_container.appendChild(categoryList_category);
+  div.appendChild(categoryList_category_container);
+  div.innerHTML += addContent;
+  CATEGORYLIST.appendChild(div);
+
+  // add event listener
+  const PRESSED_BUTTON = document.querySelectorAll(".fa-square-check-solid");
+  let newestCategoryShowedButton = PRESSED_BUTTON[PRESSED_BUTTON.length - 1];
+  newestCategoryShowedButton.addEventListener("click", function () {
+    let className =
+      this.parentNode.parentNode.children[0].children[1].innerHTML;
+    this.style.display = "none";
+    this.previousSibling.style.display = "block";
+    let selectedCategoryEvents = document.querySelectorAll("." + className);
+    Array.from(selectedCategoryEvents).forEach((event) => {
+      event.style.display = "none";
+    });
+  });
+
+  const UNPRESSED_BUTTON = document.querySelectorAll(
+    ".fa-square-check-regular"
+  );
+  let newestCategoryHidenButton = UNPRESSED_BUTTON[UNPRESSED_BUTTON.length - 1];
+  newestCategoryHidenButton.addEventListener("click", function () {
+    let className =
+      this.parentNode.parentNode.children[0].children[1].innerHTML;
+    this.style.display = "none";
+    this.previousSibling.style.display = "block";
+    let selectedCategoryEvents = document.querySelectorAll("." + className);
+    Array.from(selectedCategoryEvents).forEach((event) => {
+      event.style.display = "none";
+    });
+  });
 });

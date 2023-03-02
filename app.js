@@ -40,6 +40,10 @@ io.on("connection", (socket) => {
   socket.on("delete-event", (msg) => {
     io.emit("delete-event", msg);
   });
+
+  socket.on("insert-category", (msg) => {
+    io.emit("insert-category", msg);
+  });
 });
 
 app.use(express.static("public"));
