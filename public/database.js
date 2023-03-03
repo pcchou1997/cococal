@@ -86,6 +86,22 @@ async function readSpecificEvent(title, startDate, startTime) {
   return data;
 }
 
+// Read Events of specific Category
+
+async function readEventsOfSpecificCategory(oldColor) {
+  let sql = "SELECT * FROM calendarEvents WHERE color = ?";
+  let values = [oldColor];
+  let data = await new Promise((resolve, reject) => {
+    connection.query(sql, values, function (err, result) {
+      if (err) throw err;
+      else {
+        return resolve(result);
+      }
+    });
+  });
+  return data;
+}
+
 // Update event
 
 async function updateEvent(
@@ -247,6 +263,7 @@ module.exports = {
   insertEvent,
   readEvent,
   readSpecificEvent,
+  readEventsOfSpecificCategory,
   updateEvent,
   updateEventCategory,
   deleteEvent,

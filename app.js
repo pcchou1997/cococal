@@ -2,6 +2,7 @@ const {
   insertEvent,
   readEvent,
   readSpecificEvent,
+  readEventsOfSpecificCategory,
   updateEvent,
   updateEventCategory,
   deleteEvent,
@@ -43,6 +44,10 @@ io.on("connection", (socket) => {
 
   socket.on("insert-category", (msg) => {
     io.emit("insert-category", msg);
+  });
+
+  socket.on("edit-category", (msg) => {
+    io.emit("edit-category", msg);
   });
 });
 
@@ -93,6 +98,13 @@ app.post("/readSpecificEvent", async (req, res) => {
   const startDate = data.startDate;
   const startTime = data.startTime;
   const result = await readSpecificEvent(title, startDate, startTime);
+  res.send(result);
+});
+
+app.post("/readEventsOfSpecificCategory", async (req, res) => {
+  let data = req.body;
+  const oldColor = data.oldColor;
+  const result = await readEventsOfSpecificCategory(oldColor);
   res.send(result);
 });
 

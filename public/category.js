@@ -214,9 +214,9 @@ EDIT_CATEGORY_COLOR_PICKER.addEventListener("input", function () {
 });
 
 EDIT_CATEGORY_REVISE.addEventListener("click", async function () {
-  EDIT_CATEGORY_CONTAINER.style.display = "none";
   let color = getComputedStyle(EDIT_CATEGORY_VERTICAL).backgroundColor;
   let categoryName = EDIT_CATEGORYNAME_INPUT.value;
+  let EventsOfSpecificCategoryIds = [];
 
   if (
     color == "" ||
@@ -224,35 +224,64 @@ EDIT_CATEGORY_REVISE.addEventListener("click", async function () {
     oldColor == "" ||
     oldCategoryName == ""
   ) {
-    alert("Not allow any unfilled field");
+    alert("Please fill the blank");
+  } else if (color == oldColor && categoryName == oldCategoryName) {
+    alert("Nothing is changed");
   } else {
-    await fetch("/updateCategory", {
+    EDIT_CATEGORY_CONTAINER.style.display = "none";
+    console.log("oldColor:", oldColor);
+    await fetch("/readEventsOfSpecificCategory", {
       method: "POST",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify({
-        color: color,
-        categoryName: categoryName,
-        oldColor: oldColor,
-        oldCategoryName: oldCategoryName,
-      }),
-    }).then(
-      fetch("/updateEventCategory", {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify({
-          color: color,
-          oldColor: oldColor,
-          className: categoryName,
-          oldClassName: oldCategoryName,
-        }),
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify({ oldColor: oldColor }),
+    })
+      .then((res) => {
+        return res.json();
       })
-    );
+      .then((EventsOfSpecificCategory) => {
+        console.log(EventsOfSpecificCategory);
+        EventsOfSpecificCategory.forEach((event) => {
+          EventsOfSpecificCategoryIds.push(event.id);
+        });
+      })
+      .then(
+        fetch("/updateCategory", {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify({
+            color: color,
+            categoryName: categoryName,
+            oldColor: oldColor,
+            oldCategoryName: oldCategoryName,
+          }),
+        })
+      )
+      .then(
+        fetch("/updateEventCategory", {
+          method: "POST",
+          headers: { "Content-type": "application/json" },
+          body: JSON.stringify({
+            color: color,
+            oldColor: oldColor,
+            className: categoryName,
+            oldClassName: oldCategoryName,
+          }),
+        })
+      );
 
-    window.location.reload();
+    // socket.io
+    let message = {
+      color: color,
+      oldColor: oldColor,
+      categoryName: categoryName,
+      oldCategoryName: oldCategoryName,
+      EventsOfSpecificCategoryIds: EventsOfSpecificCategoryIds,
+    };
+
+    // socket: client 傳送到 server
+    socket.emit("edit-category", message);
   }
 });
 
@@ -345,5 +374,57 @@ socket.on("insert-category", async function (msg) {
     Array.from(selectedCategoryEvents).forEach((event) => {
       event.style.display = "flex";
     });
+  });
+});
+
+// edit category
+socket.on("edit-category", async function (msg) {
+  let color = msg.color;
+  let oldColor = msg.oldColor;
+  let categoryName = msg.categoryName;
+  let oldCategoryName = msg.oldCategoryName;
+  let EventsOfSpecificCategoryIds = msg.EventsOfSpecificCategoryIds;
+  console.log(EventsOfSpecificCategoryIds);
+
+  const CATEGORYLIST_ITEM = document.querySelectorAll(".categoryList-item");
+  Array.from(CATEGORYLIST_ITEM).forEach((node) => {
+    if (
+      node.childNodes[0].childNodes[1].innerHTML == oldCategoryName &&
+      getComputedStyle(node.childNodes[0].childNodes[0]).backgroundColor ==
+        oldColor
+    ) {
+      // 更改左側欄的分類
+      node.childNodes[0].childNodes[1].innerHTML = categoryName;
+      node.childNodes[0].childNodes[0].style.backgroundColor = color;
+
+      // 更改events: 使用id修改
+      EventsOfSpecificCategoryIds.forEach((id) => {
+        let calendarEventId = calendar.getEventById(id);
+        calendarEventId.setProp("color", color);
+        calendarEventId.setExtendedProp("className", categoryName);
+        editCalendarEvents();
+      });
+
+      // 更改新增、編輯事件的select中的options
+
+      // Create Event Block
+      Array.from(CREATE_EVENT_CATEGORY_SELECT).forEach((node) => {
+        if (node.innerHTML == oldCategoryName && node.value == oldColor) {
+          node.innerHTML = categoryName;
+          node.value = color;
+        } else {
+        }
+      });
+
+      // Edit Event Block
+      Array.from(EDIT_CATEGORY_SELECT).forEach((node) => {
+        if (node.innerHTML == oldCategoryName && node.value == oldColor) {
+          node.innerHTML = categoryName;
+          node.value = color;
+        } else {
+        }
+      });
+    } else {
+    }
   });
 });
