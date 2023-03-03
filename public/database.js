@@ -210,6 +210,22 @@ async function readCategory() {
   return data;
 }
 
+// Read specific Category
+
+async function readSpecificCategory(color) {
+  let sql = "SELECT * FROM categories WHERE color=?";
+  let values = [color];
+  let data = await new Promise((resolve, reject) => {
+    connection.query(sql, values, function (err, result) {
+      if (err) throw err;
+      else {
+        return resolve(result);
+      }
+    });
+  });
+  return data;
+}
+
 // Update Category
 
 async function updateCategory(categoryName, color, oldCategoryName, oldColor) {
@@ -229,9 +245,9 @@ async function updateCategory(categoryName, color, oldCategoryName, oldColor) {
 
 // Delete Category
 
-async function deleteCategory(oldCategoryName, oldColor) {
+async function deleteCategory(categoryName, color) {
   let sql = "DELETE FROM categories WHERE categoryName=? and color=?";
-  let values = [oldCategoryName, oldColor];
+  let values = [categoryName, color];
   let data = await new Promise((resolve, reject) => {
     connection.query(sql, values, function (err, result) {
       if (err) throw err;
@@ -269,6 +285,7 @@ module.exports = {
   deleteEvent,
   insertCategory,
   readCategory,
+  readSpecificCategory,
   updateCategory,
   deleteCategory,
   searchEvent,

@@ -285,24 +285,77 @@ EDIT_CATEGORY_REVISE.addEventListener("click", async function () {
   }
 });
 
-// EDIT_CATEGORY - delete category
+// delete category
 
-EDIT_CATEGORY_DELETE.addEventListener("click", function () {
-  if (oldCategoryName == "" || oldColor == "") {
-    alert("Not allow any unfilled field");
-  } else {
-    EDIT_CATEGORY_CONTAINER.style.display = "none";
-    fetch("/deleteCategory", {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify({
-        oldCategoryName: oldCategoryName,
-        oldColor: oldColor,
-      }),
+EDIT_CATEGORY_DELETE.addEventListener("click", async function () {
+  let color = getComputedStyle(EDIT_CATEGORY_VERTICAL).backgroundColor;
+  let categoryName = EDIT_CATEGORYNAME_INPUT.value;
+  let EventsOfSpecificCategoryList = [];
+  let categoryList = [];
+
+  await fetch("/readSpecificCategory", {
+    method: "POST",
+    headers: { "Content-type": "application/json" },
+    body: JSON.stringify({ color: color }),
+  })
+    .then((res) => {
+      return res.json();
+    })
+    .then((category) => {
+      categoryList = category;
     });
-    window.location.reload();
+
+  console.log(categoryList[0].categoryName);
+  if (categoryName == "") {
+    alert("Please fill the blank");
+  } else if (categoryList[0].categoryName != categoryName) {
+    alert("Please enter correct information");
+  }
+  // 確認是否有該分類的事件
+  else {
+    await fetch("/readEventsOfSpecificCategory", {
+      method: "POST",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify({ oldColor: color }),
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((EventsOfSpecificCategory) => {
+        console.log(EventsOfSpecificCategory);
+        EventsOfSpecificCategoryList = EventsOfSpecificCategory;
+        console.log(EventsOfSpecificCategoryList);
+        console.log(EventsOfSpecificCategory == EventsOfSpecificCategoryList);
+      });
+    if (EventsOfSpecificCategoryList.length != 0) {
+      alert("There are events in this category so it can't be deleted");
+    } else {
+      await fetch("/deleteCategory", {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({
+          categoryName: categoryName,
+          color: color,
+        }),
+      })
+        .then((res) => {
+          EDIT_CATEGORY_CONTAINER.style.display = "none";
+
+          // socket.io
+          let message = {
+            categoryName: categoryName,
+            color: color,
+          };
+
+          // socket: client 傳送到 server
+          socket.emit("delete-category", message);
+        })
+        .catch((error) => {
+          alert("Sorry, there is something wrong");
+        });
+    }
   }
 });
 
@@ -424,6 +477,24 @@ socket.on("edit-category", async function (msg) {
         } else {
         }
       });
+    } else {
+    }
+  });
+});
+
+// delete category
+socket.on("delete-category", async function (msg) {
+  let categoryName = msg.categoryName;
+  let color = msg.color;
+
+  const CATEGORYLIST_ITEM = document.querySelectorAll(".categoryList-item");
+  Array.from(CATEGORYLIST_ITEM).forEach((node) => {
+    if (
+      node.childNodes[0].childNodes[1].innerHTML == categoryName &&
+      getComputedStyle(node.childNodes[0].childNodes[0]).backgroundColor ==
+        color
+    ) {
+      node.remove();
     } else {
     }
   });

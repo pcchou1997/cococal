@@ -8,6 +8,7 @@ const {
   deleteEvent,
   insertCategory,
   readCategory,
+  readSpecificCategory,
   updateCategory,
   deleteCategory,
   searchEvent,
@@ -48,6 +49,10 @@ io.on("connection", (socket) => {
 
   socket.on("edit-category", (msg) => {
     io.emit("edit-category", msg);
+  });
+
+  socket.on("delete-category", (msg) => {
+    io.emit("delete-category", msg);
   });
 });
 
@@ -176,6 +181,13 @@ app.get("/readCategory", async (req, res) => {
   res.json(result);
 });
 
+app.post("/readSpecificCategory", async (req, res) => {
+  let data = req.body;
+  const color = data.color;
+  const result = await readSpecificCategory(color);
+  res.send(result);
+});
+
 app.post("/updateCategory", async (req, res) => {
   let data = req.body;
   const categoryName = data.categoryName;
@@ -193,9 +205,9 @@ app.post("/updateCategory", async (req, res) => {
 
 app.post("/deleteCategory", async (req, res) => {
   let data = req.body;
-  const oldCategoryName = data.oldCategoryName;
-  const oldColor = data.oldColor;
-  const result = await deleteCategory(oldCategoryName, oldColor);
+  const categoryName = data.categoryName;
+  const color = data.color;
+  const result = await deleteCategory(categoryName, color);
   res.send(result);
 });
 
