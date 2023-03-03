@@ -655,6 +655,21 @@ socket.on("insert-event", async function (msg) {
   console.log(addthisevent);
   calendar.addEvent(addthisevent);
   editCalendarEvents();
+
+  // check the toggle mode
+  const CATEGORYLIST_ITEM = document.querySelectorAll(".categoryList-item");
+  Array.from(CATEGORYLIST_ITEM).forEach((node) => {
+    if (
+      node.childNodes[0].childNodes[1].innerHTML == className &&
+      node.childNodes[1].childNodes[0].style.display == "block"
+    ) {
+      let selectedCategoryEvents = document.querySelectorAll("." + className);
+      Array.from(selectedCategoryEvents).forEach((event) => {
+        event.style.display = "none";
+      });
+    } else {
+    }
+  });
 });
 
 // edit event
