@@ -142,6 +142,7 @@ body {
 }
 
 .createEvent-eventName-input {
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -404,6 +405,7 @@ body {
 }
 
 .edit-eventName-input {
+  width: 100%;
   border: none;
   font-size: 20px;
 }
