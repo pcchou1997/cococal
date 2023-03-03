@@ -20,7 +20,6 @@ const EDIT_CATEGORYNAME_INPUT = document.querySelector(
 const EDIT_CATEGORY_VERTICAL = document.querySelector(
   ".edit-category-vertical"
 );
-const EDIT_CATEGORY_COLOR = document.querySelectorAll(".edit-categoryColor");
 const EDIT_CATEGORY_REVISE = document.querySelector(".edit-category-revise");
 const EDIT_CATEGORY_DELETE = document.querySelector(".edit-category-delete");
 const EDIT_CATEGORY_COLOR_PICKER = document.querySelector(
@@ -204,17 +203,14 @@ CREATE_CATEGORY_BUTTON.addEventListener("click", async function () {
   socket.emit("insert-category", message);
 });
 
-// EDIT_CATEGORY - revise category
+// revise category
 
 EDIT_CATEGORY_CONTAINER_CLOSE.addEventListener("click", function () {
   EDIT_CATEGORY_CONTAINER.style.display = "none";
 });
 
-Array.from(EDIT_CATEGORY_COLOR).forEach((element) => {
-  element.addEventListener("click", async function () {
-    let color = getComputedStyle(this).backgroundColor;
-    EDIT_CATEGORY_VERTICAL.style.backgroundColor = color;
-  });
+EDIT_CATEGORY_COLOR_PICKER.addEventListener("input", function () {
+  EDIT_CATEGORY_VERTICAL.style.backgroundColor = this.value;
 });
 
 EDIT_CATEGORY_REVISE.addEventListener("click", async function () {
@@ -281,10 +277,6 @@ EDIT_CATEGORY_DELETE.addEventListener("click", function () {
   }
 });
 
-EDIT_CATEGORY_COLOR_PICKER.addEventListener("input", function () {
-  EDIT_CATEGORY_VERTICAL.style.backgroundColor = this.value;
-});
-
 // socket.io
 
 // socket: client 捕捉 server 傳來的資料，並進行後續處理
@@ -348,10 +340,10 @@ socket.on("insert-category", async function (msg) {
     let className =
       this.parentNode.parentNode.children[0].children[1].innerHTML;
     this.style.display = "none";
-    this.previousSibling.style.display = "block";
+    this.nextSibling.style.display = "block";
     let selectedCategoryEvents = document.querySelectorAll("." + className);
     Array.from(selectedCategoryEvents).forEach((event) => {
-      event.style.display = "none";
+      event.style.display = "flex";
     });
   });
 });
