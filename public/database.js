@@ -275,6 +275,22 @@ async function searchEvent(keyword) {
   return data;
 }
 
+// Insert member
+
+async function insertMember(name, email, password) {
+  let sql = "INSERT INTO members (name, email, password) VALUES ?";
+  let values = [[name, email, password]];
+  let data = await new Promise((resolve, reject) => {
+    connection.query(sql, [values], function (err, result) {
+      if (err) throw err;
+      else {
+        return resolve(result);
+      }
+    });
+  });
+  return data;
+}
+
 module.exports = {
   insertEvent,
   readEvent,
@@ -289,4 +305,5 @@ module.exports = {
   updateCategory,
   deleteCategory,
   searchEvent,
+  insertMember,
 };

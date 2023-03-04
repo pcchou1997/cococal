@@ -9,6 +9,14 @@ const SIGNUP_EMAIL = document.querySelector(".signup-email");
 const SIGNUP_PASSWORD = document.querySelector(".signup-password");
 const SIGNUP_BUTTON = document.querySelector(".signup-button");
 const SIGNIN_BUTTON = document.querySelector(".signin-button");
+const SIGNUP_WRONG_MESSAGE = document.querySelector(".signup-WrongMessage");
+const SIGNUP_CORRECT_MESSAGE = document.querySelector(".signup-CorrectMessage");
+const SIGNIN_WRONG_MESSAGE = document.querySelector(".signin-WrongMessage");
+const SIGNIN_CORRECT_MESSAGE = document.querySelector(".signin-CorrectMessage");
+
+const SIGNUP_NAME_HINT = document.querySelector(".signup-name-hint");
+const SIGNUP_EMAIL_HINT = document.querySelector(".signup-email-hint");
+const SIGNUP_PASSWORD_HINT = document.querySelector(".signup-password-hint");
 
 TURN_TO_SIGNIN.addEventListener("click", function () {
   SIGNUP_NAME.value = "";
@@ -16,6 +24,8 @@ TURN_TO_SIGNIN.addEventListener("click", function () {
   SIGNUP_PASSWORD.value = "";
   SIGNUP_CONTAINER.style.display = "none";
   SIGNIN_CONTAINER.style.display = "block";
+  SIGNUP_WRONG_MESSAGE.style.display = "none";
+  SIGNUP_CORRECT_MESSAGE.style.display = "none";
 });
 
 TURN_TO_SIGNUP.addEventListener("click", function () {
@@ -23,4 +33,68 @@ TURN_TO_SIGNUP.addEventListener("click", function () {
   SIGNIN_PASSWORD.value = "";
   SIGNIN_CONTAINER.style.display = "none";
   SIGNUP_CONTAINER.style.display = "block";
+});
+
+SIGNUP_NAME.addEventListener("focus", function () {
+  SIGNUP_NAME_HINT.style.display = "block";
+});
+SIGNUP_NAME.addEventListener("focusout", function () {
+  SIGNUP_NAME_HINT.style.display = "none";
+});
+SIGNUP_EMAIL.addEventListener("focus", function () {
+  SIGNUP_EMAIL_HINT.style.display = "block";
+});
+SIGNUP_EMAIL.addEventListener("focusout", function () {
+  SIGNUP_EMAIL_HINT.style.display = "none";
+});
+SIGNUP_PASSWORD.addEventListener("focus", function () {
+  SIGNUP_PASSWORD_HINT.style.display = "block";
+});
+SIGNUP_PASSWORD.addEventListener("focusout", function () {
+  SIGNUP_PASSWORD_HINT.style.display = "none";
+});
+
+// signup
+
+SIGNUP_BUTTON.addEventListener("click", function () {
+  SIGNUP_WRONG_MESSAGE.style.display = "none";
+  SIGNUP_CORRECT_MESSAGE.style.display = "none";
+  let emailREGEX = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+  let passwordREGEX = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/;
+  if (
+    SIGNUP_NAME.value == "" ||
+    SIGNUP_EMAIL.value == "" ||
+    SIGNUP_PASSWORD.value == ""
+  ) {
+    SIGNUP_WRONG_MESSAGE.style.display = "block";
+    SIGNUP_WRONG_MESSAGE.innerHTML = "Please fill all blanks";
+  } else if (emailREGEX.exec(SIGNUP_EMAIL.value) == null) {
+    SIGNUP_WRONG_MESSAGE.style.display = "block";
+    SIGNUP_WRONG_MESSAGE.innerHTML = "Wrong Email format";
+  } else if (passwordREGEX.exec(SIGNUP_PASSWORD.value) == null) {
+    SIGNUP_WRONG_MESSAGE.style.display = "block";
+    SIGNUP_WRONG_MESSAGE.innerHTML = "Wrong Password format";
+  } else {
+    fetch("/insertMember", {
+      method: "POST",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify({
+        name: SIGNUP_NAME.value,
+        email: SIGNUP_EMAIL.value,
+        password: SIGNUP_PASSWORD.value,
+      }),
+    })
+      .then((response) => {
+        console.log(response);
+        if (response.ok == true) {
+          SIGNUP_CORRECT_MESSAGE.style.display = "block";
+        } else {
+          SIGNUP_WRONG_MESSAGE.style.display = "block";
+          SIGNUP_WRONG_MESSAGE.innerHTML = "Signup failed";
+        }
+      })
+      .catch((error) => {
+        console.log(`Error: ${error}`);
+      });
+  }
 });

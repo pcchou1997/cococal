@@ -12,6 +12,7 @@ const {
   updateCategory,
   deleteCategory,
   searchEvent,
+  insertMember,
 } = require("./public/database");
 
 const express = require("express");
@@ -215,6 +216,15 @@ app.post("/searchEvent", async (req, res) => {
   let data = req.body;
   const keyword = data.keyword;
   const result = await searchEvent(keyword);
+  res.send(result);
+});
+
+app.post("/insertMember", async (req, res) => {
+  let data = req.body;
+  const name = data.name;
+  const email = data.email;
+  const password = data.password;
+  const result = await insertMember(name, email, password);
   res.send(result);
 });
 
