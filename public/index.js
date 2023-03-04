@@ -4,12 +4,14 @@ const TURN_TO_SIGNIN = document.querySelector(".turnToSignIn");
 const TURN_TO_SIGNUP = document.querySelector(".turnToSignUp");
 const SIGNIN_EMAIL = document.querySelector(".signin-email");
 const SIGNIN_PASSWORD = document.querySelector(".signin-password");
+const SIGNUP_NAME = document.querySelector(".signup-name");
 const SIGNUP_EMAIL = document.querySelector(".signup-email");
 const SIGNUP_PASSWORD = document.querySelector(".signup-password");
 const SIGNUP_BUTTON = document.querySelector(".signup-button");
 const SIGNIN_BUTTON = document.querySelector(".signin-button");
 
 TURN_TO_SIGNIN.addEventListener("click", function () {
+  SIGNUP_NAME.value = "";
   SIGNUP_EMAIL.value = "";
   SIGNUP_PASSWORD.value = "";
   SIGNUP_CONTAINER.style.display = "none";
