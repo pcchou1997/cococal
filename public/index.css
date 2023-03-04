@@ -15,22 +15,15 @@ body {
 }
 
 /* ==================================================
-                      navbar 
-===================================================*/
-
-.navbar {
-  height: 50px;
-  width: 100%;
-  background-color: white;
-  /* box-shadow: 0 30px rgb(200, 200, 198); */
-}
-
-/* ==================================================
                     self-setting
 ===================================================*/
 
 .title-font {
   font-size: 24px;
+}
+
+.fc-event {
+  cursor: pointer;
 }
 
 /* ==================================================
@@ -43,10 +36,12 @@ body {
   justify-content: center;
 }
 
+/* ----- sidebar ----- */
+
 .sidebar {
   width: 20%;
-  padding: 20px;
-  /* background-color: rgb(240, 240, 240); */
+  padding: 20px 20px 30px 20px;
+  background-color: rgb(240, 240, 240);
 }
 
 .searchBar {
@@ -55,8 +50,8 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 2px solid gray;
   border-radius: 10px;
+  background-color: white;
 }
 
 .search-input {
@@ -77,7 +72,7 @@ body {
 
 .functionButton {
   width: 100%;
-  margin: 10px auto 0px auto;
+  margin: 15px auto 0px auto;
   height: 50px;
   display: flex;
   justify-content: center;
@@ -85,16 +80,106 @@ body {
   border-radius: 5px;
   color: white;
   cursor: pointer;
+  background-color: rgb(44, 62, 80);
 }
 
-/* ----- addEvent ----- */
-.addEvent {
-  background-color: rgb(195, 130, 130);
+.functionButton:hover {
+  background-color: rgb(27, 39, 50);
 }
 
-.addEvent:hover {
-  background-color: rgb(172, 63, 63);
+/* ----- categoryList ----- */
+
+.categoryList {
+  width: 100%;
+  max-height: 645px;
+  /* border: 1px solid rgb(161, 178, 196); */
+  margin-top: 15px;
+  overflow: auto;
 }
+
+.categoryList-title {
+  color: rgb(27, 42, 57);
+  font-weight: 700;
+  padding-top: 15px;
+  padding-left: 5px;
+  margin-bottom: 10px;
+  border-top: 1px solid rgb(44, 62, 80);
+}
+
+.categoryList-item {
+  width: 100%;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 3px 10px;
+  border: 2px solid rgb(240, 240, 240);
+  border-radius: 5px;
+  margin-bottom: 5px;
+}
+
+.categoryList-item:hover {
+  background-color: rgb(220, 220, 220);
+}
+
+.categoryList-category-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: baseline;
+}
+
+.categoryList-item-dot {
+  width: 10px;
+  height: 10px;
+  border: none;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.categoryList-button-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.categoryList .fa-square-check-regular {
+  display: none;
+  margin-left: 5px;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.categoryList .fa-square-check-solid {
+  margin-left: 5px;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.categoryList .fa-pen-to-square {
+  margin-left: 5px;
+  cursor: pointer;
+  z-index: 1;
+}
+
+/* ----- calendar-container ----- */
+
+.calendar-container {
+  width: 70%;
+  padding: 30px 0px;
+  margin: 0px auto;
+}
+
+.fc-event-time {
+  font-size: 16px;
+}
+
+.fc-event-title {
+  font-size: 16px;
+}
+
+/* ==================================================
+               createEvent-container
+===================================================*/
 
 .createEvent-container {
   display: none;
@@ -183,10 +268,12 @@ body {
 .createEvent-end input {
   display: block;
 }
+
 .createEvent-startTime,
 .createEvent-endTime {
   margin-top: 5px;
 }
+
 .createEvent-period {
   width: 100%;
   /* padding: 12px; */
@@ -250,108 +337,8 @@ body {
   color: white;
 }
 
-/* ----- inviteFriend ----- */
-
-.inviteFriend {
-  background-color: rgb(221, 198, 126);
-}
-
-.inviteFriend:hover {
-  background-color: rgb(205, 166, 50);
-}
-
-/* ----- addCategory ----- */
-
-.addCategory {
-  background-color: rgb(173, 218, 207);
-}
-
-.addCategory:hover {
-  background-color: rgb(51, 190, 160);
-}
-
-.calendar-container {
-  width: 70%;
-  margin: 0px auto;
-}
-
-.fc-event-time {
-  font-size: 14px;
-}
-
-.fc-event-title {
-  font-size: 14px;
-}
-
-/* ----- categoryList ----- */
-
-.categoryList {
-  width: 100%;
-  max-height: 645px;
-  border-radius: 5px;
-  border: 1px solid rgb(220, 220, 220);
-  margin-top: 10px;
-  padding: 5px;
-  overflow: auto;
-}
-
-.categoryList-item {
-  position: relative;
-  padding: 3px 10px;
-  width: 100%;
-  border: 2px solid rgb(240, 240, 240);
-  border-radius: 5px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 5px;
-}
-
-.categoryList-item:hover {
-  background-color: rgb(240, 240, 240);
-}
-
-.categoryList-category-container {
-  display: flex;
-  justify-content: flex-start;
-  align-items: baseline;
-}
-
-.categoryList-item-dot {
-  border: none;
-  border-radius: 50%;
-  width: 10px;
-  height: 10px;
-  margin-right: 10px;
-}
-
-.categoryList-button-container {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-}
-
-.categoryList .fa-square-check-regular {
-  display: none;
-  margin-left: 5px;
-  cursor: pointer;
-  z-index: 1;
-}
-
-.categoryList .fa-square-check-solid {
-  margin-left: 5px;
-  cursor: pointer;
-  z-index: 1;
-}
-
-.categoryList .fa-pen-to-square {
-  margin-left: 5px;
-  cursor: pointer;
-  z-index: 1;
-}
-
 /* ==================================================
-                  edit-container 
+                   edit-container 
 ===================================================*/
 
 .edit-container {
@@ -409,10 +396,12 @@ body {
   border: none;
   font-size: 20px;
 }
+
 .edit-eventName-input:focus {
   outline: none;
   /* 去邊框 */
 }
+
 .edit-time {
   width: 100%;
   display: flex;
@@ -441,7 +430,7 @@ body {
   align-items: baseline;
 }
 
-.fa-box-open {
+.fa-inbox {
   width: 18px;
 }
 
@@ -501,6 +490,7 @@ body {
   justify-content: flex-start;
   align-items: baseline;
 }
+
 .edit-category-content div {
   margin-right: 5px;
 }
@@ -512,9 +502,7 @@ body {
   top: 20px;
   cursor: pointer;
 }
-.fc-event {
-  cursor: pointer;
-}
+
 .edit-category-select {
   cursor: pointer;
   width: 150px;
