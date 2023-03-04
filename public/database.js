@@ -291,6 +291,22 @@ async function insertMember(name, email, password) {
   return data;
 }
 
+// Read member
+
+async function readMember(email, password) {
+  let sql = "SELECT * FROM members WHERE email = ? AND password = ?";
+  let values = [email, password];
+  let data = await new Promise((resolve, reject) => {
+    connection.query(sql, values, function (err, result) {
+      if (err) throw err;
+      else {
+        return resolve(result);
+      }
+    });
+  });
+  return data;
+}
+
 module.exports = {
   insertEvent,
   readEvent,
@@ -306,4 +322,5 @@ module.exports = {
   deleteCategory,
   searchEvent,
   insertMember,
+  readMember,
 };

@@ -18,6 +18,9 @@ const SIGNUP_NAME_HINT = document.querySelector(".signup-name-hint");
 const SIGNUP_EMAIL_HINT = document.querySelector(".signup-email-hint");
 const SIGNUP_PASSWORD_HINT = document.querySelector(".signup-password-hint");
 
+let emailREGEX = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+let passwordREGEX = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/;
+
 TURN_TO_SIGNIN.addEventListener("click", function () {
   SIGNUP_NAME.value = "";
   SIGNUP_EMAIL.value = "";
@@ -33,6 +36,8 @@ TURN_TO_SIGNUP.addEventListener("click", function () {
   SIGNIN_PASSWORD.value = "";
   SIGNIN_CONTAINER.style.display = "none";
   SIGNUP_CONTAINER.style.display = "block";
+  SIGNIN_WRONG_MESSAGE.style.display = "none";
+  SIGNIN_CORRECT_MESSAGE.style.display = "none";
 });
 
 SIGNUP_NAME.addEventListener("focus", function () {
@@ -59,8 +64,7 @@ SIGNUP_PASSWORD.addEventListener("focusout", function () {
 SIGNUP_BUTTON.addEventListener("click", function () {
   SIGNUP_WRONG_MESSAGE.style.display = "none";
   SIGNUP_CORRECT_MESSAGE.style.display = "none";
-  let emailREGEX = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
-  let passwordREGEX = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/;
+
   if (
     SIGNUP_NAME.value == "" ||
     SIGNUP_EMAIL.value == "" ||
@@ -91,6 +95,49 @@ SIGNUP_BUTTON.addEventListener("click", function () {
         } else {
           SIGNUP_WRONG_MESSAGE.style.display = "block";
           SIGNUP_WRONG_MESSAGE.innerHTML = "Signup failed";
+        }
+      })
+      .catch((error) => {
+        console.log(`Error: ${error}`);
+      });
+  }
+});
+
+// signin
+
+SIGNIN_BUTTON.addEventListener("click", function () {
+  SIGNIN_WRONG_MESSAGE.style.display = "none";
+  SIGNIN_CORRECT_MESSAGE.style.display = "none";
+
+  if (SIGNIN_EMAIL.value == "" || SIGNIN_PASSWORD.value == "") {
+    SIGNIN_WRONG_MESSAGE.style.display = "block";
+    SIGNIN_WRONG_MESSAGE.innerHTML = "Please fill all blanks";
+  } else if (emailREGEX.exec(SIGNIN_EMAIL.value) == null) {
+    SIGNIN_WRONG_MESSAGE.style.display = "block";
+    SIGNIN_WRONG_MESSAGE.innerHTML = "Wrong Email format";
+  } else if (passwordREGEX.exec(SIGNIN_PASSWORD.value) == null) {
+    SIGNIN_WRONG_MESSAGE.style.display = "block";
+    SIGNIN_WRONG_MESSAGE.innerHTML = "Wrong Password format";
+  } else {
+    fetch("/readMember", {
+      method: "POST",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify({
+        email: SIGNIN_EMAIL.value,
+        password: SIGNIN_PASSWORD.value,
+      }),
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((response) => {
+        console.log(response);
+        if (response.length != 0) {
+          SIGNIN_CORRECT_MESSAGE.style.display = "block";
+          location.href = "/member";
+        } else {
+          SIGNIN_WRONG_MESSAGE.style.display = "block";
+          SIGNIN_WRONG_MESSAGE.innerHTML = "Signin failed";
         }
       })
       .catch((error) => {

@@ -13,6 +13,7 @@ const {
   deleteCategory,
   searchEvent,
   insertMember,
+  readMember,
 } = require("./public/database");
 
 const express = require("express");
@@ -66,6 +67,10 @@ app.use(express.urlencoded({ extended: true }));
 
 app.get("/", function (req, res) {
   res.render("index");
+});
+
+app.get("/member", function (req, res) {
+  res.render("member");
 });
 
 app.post("/insertEvent", async function (req, res) {
@@ -225,6 +230,14 @@ app.post("/insertMember", async (req, res) => {
   const email = data.email;
   const password = data.password;
   const result = await insertMember(name, email, password);
+  res.send(result);
+});
+
+app.post("/readMember", async (req, res) => {
+  let data = req.body;
+  const email = data.email;
+  const password = data.password;
+  const result = await readMember(email, password);
   res.send(result);
 });
 
