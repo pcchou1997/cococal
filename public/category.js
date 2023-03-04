@@ -36,41 +36,48 @@ fetch("/readCategory")
     return res.json();
   })
   .then((jsonResponse) => {
-    console.log(jsonResponse);
-    Array.from(jsonResponse).forEach((element) => {
-      let option = document.createElement("option");
+    if (jsonResponse.length == 0) {
       let div = document.createElement("div");
-      let categoryList_category_container = document.createElement("div");
-      let categoryList_category = document.createElement("div");
-      let dot = document.createElement("div");
-      let addContent = `<div class="categoryList-button-container"><i class="fa-regular fa-square-check fa-square-check-regular"></i></i><i class="fa-solid fa-square-check fa-square-check-solid"></i><i class="fa-regular fa-pen-to-square"></i></div>`;
-
-      // Edit Event Block
-      option.value = element.color;
-      option.innerHTML = element.categoryName;
-      EDIT_CATEGORY_SELECT.appendChild(option);
-
-      // Create Event Block
-      option = document.createElement("option");
-      option.value = element.color;
-      option.innerHTML = element.categoryName;
-      CREATE_EVENT_CATEGORY_SELECT.appendChild(option);
-
-      // Category List
-      div.setAttribute("class", "categoryList-item");
-      dot.setAttribute("class", "categoryList-item-dot");
-      categoryList_category_container.setAttribute(
-        "class",
-        "categoryList-category-container"
-      );
-      dot.style.backgroundColor = element.color;
-      categoryList_category.innerHTML = element.categoryName;
-      categoryList_category_container.appendChild(dot);
-      categoryList_category_container.appendChild(categoryList_category);
-      div.appendChild(categoryList_category_container);
-      div.innerHTML += addContent;
+      div.setAttribute("class", "no-category");
+      div.innerHTML = "Doesn't have any category? Try to create one now!";
       CATEGORYLIST.appendChild(div);
-    });
+    } else {
+      Array.from(jsonResponse).forEach((element) => {
+        let option = document.createElement("option");
+        let div = document.createElement("div");
+        let categoryList_category_container = document.createElement("div");
+        let categoryList_category = document.createElement("div");
+        let dot = document.createElement("div");
+        let addContent = `<div class="categoryList-button-container"><i class="fa-regular fa-square-check fa-square-check-regular"></i></i><i class="fa-solid fa-square-check fa-square-check-solid"></i><i class="fa-regular fa-pen-to-square"></i></div>`;
+
+        // Edit Event Block
+        option.value = element.color;
+        option.innerHTML = element.categoryName;
+        EDIT_CATEGORY_SELECT.appendChild(option);
+
+        // Create Event Block
+        option = document.createElement("option");
+        option.value = element.color;
+        option.innerHTML = element.categoryName;
+        CREATE_EVENT_CATEGORY_SELECT.appendChild(option);
+
+        // Category List
+        div.setAttribute("class", "categoryList-item");
+        dot.setAttribute("class", "categoryList-item-dot");
+        categoryList_category_container.setAttribute(
+          "class",
+          "categoryList-category-container"
+        );
+        dot.style.backgroundColor = element.color;
+        categoryList_category.innerHTML = element.categoryName;
+        categoryList_category_container.appendChild(dot);
+        categoryList_category_container.appendChild(categoryList_category);
+        div.appendChild(categoryList_category_container);
+        div.innerHTML += addContent;
+        CATEGORYLIST.appendChild(div);
+      });
+    }
+
     return jsonResponse;
   })
   .then((jsonResponse) => {
@@ -178,29 +185,37 @@ CATEGORY_COLOR_PICKER.addEventListener("input", function () {
 // add category
 
 CREATE_CATEGORY_BUTTON.addEventListener("click", async function () {
-  CATEGORY_CONTAINER.style.display = "none";
   let color = getComputedStyle(CATEGORY_VERTICAL).backgroundColor;
   let categoryName = CATEGORYNAME_INPUT.value;
+  if (categoryName == "") {
+    alert("Please fill the blank");
+  } else {
+    if (document.querySelector(".no-category") != null) {
+      document.querySelector(".no-category").remove();
+    } else {
+    }
 
-  await fetch("/insertCategory", {
-    method: "POST",
-    headers: {
-      "Content-type": "application/json",
-    },
-    body: JSON.stringify({
+    CATEGORY_CONTAINER.style.display = "none";
+    await fetch("/insertCategory", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        color: color,
+        categoryName: categoryName,
+      }),
+    });
+
+    // socket.io
+    let message = {
       color: color,
       categoryName: categoryName,
-    }),
-  });
+    };
 
-  // socket.io
-  let message = {
-    color: color,
-    categoryName: categoryName,
-  };
-
-  // socket: client 傳送到 server
-  socket.emit("insert-category", message);
+    // socket: client 傳送到 server
+    socket.emit("insert-category", message);
+  }
 });
 
 // revise category
@@ -288,74 +303,78 @@ EDIT_CATEGORY_REVISE.addEventListener("click", async function () {
 // delete category
 
 EDIT_CATEGORY_DELETE.addEventListener("click", async function () {
-  let color = getComputedStyle(EDIT_CATEGORY_VERTICAL).backgroundColor;
-  let categoryName = EDIT_CATEGORYNAME_INPUT.value;
-  let EventsOfSpecificCategoryList = [];
-  let categoryList = [];
+  let confirmResponse = window.confirm("Are you sure you want to delete it?");
+  if (confirmResponse == true) {
+    let color = getComputedStyle(EDIT_CATEGORY_VERTICAL).backgroundColor;
+    let categoryName = EDIT_CATEGORYNAME_INPUT.value;
+    let EventsOfSpecificCategoryList = [];
+    let categoryList = [];
 
-  await fetch("/readSpecificCategory", {
-    method: "POST",
-    headers: { "Content-type": "application/json" },
-    body: JSON.stringify({ color: color }),
-  })
-    .then((res) => {
-      return res.json();
-    })
-    .then((category) => {
-      categoryList = category;
-    });
-
-  console.log(categoryList[0].categoryName);
-  if (categoryName == "") {
-    alert("Please fill the blank");
-  } else if (categoryList[0].categoryName != categoryName) {
-    alert("Please enter correct information");
-  }
-  // 確認是否有該分類的事件
-  else {
-    await fetch("/readEventsOfSpecificCategory", {
+    await fetch("/readSpecificCategory", {
       method: "POST",
       headers: { "Content-type": "application/json" },
-      body: JSON.stringify({ oldColor: color }),
+      body: JSON.stringify({ color: color }),
     })
       .then((res) => {
         return res.json();
       })
-      .then((EventsOfSpecificCategory) => {
-        console.log(EventsOfSpecificCategory);
-        EventsOfSpecificCategoryList = EventsOfSpecificCategory;
-        console.log(EventsOfSpecificCategoryList);
-        console.log(EventsOfSpecificCategory == EventsOfSpecificCategoryList);
+      .then((category) => {
+        categoryList = category;
       });
-    if (EventsOfSpecificCategoryList.length != 0) {
-      alert("There are events in this category so it can't be deleted");
-    } else {
-      await fetch("/deleteCategory", {
+
+    console.log(categoryList[0].categoryName);
+    if (categoryName == "") {
+      alert("Please fill the blank");
+    } else if (categoryList[0].categoryName != categoryName) {
+      alert("Please enter correct information");
+    }
+    // 確認是否有該分類的事件
+    else {
+      await fetch("/readEventsOfSpecificCategory", {
         method: "POST",
-        headers: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify({
-          categoryName: categoryName,
-          color: color,
-        }),
+        headers: { "Content-type": "application/json" },
+        body: JSON.stringify({ oldColor: color }),
       })
         .then((res) => {
-          EDIT_CATEGORY_CONTAINER.style.display = "none";
-
-          // socket.io
-          let message = {
+          return res.json();
+        })
+        .then((EventsOfSpecificCategory) => {
+          console.log(EventsOfSpecificCategory);
+          EventsOfSpecificCategoryList = EventsOfSpecificCategory;
+          console.log(EventsOfSpecificCategoryList);
+          console.log(EventsOfSpecificCategory == EventsOfSpecificCategoryList);
+        });
+      if (EventsOfSpecificCategoryList.length != 0) {
+        alert("There are events in this category so it can't be deleted");
+      } else {
+        await fetch("/deleteCategory", {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify({
             categoryName: categoryName,
             color: color,
-          };
-
-          // socket: client 傳送到 server
-          socket.emit("delete-category", message);
+          }),
         })
-        .catch((error) => {
-          alert("Sorry, there is something wrong");
-        });
+          .then((res) => {
+            EDIT_CATEGORY_CONTAINER.style.display = "none";
+
+            // socket.io
+            let message = {
+              categoryName: categoryName,
+              color: color,
+            };
+
+            // socket: client 傳送到 server
+            socket.emit("delete-category", message);
+          })
+          .catch((error) => {
+            alert("Sorry, there is something wrong");
+          });
+      }
     }
+  } else {
   }
 });
 
@@ -498,4 +517,13 @@ socket.on("delete-category", async function (msg) {
     } else {
     }
   });
+
+  // check if category list is empty
+  if (document.querySelector(".categoryList-item") == null) {
+    let div = document.createElement("div");
+    div.setAttribute("class", "no-category");
+    div.innerHTML = "Doesn't have any category? Try to create one now!";
+    CATEGORYLIST.appendChild(div);
+  } else {
+  }
 });

@@ -106,6 +106,13 @@ body {
   border-top: 1px solid rgb(44, 62, 80);
 }
 
+.no-category {
+  width: 100%;
+  padding: 3px 10px;
+  font-weight: bold;
+  color: rgb(135, 0, 0);
+}
+
 .categoryList-item {
   width: 100%;
   position: relative;
