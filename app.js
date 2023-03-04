@@ -64,7 +64,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.get("/", function (req, res) {
-  res.render("member");
+  res.render("index");
 });
 
 app.post("/insertEvent", async function (req, res) {

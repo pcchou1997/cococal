@@ -1,4 +1,5 @@
 @import url(//fonts.googleapis.com/earlyaccess/notosanstc.css);
+@import url("https://fonts.googleapis.com/css2?family=Source+Serif+Pro:ital,wght@1,700&display=swap");
 
 * {
   box-sizing: border-box;
@@ -14,519 +15,102 @@ body {
   font-family: "Noto Sans TC", "微軟正黑體", sans-serif;
 }
 
-/* ==================================================
-                    self-setting
-===================================================*/
-
-.title-font {
-  font-size: 24px;
-}
-
-.fc-event {
-  cursor: pointer;
-}
-
-/* ==================================================
-                    content
-===================================================*/
-
-.content {
-  width: 100%;
+.index-content {
+  width: 100vw;
+  height: 100vh;
   display: flex;
-  justify-content: center;
 }
 
-/* ----- sidebar ----- */
-
-.sidebar {
-  width: 20%;
-  padding: 20px 20px 30px 20px;
-  background-color: rgb(240, 240, 240);
-}
-
-.searchBar {
-  height: 40px;
-  padding: 0px 5px;
+.index-left {
+  width: 60%;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.product {
+  width: 85%;
+}
+
+.logo {
+  display: block;
+  width: 500px;
+  margin: 0px auto;
+}
+
+.product-introduction {
+  font-family: "Source Serif Pro", serif;
+  font-size: 50px;
+}
+
+.index-right {
+  width: 40%;
+  height: 100%;
+  background-color: rgb(44, 62, 80);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  padding: 30px;
+  width: 500px;
+  /* height: 500px; */
   border-radius: 10px;
   background-color: white;
 }
 
-.search-input {
-  width: 90%;
-  height: 25px;
-  border: none;
+.signup-container {
+  display: none;
 }
 
-.search-input:focus {
-  outline: none;
-  /* 去邊框 */
+.title {
+  font-size: 54px;
+  font-weight: bold;
+  text-align: center;
 }
 
-/* 搜尋icon */
-.fa-magnifying-glass {
-  cursor: pointer;
-}
-
-.functionButton {
+.index-right input {
   width: 100%;
-  margin: 15px auto 0px auto;
   height: 50px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 5px;
-  color: white;
-  cursor: pointer;
-  background-color: rgb(44, 62, 80);
-}
-
-.functionButton:hover {
-  background-color: rgb(27, 39, 50);
-}
-
-/* ----- categoryList ----- */
-
-.categoryList {
-  width: 100%;
-  max-height: 645px;
-  /* border: 1px solid rgb(161, 178, 196); */
-  margin-top: 15px;
-  overflow: auto;
-}
-
-.categoryList-title {
-  color: rgb(27, 42, 57);
-  font-weight: 700;
-  padding-top: 15px;
-  padding-left: 5px;
-  margin-bottom: 10px;
-  border-top: 1px solid rgb(44, 62, 80);
-}
-
-.categoryList-item {
-  width: 100%;
-  position: relative;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 3px 10px;
-  border: 2px solid rgb(240, 240, 240);
-  border-radius: 5px;
-  margin-bottom: 5px;
-}
-
-.categoryList-item:hover {
-  background-color: rgb(220, 220, 220);
-}
-
-.categoryList-category-container {
-  display: flex;
-  justify-content: flex-start;
-  align-items: baseline;
-}
-
-.categoryList-item-dot {
-  width: 10px;
-  height: 10px;
-  border: none;
-  border-radius: 50%;
-  margin-right: 10px;
-}
-
-.categoryList-button-container {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-}
-
-.categoryList .fa-square-check-regular {
-  display: none;
-  margin-left: 5px;
-  cursor: pointer;
-  z-index: 1;
-}
-
-.categoryList .fa-square-check-solid {
-  margin-left: 5px;
-  cursor: pointer;
-  z-index: 1;
-}
-
-.categoryList .fa-pen-to-square {
-  margin-left: 5px;
-  cursor: pointer;
-  z-index: 1;
-}
-
-/* ----- calendar-container ----- */
-
-.calendar-container {
-  width: 70%;
-  padding: 30px 0px;
-  margin: 0px auto;
-}
-
-.fc-event-time {
-  font-size: 16px;
-}
-
-.fc-event-title {
-  font-size: 16px;
-}
-
-/* ==================================================
-               createEvent-container
-===================================================*/
-
-.createEvent-container {
-  display: none;
-  width: 500px;
-  position: absolute;
-  left: 0;
-  right: 0;
-  margin-left: auto;
-  margin-right: auto;
-  top: 80px;
-  padding: 30px;
-  border-radius: 20px;
-  border: 1px solid gray;
-  background-color: #ffffff;
-  z-index: 1;
-}
-
-.createEvent-container .fa-solid {
-  margin-right: 20px;
-}
-
-.createEvent-container .fa-xmark {
-  margin-right: 0px;
-}
-
-.createEvent-title {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0px auto 10px auto;
-}
-
-.createEvent-eventName {
-  width: 100%;
-  display: flex;
-  align-items: center;
-}
-
-.createEvent-vertical {
-  width: 5px;
-  height: 25px;
-  border-radius: 5px;
-  background-color: gray;
-  margin-right: 5px;
-}
-
-.createEvent-eventName-input {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: none;
-}
-
-.createEvent-eventName-input:focus {
-  outline: none;
-  /* 去邊框 */
-}
-
-.createEvent-container > div {
-  margin-bottom: 20px;
-}
-
-.createEvent-startDate,
-.createEvent-startTime,
-.createEvent-endDate,
-.createEvent-endTime {
-  cursor: pointer;
-  width: 150px;
-  height: 35px;
-  background-color: rgb(240, 240, 240);
-  border-radius: 15px;
-  padding: 0px 8px;
-  border: none;
-}
-
-.createEvent-time {
-  width: 100%;
-  display: flex;
-  justify-content: flex-start;
-  align-items: baseline;
-  margin-bottom: 20px;
-}
-
-.createEvent-start input,
-.createEvent-end input {
   display: block;
-}
-
-.createEvent-startTime,
-.createEvent-endTime {
-  margin-top: 5px;
-}
-
-.createEvent-period {
-  width: 100%;
-  /* padding: 12px; */
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  /* background-color: rgb(240, 240, 240);
-  border-radius: 15px; */
-}
-
-.fa-angle-right {
-  margin: 0px 10px;
-}
-
-.createEvent-çategory {
-  display: flex;
-  justify-content: flex-start;
-  align-items: baseline;
-}
-
-.createEvent-category-select {
-  cursor: pointer;
-  width: 150px;
-  height: 35px;
-  border: none;
-  border-radius: 15px;
   padding: 0px 10px;
-  background: rgb(240, 240, 240);
-}
-
-.createEvent-description {
-  width: 100%;
-  display: flex;
-  justify-content: flex-start;
-  align-items: baseline;
-}
-
-.createEvent-description-input {
-  width: 355px;
-  height: 100px;
-  border-radius: 10px;
-  padding: 10px;
-  border-color: rgb(200, 200, 200);
-}
-
-.createEvent-button {
-  width: 80px;
-  height: 30px;
-  display: flex;
-  justify-content: center;
-  align-items: baseline;
-  border-radius: 10px;
-  background-color: rgb(240, 240, 240);
-  text-align: center;
-  margin: 0px auto;
-  cursor: pointer;
-}
-
-.createEvent-button:hover {
-  background-color: black;
-  color: white;
-}
-
-/* ==================================================
-                   edit-container 
-===================================================*/
-
-.edit-container {
-  display: none;
-  width: 500px;
-  position: absolute;
-  left: 0;
-  right: 0;
-  margin-left: auto;
-  margin-right: auto;
-  top: 80px;
-  padding: 30px;
-  border-radius: 20px;
-  border: 1px solid gray;
-  background-color: #ffffff;
-  z-index: 1;
-}
-
-.edit-container > div {
-  margin-bottom: 20px;
-}
-
-.edit-container .fa-solid {
-  margin-right: 20px;
-}
-
-.fa-angles-right {
-  /* margin-right: 20px; */
-  margin-left: 20px;
-}
-
-.edit-title {
-  margin: 0px auto 10px auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.edit-eventName {
-  width: 100%;
-  display: flex;
-  align-items: center;
-}
-
-.edit-vertical {
-  width: 5px;
-  height: 25px;
   border-radius: 5px;
-  /* background-color: green; */
-  margin-right: 5px;
+  margin: 10px 0px;
 }
 
-.edit-eventName-input {
+.button {
   width: 100%;
-  border: none;
-  font-size: 20px;
-}
-
-.edit-eventName-input:focus {
-  outline: none;
-  /* 去邊框 */
-}
-
-.edit-time {
-  width: 100%;
-  display: flex;
-  justify-content: flex-start;
-  align-items: baseline;
-}
-
-.edit-start input,
-.edit-end input {
-  display: block;
-}
-
-.edit-period {
-  width: 100%;
-  /* padding: 12px; */
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  /* background-color: rgb(240, 240, 240);
-  border-radius: 15px; */
-}
-
-.edit-çategory {
-  display: flex;
-  justify-content: flex-start;
-  align-items: baseline;
-}
-
-.fa-inbox {
-  width: 18px;
-}
-
-.edit-description {
-  width: 100%;
-  display: flex;
-  justify-content: flex-start;
-  align-items: baseline;
-}
-
-.edit-description-input {
-  width: 355px;
-  height: 100px;
-  border-radius: 10px;
-  padding: 10px;
-  border-color: rgb(200, 200, 200);
-}
-
-.edit-button {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
-
-.edit-button-item {
-  width: 80px;
-  height: 30px;
-  display: flex;
-  justify-content: center;
-  align-items: baseline;
-  border-radius: 10px;
-  background-color: rgb(240, 240, 240);
-  text-align: center;
-  margin: 0px 10px;
-  cursor: pointer;
-}
-
-.edit-revise:hover {
-  background-color: black;
-  color: white;
-}
-
-.edit-delete:hover {
-  background-color: red;
-  color: white;
-}
-
-.edit-category {
-  width: 100%;
-  display: flex;
-  justify-content: flex-start;
-  align-items: baseline;
-}
-
-.edit-category-content {
-  display: flex;
-  justify-content: flex-start;
-  align-items: baseline;
-}
-
-.edit-category-content div {
-  margin-right: 5px;
-}
-
-.fa-xmark {
+  height: 50px;
+  border-radius: 5px;
   font-size: 24px;
-  position: absolute;
-  right: 20px;
-  top: 20px;
-  cursor: pointer;
-}
-
-.edit-category-select {
-  cursor: pointer;
-  width: 150px;
-  height: 35px;
+  margin: 10px 0px;
   border: none;
-  border-radius: 15px;
-  padding: 0px 10px;
-  background: rgb(240, 240, 240);
-}
-
-.edit-startDate,
-.edit-startTime,
-.edit-endDate,
-.edit-endTime {
   cursor: pointer;
-  width: 150px;
-  height: 35px;
-  background-color: rgb(240, 240, 240);
-  border-radius: 15px;
-  padding: 0px 8px;
-  border: none;
 }
 
-.edit-startTime,
-.edit-endTime {
-  margin-top: 5px;
+.button:hover {
+  color: white;
+  background-color: black;
+}
+
+.toggleGuideText {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.accountText {
+  color: gray;
+}
+
+.turnButton {
+  cursor: pointer;
+}
+
+.turnButton:hover {
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
 }
