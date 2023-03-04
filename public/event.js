@@ -546,74 +546,78 @@ EDIT_REVISE.addEventListener("click", async function () {
 
 // delete event
 EDIT_DELETE.addEventListener("click", async function () {
-  EDIT_CONTAINER.style.display = "none";
-  let id;
-  let title;
-  let startDate;
-  let startTime;
-  let endDate;
-  let endTime;
-  let allDay;
-  let color;
-  let description;
-  let className;
+  let confirmResponse = window.confirm("Are you sure you want to delete it?");
+  if (confirmResponse == true) {
+    EDIT_CONTAINER.style.display = "none";
+    let id;
+    let title;
+    let startDate;
+    let startTime;
+    let endDate;
+    let endTime;
+    let allDay;
+    let color;
+    let description;
+    let className;
 
-  // socket.io
-  // 進入資料庫得到欲刪除事件
-  await fetch("/readSpecificEvent", {
-    method: "POST",
-    headers: {
-      "Content-type": "application/json",
-    },
-    body: JSON.stringify({
-      title: oldTitle,
-      startDate: oldStartDate,
-      startTime: oldStartTime,
-    }),
-  })
-    .then((res) => {
-      return res.json();
+    // socket.io
+    // 進入資料庫得到欲刪除事件
+    await fetch("/readSpecificEvent", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        title: oldTitle,
+        startDate: oldStartDate,
+        startTime: oldStartTime,
+      }),
     })
-    .then((jsonResponse) => {
-      id = jsonResponse[0].id;
-      title = jsonResponse[0].title;
-      startDate = jsonResponse[0].startDate;
-      startTime = jsonResponse[0].startTime;
-      endDate = jsonResponse[0].endDate;
-      endTime = jsonResponse[0].endTime;
-      allDay = jsonResponse[0].allDay;
-      color = jsonResponse[0].color;
-      className = jsonResponse[0].className;
-      description = jsonResponse[0].description;
+      .then((res) => {
+        return res.json();
+      })
+      .then((jsonResponse) => {
+        id = jsonResponse[0].id;
+        title = jsonResponse[0].title;
+        startDate = jsonResponse[0].startDate;
+        startTime = jsonResponse[0].startTime;
+        endDate = jsonResponse[0].endDate;
+        endTime = jsonResponse[0].endTime;
+        allDay = jsonResponse[0].allDay;
+        color = jsonResponse[0].color;
+        className = jsonResponse[0].className;
+        description = jsonResponse[0].description;
+      });
+
+    // client 傳送到 server
+    let message = {
+      id: id,
+      title: title,
+      start: startDate + "T" + startTime + ":00",
+      end: endDate + "T" + endTime + ":00",
+      allDay: allDay,
+      color: color,
+      className: className,
+      description: description,
+    };
+
+    // socket: client 傳送到 server
+    socket.emit("delete-event", message);
+
+    // 從資料庫刪除該事件
+    await fetch("/deleteEvent", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        oldTitle: oldTitle,
+        oldStartDate: oldStartDate,
+        oldStartTime: oldStartTime,
+      }),
     });
-
-  // client 傳送到 server
-  let message = {
-    id: id,
-    title: title,
-    start: startDate + "T" + startTime + ":00",
-    end: endDate + "T" + endTime + ":00",
-    allDay: allDay,
-    color: color,
-    className: className,
-    description: description,
-  };
-
-  // socket: client 傳送到 server
-  socket.emit("delete-event", message);
-
-  // 從資料庫刪除該事件
-  await fetch("/deleteEvent", {
-    method: "POST",
-    headers: {
-      "Content-type": "application/json",
-    },
-    body: JSON.stringify({
-      oldTitle: oldTitle,
-      oldStartDate: oldStartDate,
-      oldStartTime: oldStartTime,
-    }),
-  });
+  } else {
+  }
 });
 
 // socket.io
