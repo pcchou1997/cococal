@@ -10,6 +10,7 @@ let keyword;
 
 SERACH_RESULT_CLOSE.addEventListener("click", function () {
   SERACH_RESULT_CONTAINER.style.display = "none";
+  OVERLAY.style.display = "none";
 });
 
 SERACH_BUTTON.addEventListener("click", function () {
@@ -28,6 +29,7 @@ SERACH_BUTTON.addEventListener("click", function () {
     }
 
     SERACH_RESULT_CONTAINER.style.display = "block";
+    OVERLAY.style.display = "block";
 
     fetch("/searchEvent", {
       method: "POST",
