@@ -187,39 +187,6 @@ function editCalendarEvents() {
   }, true);
 }
 
-function reloadEvents() {
-  fetch("/readEvent")
-    .then((res) => {
-      return res.json();
-    })
-    .then(function (jsonResponse) {
-      events = [];
-      for (let i = 0; i < jsonResponse.length; i++) {
-        let eventDict = {};
-        let title = jsonResponse[i].title;
-        let startDate = jsonResponse[i].startDate;
-        let startTime = jsonResponse[i].startTime;
-        let endDate = jsonResponse[i].endDate;
-        let endTime = jsonResponse[i].endTime;
-        let allDay = jsonResponse[i].allDay;
-        let color = jsonResponse[i].color;
-        let description = jsonResponse[i].description;
-
-        eventDict["title"] = title;
-        eventDict["start"] = startDate + "T" + startTime + ":00";
-        eventDict["end"] = endDate + "T" + endTime + ":00";
-        eventDict["allDay"] = allDay;
-        eventDict["color"] = color;
-        eventDict["description"] = description;
-        events.push(eventDict);
-      }
-    })
-    .then(function () {
-      CREATE_EVENT_CONTAINER.removeChild(CREATE_EVENT_CONTAINER.firstChild);
-      createCalendar(events);
-    });
-}
-
 // get DB events
 
 fetch("/readEvent")
@@ -304,6 +271,8 @@ CREATE_EVENT_BUTTON.addEventListener("click", async function () {
       CREATE_EVENT_CATEGORY_SELECT.selectedIndex
     ].text;
   let id;
+  const newStartDate = new Date(startDate + "T" + startTime + ":00");
+  const newEndDate = new Date(endDate + "T" + endTime + ":00");
 
   if (
     title == "" ||
@@ -314,7 +283,9 @@ CREATE_EVENT_BUTTON.addEventListener("click", async function () {
     color == "" ||
     className == "-- options --"
   ) {
-    alert("任一欄位不可空白");
+    alert("Please fill the blanks");
+  } else if (newStartDate > newEndDate) {
+    alert("start date must be before than end date");
   } else {
     CREATE_EVENT_CONTAINER.style.display = "none";
     OVERLAY.style.display = "none";
@@ -460,8 +431,6 @@ EDIT_CLOSE.addEventListener("click", function () {
 // edit event
 
 EDIT_REVISE.addEventListener("click", async function () {
-  EDIT_CONTAINER.style.display = "none";
-  OVERLAY.style.display = "none";
   let id;
   const title = EDIT_EVENTNAME_INPUT.value;
   const startDate = EDIT_STARTDATE.value;
@@ -473,7 +442,9 @@ EDIT_REVISE.addEventListener("click", async function () {
   const description = EDIT_DESCRIPTION_INPUT.value;
   const className =
     EDIT_CATEGORY_SELECT.options[EDIT_CATEGORY_SELECT.selectedIndex].text;
-  // console.log(EDIT_VERTICAL.style.backgroundColor);
+  const newStartDate = new Date(startDate + "T" + startTime + ":00");
+  const newEndDate = new Date(endDate + "T" + endTime + ":00");
+
   if (
     title == "" ||
     startDate == "" ||
@@ -486,8 +457,12 @@ EDIT_REVISE.addEventListener("click", async function () {
     oldStartDate == "" ||
     oldStartTime == ""
   ) {
-    alert("任一欄位不可空白");
+    alert("Please fill the blanks");
+  } else if (newStartDate > newEndDate) {
+    alert("'Start date' must be before than 'End date'");
   } else {
+    EDIT_CONTAINER.style.display = "none";
+    OVERLAY.style.display = "none";
     // socket.io
 
     // 進入資料庫得到事件id
