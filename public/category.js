@@ -3,6 +3,9 @@ const CATEGORY_CLOSE = document.querySelector(".category-container .fa-xmark");
 const CREATE_CATEGORY_BUTTON = document.querySelector(
   ".create-category-button"
 );
+const CREATE_CATEGORY_WRONG_MESSAGE = document.querySelector(
+  ".create-category-wrongMessage"
+);
 const CATEGORY_COLOR = document.querySelectorAll(".categoryColor");
 const CATEGORY_VERTICAL = document.querySelector(".category-vertical");
 const CATEGORYNAME_INPUT = document.querySelector(".categoryName-input");
@@ -24,6 +27,9 @@ const EDIT_CATEGORY_REVISE = document.querySelector(".edit-category-revise");
 const EDIT_CATEGORY_DELETE = document.querySelector(".edit-category-delete");
 const EDIT_CATEGORY_COLOR_PICKER = document.querySelector(
   "#edit-category-colorpicker"
+);
+const EDIT_CATEGORY_WRONG_MESSAGE = document.querySelector(
+  ".edit-category-wrongMessage"
 );
 
 let oldColor;
@@ -178,6 +184,7 @@ ADD_CATEGORY.addEventListener("click", function () {
 
 CATEGORY_CLOSE.addEventListener("click", function () {
   CATEGORY_CONTAINER.style.display = "none";
+  CREATE_CATEGORY_WRONG_MESSAGE.style.display = "none";
   OVERLAY.style.display = "none";
 });
 
@@ -188,10 +195,13 @@ CATEGORY_COLOR_PICKER.addEventListener("input", function () {
 // add category
 
 CREATE_CATEGORY_BUTTON.addEventListener("click", async function () {
+  CREATE_CATEGORY_WRONG_MESSAGE.style.display = "none";
   let color = getComputedStyle(CATEGORY_VERTICAL).backgroundColor;
   let categoryName = CATEGORYNAME_INPUT.value;
+
   if (categoryName == "") {
-    alert("Please fill the blank");
+    CREATE_CATEGORY_WRONG_MESSAGE.style.display = "block";
+    CREATE_CATEGORY_WRONG_MESSAGE.innerHTML = "Please fill the blank";
   } else {
     if (document.querySelector(".no-category") != null) {
       document.querySelector(".no-category").remove();
@@ -226,6 +236,7 @@ CREATE_CATEGORY_BUTTON.addEventListener("click", async function () {
 
 EDIT_CATEGORY_CONTAINER_CLOSE.addEventListener("click", function () {
   EDIT_CATEGORY_CONTAINER.style.display = "none";
+  EDIT_CATEGORY_WRONG_MESSAGE.style.display = "none";
   OVERLAY.style.display = "none";
 });
 
@@ -234,6 +245,7 @@ EDIT_CATEGORY_COLOR_PICKER.addEventListener("input", function () {
 });
 
 EDIT_CATEGORY_REVISE.addEventListener("click", async function () {
+  EDIT_CATEGORY_WRONG_MESSAGE.style.display = "none";
   let color = getComputedStyle(EDIT_CATEGORY_VERTICAL).backgroundColor;
   let categoryName = EDIT_CATEGORYNAME_INPUT.value;
   let EventsOfSpecificCategoryIds = [];
@@ -244,9 +256,11 @@ EDIT_CATEGORY_REVISE.addEventListener("click", async function () {
     oldColor == "" ||
     oldCategoryName == ""
   ) {
-    alert("Please fill the blank");
+    EDIT_CATEGORY_WRONG_MESSAGE.style.display = "block";
+    EDIT_CATEGORY_WRONG_MESSAGE.innerHTML = "Please fill the blank";
   } else if (color == oldColor && categoryName == oldCategoryName) {
-    alert("Nothing is changed");
+    EDIT_CATEGORY_WRONG_MESSAGE.style.display = "block";
+    EDIT_CATEGORY_WRONG_MESSAGE.innerHTML = "Nothing is changed";
   } else {
     EDIT_CATEGORY_CONTAINER.style.display = "none";
     OVERLAY.style.display = "none";

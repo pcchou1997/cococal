@@ -13,6 +13,9 @@ const CREATE_EVENT_END_DATE = document.querySelector(".createEvent-endDate");
 const CREATE_EVENT_END_TIME = document.querySelector(".createEvent-endTime");
 const CREATE_EVENT_VERTICAL = document.querySelector(".createEvent-vertical");
 const CREATE_EVENT_BUTTON = document.querySelector(".createEvent-button");
+const CREATE_EVENT_WRONG_MESSAGE = document.querySelector(
+  ".createEvent-wrongMessage"
+);
 const CREATE_EVENT_CLOSE = document.querySelector(
   ".createEvent-container .fa-xmark"
 );
@@ -26,6 +29,7 @@ const EDIT_ENDTIME = document.querySelector(".edit-endTime");
 const EDIT_VERTICAL = document.querySelector(".edit-vertical");
 const EDIT_REVISE = document.querySelector(".edit-revise");
 const EDIT_DELETE = document.querySelector(".edit-delete");
+const EDIT_WRONG_MESSAGE = document.querySelector(".edit-wrongMessage");
 const EDIT_CATEGORY_SELECT = document.querySelector(".edit-category-select");
 const EDIT_DESCRIPTION_INPUT = document.querySelector(
   ".edit-description-input"
@@ -259,6 +263,7 @@ fetch("/readEvent")
 // add event
 
 CREATE_EVENT_BUTTON.addEventListener("click", async function () {
+  CREATE_EVENT_WRONG_MESSAGE.style.display = "none";
   const title = CREATE_EVENT_EVENTNAME_INPUT.value;
   const startDate = CREATE_EVENT_START_DATE.value;
   const startTime = CREATE_EVENT_START_TIME.value;
@@ -280,12 +285,17 @@ CREATE_EVENT_BUTTON.addEventListener("click", async function () {
     startTime == "" ||
     endDate == "" ||
     endTime == "" ||
-    color == "" ||
-    className == "-- options --"
+    color == ""
   ) {
-    alert("Please fill the blanks");
+    CREATE_EVENT_WRONG_MESSAGE.style.display = "block";
+    CREATE_EVENT_WRONG_MESSAGE.innerHTML = "Please fill the blanks";
   } else if (newStartDate > newEndDate) {
-    alert("start date must be before than end date");
+    CREATE_EVENT_WRONG_MESSAGE.style.display = "block";
+    CREATE_EVENT_WRONG_MESSAGE.innerHTML =
+      '"Start date" must be before than "End date"';
+  } else if (className == "-- options --") {
+    CREATE_EVENT_WRONG_MESSAGE.style.display = "block";
+    CREATE_EVENT_WRONG_MESSAGE.innerHTML = "Please select a category";
   } else {
     CREATE_EVENT_CONTAINER.style.display = "none";
     OVERLAY.style.display = "none";
@@ -419,18 +429,21 @@ ADD_EVENT.addEventListener("click", function () {
 
 CREATE_EVENT_CLOSE.addEventListener("click", function () {
   CREATE_EVENT_CONTAINER.style.display = "none";
+  CREATE_EVENT_WRONG_MESSAGE.style.display = "none";
   OVERLAY.style.display = "none";
 });
 
 // EDIT_CONTAINER - close container
 EDIT_CLOSE.addEventListener("click", function () {
   EDIT_CONTAINER.style.display = "none";
+  EDIT_WRONG_MESSAGE.style.display = "none";
   OVERLAY.style.display = "none";
 });
 
 // edit event
 
 EDIT_REVISE.addEventListener("click", async function () {
+  EDIT_WRONG_MESSAGE.style.display = "none";
   let id;
   const title = EDIT_EVENTNAME_INPUT.value;
   const startDate = EDIT_STARTDATE.value;
@@ -452,14 +465,19 @@ EDIT_REVISE.addEventListener("click", async function () {
     endDate == "" ||
     endTime == "" ||
     color == "" ||
-    className == "-- options --" ||
     oldTitle == "" ||
     oldStartDate == "" ||
     oldStartTime == ""
   ) {
-    alert("Please fill the blanks");
+    EDIT_WRONG_MESSAGE.style.display = "block";
+    EDIT_WRONG_MESSAGE.innerHTML = "Please fill the blanks";
   } else if (newStartDate > newEndDate) {
-    alert("'Start date' must be before than 'End date'");
+    EDIT_WRONG_MESSAGE.style.display = "block";
+    EDIT_WRONG_MESSAGE.innerHTML =
+      '"Start date" must be before than "End date"';
+  } else if (className == "-- options --") {
+    CREATE_EVENT_WRONG_MESSAGE.style.display = "block";
+    CREATE_EVENT_WRONG_MESSAGE.innerHTML = "Please select a category";
   } else {
     EDIT_CONTAINER.style.display = "none";
     OVERLAY.style.display = "none";

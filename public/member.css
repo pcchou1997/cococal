@@ -546,3 +546,12 @@ body {
 .edit-endTime {
   margin-top: 5px;
 }
+
+.createEvent-wrongMessage,
+.edit-wrongMessage {
+  width: 100%;
+  display: none;
+  text-align: center;
+  color: red;
+  margin: 0px auto;
+}

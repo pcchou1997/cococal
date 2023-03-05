@@ -78,7 +78,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 20px auto 0px auto;
+  margin: 20px auto;
 }
 
 .create-category-button:hover {
@@ -163,6 +163,7 @@
   width: 100%;
   display: flex;
   justify-content: center;
+  margin-bottom: 20px;
 }
 
 .edit-category-button-item {
@@ -186,4 +187,13 @@
 .edit-category-delete:hover {
   background-color: red;
   color: white;
+}
+
+.create-category-wrongMessage,
+.edit-category-wrongMessage {
+  width: 100%;
+  display: none;
+  text-align: center;
+  color: red;
+  margin: 0px auto;
 }
