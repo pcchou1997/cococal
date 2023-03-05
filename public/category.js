@@ -104,29 +104,71 @@ fetch("/readCategory")
 
     // PRESSED_BUTTON
     Array.from(PRESSED_BUTTON).forEach((element) => {
-      element.addEventListener("click", function () {
-        let className =
-          this.parentNode.parentNode.children[0].children[1].innerHTML;
+      element.addEventListener("click", async function () {
         this.style.display = "none";
         this.previousSibling.style.display = "block";
-        let selectedCategoryEvents = document.querySelectorAll("." + className);
-        Array.from(selectedCategoryEvents).forEach((event) => {
-          event.style.display = "none";
+        let color = getComputedStyle(
+          this.parentNode.parentNode.children[0].children[0]
+        ).backgroundColor;
+        let className =
+          this.parentNode.parentNode.children[0].children[1].innerHTML;
+        let idList = [];
+
+        await fetch("/readEventsOfSpecificCategory", {
+          method: "POST",
+          headers: { "Content-type": "application/json" },
+          body: JSON.stringify({ oldColor: color }),
+        })
+          .then((res) => {
+            return res.json();
+          })
+          .then((EventsOfSpecificCategory) => {
+            EventsOfSpecificCategory.forEach((event) => {
+              idList.push(event.id);
+            });
+          });
+
+        idList.forEach((id) => {
+          let calendarEventId = calendar.getEventById(id);
+          calendarEventId.setProp("display", "none");
         });
+        editCalendarEvents();
       });
     });
 
     // UNPRESSED_BUTTON
     Array.from(UNPRESSED_BUTTON).forEach((element) => {
-      element.addEventListener("click", function () {
-        let className =
-          this.parentNode.parentNode.children[0].children[1].innerHTML;
+      element.addEventListener("click", async function () {
         this.style.display = "none";
         this.nextSibling.style.display = "block";
-        let selectedCategoryEvents = document.querySelectorAll("." + className);
-        Array.from(selectedCategoryEvents).forEach((event) => {
-          event.style.display = "flex";
+
+        let color = getComputedStyle(
+          this.parentNode.parentNode.children[0].children[0]
+        ).backgroundColor;
+        let className =
+          this.parentNode.parentNode.children[0].children[1].innerHTML;
+        let idList = [];
+
+        await fetch("/readEventsOfSpecificCategory", {
+          method: "POST",
+          headers: { "Content-type": "application/json" },
+          body: JSON.stringify({ oldColor: color }),
+        })
+          .then((res) => {
+            return res.json();
+          })
+          .then((EventsOfSpecificCategory) => {
+            EventsOfSpecificCategory.forEach((event) => {
+              idList.push(event.id);
+            });
+          });
+        console.log(idList);
+
+        idList.forEach((id) => {
+          let calendarEventId = calendar.getEventById(id);
+          calendarEventId.setProp("display", "auto");
         });
+        editCalendarEvents();
       });
     });
 
@@ -264,7 +306,7 @@ EDIT_CATEGORY_REVISE.addEventListener("click", async function () {
   } else {
     EDIT_CATEGORY_CONTAINER.style.display = "none";
     OVERLAY.style.display = "none";
-    console.log("oldColor:", oldColor);
+
     await fetch("/readEventsOfSpecificCategory", {
       method: "POST",
       headers: { "Content-type": "application/json" },
@@ -274,7 +316,6 @@ EDIT_CATEGORY_REVISE.addEventListener("click", async function () {
         return res.json();
       })
       .then((EventsOfSpecificCategory) => {
-        console.log(EventsOfSpecificCategory);
         EventsOfSpecificCategory.forEach((event) => {
           EventsOfSpecificCategoryIds.push(event.id);
         });
@@ -342,7 +383,6 @@ EDIT_CATEGORY_DELETE.addEventListener("click", async function () {
         categoryList = category;
       });
 
-    console.log(categoryList[0].categoryName);
     if (categoryName == "") {
       alert("Please fill the blank");
     } else if (categoryList[0].categoryName != categoryName) {
@@ -359,10 +399,7 @@ EDIT_CATEGORY_DELETE.addEventListener("click", async function () {
           return res.json();
         })
         .then((EventsOfSpecificCategory) => {
-          console.log(EventsOfSpecificCategory);
           EventsOfSpecificCategoryList = EventsOfSpecificCategory;
-          console.log(EventsOfSpecificCategoryList);
-          console.log(EventsOfSpecificCategory == EventsOfSpecificCategoryList);
         });
       if (EventsOfSpecificCategoryList.length != 0) {
         alert("There are events in this category so it can't be deleted");
@@ -441,31 +478,110 @@ socket.on("insert-category", async function (msg) {
   CATEGORYLIST.appendChild(div);
 
   // add event listener
+
+  // PRESSED_BUTTON
   const PRESSED_BUTTON = document.querySelectorAll(".fa-square-check-solid");
-  let newestCategoryShowedButton = PRESSED_BUTTON[PRESSED_BUTTON.length - 1];
-  newestCategoryShowedButton.addEventListener("click", function () {
-    let className =
-      this.parentNode.parentNode.children[0].children[1].innerHTML;
+  let lastCategoryPressedButton = PRESSED_BUTTON[PRESSED_BUTTON.length - 1];
+
+  lastCategoryPressedButton.addEventListener("click", async function () {
     this.style.display = "none";
     this.previousSibling.style.display = "block";
-    let selectedCategoryEvents = document.querySelectorAll("." + className);
-    Array.from(selectedCategoryEvents).forEach((event) => {
-      event.style.display = "none";
+    let color = getComputedStyle(
+      this.parentNode.parentNode.children[0].children[0]
+    ).backgroundColor;
+    let className =
+      this.parentNode.parentNode.children[0].children[1].innerHTML;
+    let idList = [];
+
+    await fetch("/readEventsOfSpecificCategory", {
+      method: "POST",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify({ oldColor: color }),
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((EventsOfSpecificCategory) => {
+        EventsOfSpecificCategory.forEach((event) => {
+          idList.push(event.id);
+        });
+      });
+
+    idList.forEach((id) => {
+      let calendarEventId = calendar.getEventById(id);
+      calendarEventId.setProp("display", "none");
     });
+    editCalendarEvents();
   });
 
+  // UNPRESSED_BUTTON
   const UNPRESSED_BUTTON = document.querySelectorAll(
     ".fa-square-check-regular"
   );
-  let newestCategoryHidenButton = UNPRESSED_BUTTON[UNPRESSED_BUTTON.length - 1];
-  newestCategoryHidenButton.addEventListener("click", function () {
-    let className =
-      this.parentNode.parentNode.children[0].children[1].innerHTML;
+  let lastCategoryUnpressedButton =
+    UNPRESSED_BUTTON[UNPRESSED_BUTTON.length - 1];
+
+  lastCategoryUnpressedButton.addEventListener("click", async function () {
     this.style.display = "none";
     this.nextSibling.style.display = "block";
-    let selectedCategoryEvents = document.querySelectorAll("." + className);
-    Array.from(selectedCategoryEvents).forEach((event) => {
-      event.style.display = "flex";
+    let color = getComputedStyle(
+      this.parentNode.parentNode.children[0].children[0]
+    ).backgroundColor;
+    let className =
+      this.parentNode.parentNode.children[0].children[1].innerHTML;
+    let idList = [];
+
+    await fetch("/readEventsOfSpecificCategory", {
+      method: "POST",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify({ oldColor: color }),
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((EventsOfSpecificCategory) => {
+        EventsOfSpecificCategory.forEach((event) => {
+          idList.push(event.id);
+        });
+      });
+
+    idList.forEach((id) => {
+      let calendarEventId = calendar.getEventById(id);
+      calendarEventId.setProp("display", "auto");
+    });
+    editCalendarEvents();
+  });
+
+  // EDIT_CATEGORY_BUTTON
+  const EDIT_CATEGORY_BUTTON = document.querySelectorAll(".fa-pen-to-square");
+  Array.from(EDIT_CATEGORY_BUTTON).forEach((element) => {
+    element.addEventListener("click", function () {
+      EDIT_CATEGORY_CONTAINER.style.display = "block";
+      OVERLAY.style.display = "block";
+      oldCategoryName = this.parentNode.previousSibling.children[1].innerHTML;
+      EDIT_CATEGORYNAME_INPUT.value =
+        this.parentNode.previousSibling.children[1].innerHTML;
+      oldColor =
+        this.parentNode.previousSibling.firstChild.style.backgroundColor;
+      EDIT_CATEGORY_VERTICAL.style.backgroundColor =
+        this.parentNode.previousSibling.firstChild.style.backgroundColor;
+      let rgbToHexColor =
+        this.parentNode.previousSibling.firstChild.style.backgroundColor.split(
+          ","
+        );
+
+      // change color from RGB to HEX
+
+      rgbToHexColor[0] = rgbToHexColor[0].replace("rgb(", "");
+      rgbToHexColor[1] = rgbToHexColor[1].replace(" ", "");
+      rgbToHexColor[2] = rgbToHexColor[2].replace(")", "");
+      rgbToHexColor[2] = rgbToHexColor[2].replace(" ", "");
+
+      EDIT_CATEGORY_COLOR_PICKER.value = rgbToHex(
+        Number(rgbToHexColor[0]),
+        Number(rgbToHexColor[1]),
+        Number(rgbToHexColor[2])
+      );
     });
   });
 });
@@ -477,7 +593,6 @@ socket.on("edit-category", async function (msg) {
   let categoryName = msg.categoryName;
   let oldCategoryName = msg.oldCategoryName;
   let EventsOfSpecificCategoryIds = msg.EventsOfSpecificCategoryIds;
-  console.log(EventsOfSpecificCategoryIds);
 
   const CATEGORYLIST_ITEM = document.querySelectorAll(".categoryList-item");
   Array.from(CATEGORYLIST_ITEM).forEach((node) => {
@@ -494,7 +609,7 @@ socket.on("edit-category", async function (msg) {
       EventsOfSpecificCategoryIds.forEach((id) => {
         let calendarEventId = calendar.getEventById(id);
         calendarEventId.setProp("color", color);
-        calendarEventId.setExtendedProp("className", categoryName);
+        calendarEventId.setProp("classNames", [categoryName]);
         editCalendarEvents();
       });
 

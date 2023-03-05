@@ -101,7 +101,6 @@ function editCalendarEvents() {
       // time (a)
       if (startTime.substr(-1) == "a") {
         let time = startTime.substring(0, startTime.length - 1);
-        console.log(time);
         // only hour
         if (time == 12) {
           startTime = "00:00";
@@ -113,7 +112,6 @@ function editCalendarEvents() {
         }
         // hour:minute
         else {
-          console.log(time.split(":")[0]);
           if (time.split(":")[0].length == 1) {
             startTime = "0" + time;
           } else {
@@ -139,7 +137,6 @@ function editCalendarEvents() {
           let startTimeSplit = startTime
             .substring(0, startTime.length - 1)
             .split(":");
-          console.log(startTimeSplit);
           if (startTimeSplit[0] == "12") {
             startTime = "12:" + String(startTimeSplit[1]);
           } else {
@@ -174,7 +171,6 @@ function editCalendarEvents() {
           return res.json();
         })
         .then((jsonResponse) => {
-          console.log(jsonResponse);
           endTime = jsonResponse[0].endTime;
           endDate = jsonResponse[0].endDate;
           color = jsonResponse[0].color;
@@ -222,7 +218,6 @@ fetch("/readEvent")
       eventDict["className"] = className;
       events.push(eventDict);
     }
-    console.log(events);
 
     // create calendar
 
@@ -332,7 +327,6 @@ CREATE_EVENT_BUTTON.addEventListener("click", async function () {
         return res.json();
       })
       .then((jsonResponse) => {
-        console.log(jsonResponse);
         id = jsonResponse[0].id;
       });
 
@@ -500,7 +494,6 @@ EDIT_REVISE.addEventListener("click", async function () {
         return res.json();
       })
       .then((jsonResponse) => {
-        console.log(jsonResponse);
         id = jsonResponse[0].id;
       });
 
@@ -648,7 +641,6 @@ socket.on("insert-event", async function (msg) {
   eventDict["className"] = className;
   eventDict["description"] = description;
   events.push(eventDict);
-  console.log(events);
 
   let addthisevent = {
     id: id,
@@ -659,7 +651,6 @@ socket.on("insert-event", async function (msg) {
     className: className,
     description: description,
   };
-  console.log(addthisevent);
   calendar.addEvent(addthisevent);
   editCalendarEvents();
 
@@ -670,10 +661,9 @@ socket.on("insert-event", async function (msg) {
       node.childNodes[0].childNodes[1].innerHTML == className &&
       node.childNodes[1].childNodes[0].style.display == "block"
     ) {
-      let selectedCategoryEvents = document.querySelectorAll("." + className);
-      Array.from(selectedCategoryEvents).forEach((event) => {
-        event.style.display = "none";
-      });
+      let calendarEventId = calendar.getEventById(id);
+      calendarEventId.setProp("display", "none");
+      editCalendarEvents();
     } else {
     }
   });
@@ -682,7 +672,6 @@ socket.on("insert-event", async function (msg) {
 // edit event
 socket.on("edit-event", async function (msg) {
   let calendarEventId = calendar.getEventById(msg.id);
-  console.log(calendarEventId);
   calendarEventId.setStart(msg.startDate + "T" + msg.startTime + ":00");
   calendarEventId.setEnd(msg.endDate + "T" + msg.endTime + ":00");
   calendarEventId.setProp("color", msg.color);
@@ -690,17 +679,28 @@ socket.on("edit-event", async function (msg) {
   calendarEventId.setExtendedProp("className", msg.className);
   calendarEventId.setExtendedProp("description", msg.description);
   editCalendarEvents();
+
+  // check the toggle mode
+  const CATEGORYLIST_ITEM = document.querySelectorAll(".categoryList-item");
+  Array.from(CATEGORYLIST_ITEM).forEach((node) => {
+    if (
+      node.childNodes[0].childNodes[1].innerHTML == msg.className &&
+      node.childNodes[1].childNodes[0].style.display == "block"
+    ) {
+      let calendarEventId = calendar.getEventById(msg.id);
+      calendarEventId.setProp("display", "none");
+      editCalendarEvents();
+    } else {
+    }
+  });
 });
 
 // delete event
 socket.on("delete-event", async function (msg) {
-  console.log(msg);
-  console.log(msg.id);
   let index = events.indexOf(msg);
   if (index !== -1) {
     events.splice(index, 1);
   }
   let calendarEventId = calendar.getEventById(msg.id);
-  console.log(calendarEventId);
   calendarEventId.remove();
 });
