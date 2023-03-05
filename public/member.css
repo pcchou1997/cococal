@@ -30,6 +30,15 @@ body {
                     content
 ===================================================*/
 
+.overlay {
+  display: none;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(255, 255, 255, 0.5);
+  z-index: 99;
+}
+
 .content {
   width: 100%;
   display: flex;
@@ -201,7 +210,7 @@ body {
   border-radius: 20px;
   border: 1px solid gray;
   background-color: #ffffff;
-  z-index: 1;
+  z-index: 100;
 }
 
 .createEvent-container .fa-solid {
@@ -361,7 +370,7 @@ body {
   border-radius: 20px;
   border: 1px solid gray;
   background-color: #ffffff;
-  z-index: 1;
+  z-index: 100;
 }
 
 .edit-container > div {

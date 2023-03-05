@@ -128,6 +128,7 @@ fetch("/readCategory")
     Array.from(EDIT_CATEGORY_BUTTON).forEach((element) => {
       element.addEventListener("click", function () {
         EDIT_CATEGORY_CONTAINER.style.display = "block";
+        OVERLAY.style.display = "block";
         oldCategoryName = this.parentNode.previousSibling.children[1].innerHTML;
         EDIT_CATEGORYNAME_INPUT.value =
           this.parentNode.previousSibling.children[1].innerHTML;
@@ -172,10 +173,12 @@ function rgbToHex(r, g, b) {
 ADD_CATEGORY.addEventListener("click", function () {
   EDIT_CONTAINER.style.display = "none";
   CATEGORY_CONTAINER.style.display = "block";
+  OVERLAY.style.display = "block";
 });
 
 CATEGORY_CLOSE.addEventListener("click", function () {
   CATEGORY_CONTAINER.style.display = "none";
+  OVERLAY.style.display = "none";
 });
 
 CATEGORY_COLOR_PICKER.addEventListener("input", function () {
@@ -196,6 +199,7 @@ CREATE_CATEGORY_BUTTON.addEventListener("click", async function () {
     }
 
     CATEGORY_CONTAINER.style.display = "none";
+    OVERLAY.style.display = "none";
     await fetch("/insertCategory", {
       method: "POST",
       headers: {
@@ -222,6 +226,7 @@ CREATE_CATEGORY_BUTTON.addEventListener("click", async function () {
 
 EDIT_CATEGORY_CONTAINER_CLOSE.addEventListener("click", function () {
   EDIT_CATEGORY_CONTAINER.style.display = "none";
+  OVERLAY.style.display = "none";
 });
 
 EDIT_CATEGORY_COLOR_PICKER.addEventListener("input", function () {
@@ -244,6 +249,7 @@ EDIT_CATEGORY_REVISE.addEventListener("click", async function () {
     alert("Nothing is changed");
   } else {
     EDIT_CATEGORY_CONTAINER.style.display = "none";
+    OVERLAY.style.display = "none";
     console.log("oldColor:", oldColor);
     await fetch("/readEventsOfSpecificCategory", {
       method: "POST",
@@ -359,6 +365,7 @@ EDIT_CATEGORY_DELETE.addEventListener("click", async function () {
         })
           .then((res) => {
             EDIT_CATEGORY_CONTAINER.style.display = "none";
+            OVERLAY.style.display = "none";
 
             // socket.io
             let message = {

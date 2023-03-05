@@ -37,6 +37,8 @@ const CREATE_EVENT_CATEGORY_SELECT = document.querySelector(
 const CREATE_EVENT_DESCRIPTION_INPUT = document.querySelector(
   ".createEvent-description-input"
 );
+const OVERLAY = document.querySelector(".overlay");
+
 let oldTitle;
 let oldStartDate;
 let oldStartTime;
@@ -147,6 +149,7 @@ function editCalendarEvents() {
 
       CATEGORY_CONTAINER.style.display = "none";
       EDIT_CONTAINER.style.display = "block";
+      OVERLAY.style.display = "block";
       EDIT_EVENTNAME_INPUT.value = title;
       oldTitle = title;
       oldStartDate = startDate;
@@ -314,6 +317,7 @@ CREATE_EVENT_BUTTON.addEventListener("click", async function () {
     alert("任一欄位不可空白");
   } else {
     CREATE_EVENT_CONTAINER.style.display = "none";
+    OVERLAY.style.display = "none";
     await fetch("/insertEvent", {
       method: "POST",
       headers: {
@@ -436,6 +440,7 @@ else {
 
 ADD_EVENT.addEventListener("click", function () {
   CREATE_EVENT_CONTAINER.style.display = "block";
+  OVERLAY.style.display = "block";
   // CREATE_EVENT_CONTAINER.style.display == "none" ? "block" : "none";
 });
 
@@ -443,17 +448,20 @@ ADD_EVENT.addEventListener("click", function () {
 
 CREATE_EVENT_CLOSE.addEventListener("click", function () {
   CREATE_EVENT_CONTAINER.style.display = "none";
+  OVERLAY.style.display = "none";
 });
 
 // EDIT_CONTAINER - close container
 EDIT_CLOSE.addEventListener("click", function () {
   EDIT_CONTAINER.style.display = "none";
+  OVERLAY.style.display = "none";
 });
 
 // edit event
 
 EDIT_REVISE.addEventListener("click", async function () {
   EDIT_CONTAINER.style.display = "none";
+  OVERLAY.style.display = "none";
   let id;
   const title = EDIT_EVENTNAME_INPUT.value;
   const startDate = EDIT_STARTDATE.value;
@@ -521,6 +529,7 @@ EDIT_REVISE.addEventListener("click", async function () {
     socket.emit("edit-event", message);
 
     CREATE_EVENT_CONTAINER.style.display = "none";
+    OVERLAY.style.display = "none";
     await fetch("/updateEvent", {
       method: "POST",
       headers: {
@@ -549,6 +558,7 @@ EDIT_DELETE.addEventListener("click", async function () {
   let confirmResponse = window.confirm("Are you sure you want to delete it?");
   if (confirmResponse == true) {
     EDIT_CONTAINER.style.display = "none";
+    OVERLAY.style.display = "none";
     let id;
     let title;
     let startDate;
