@@ -404,70 +404,78 @@ CREATE_EVENT_BUTTON.addEventListener("click", async function () {
 });
 
 // CREATE_EVENT_CONTAINER - init
-let today = new Date();
-let today_year = today.getFullYear();
-let today_month = today.getMonth() + 1;
-let today_day = today.getDate();
-let today_hour = today.getHours();
-let today_minute = today.getMinutes();
 
-if (String(today_month).length < 2) {
-  if (String(today_day).length < 2) {
-    CREATE_EVENT_START_DATE.value =
-      today_year + "-0" + today_month + "-0" + today_day;
-    CREATE_EVENT_END_DATE.value =
-      today_year + "-0" + today_month + "-0" + today_day;
+function initCreateEventDateTime() {
+  let today = new Date();
+  let today_year = today.getFullYear();
+  let today_month = today.getMonth() + 1;
+  let today_day = today.getDate();
+  let today_hour = today.getHours();
+  let today_minute = today.getMinutes();
+
+  if (String(today_month).length < 2) {
+    if (String(today_day).length < 2) {
+      CREATE_EVENT_START_DATE.value =
+        today_year + "-0" + today_month + "-0" + today_day;
+      CREATE_EVENT_END_DATE.value =
+        today_year + "-0" + today_month + "-0" + today_day;
+    } else {
+      CREATE_EVENT_START_DATE.value =
+        today_year + "-0" + today_month + "-" + today_day;
+      CREATE_EVENT_END_DATE.value =
+        today_year + "-0" + today_month + "-" + today_day;
+    }
   } else {
-    CREATE_EVENT_START_DATE.value =
-      today_year + "-0" + today_month + "-" + today_day;
-    CREATE_EVENT_END_DATE.value =
-      today_year + "-0" + today_month + "-" + today_day;
+    if (String(today_day).length < 2) {
+      CREATE_EVENT_START_DATE.value =
+        today_year + "-" + today_month + "-0" + today_day;
+      CREATE_EVENT_END_DATE.value =
+        today_year + "-" + today_month + "-0" + today_day;
+    } else {
+      CREATE_EVENT_START_DATE.value =
+        today_year + "-" + today_month + "-" + today_day;
+      CREATE_EVENT_END_DATE.value =
+        today_year + "-" + today_month + "-" + today_day;
+    }
   }
-} else {
-  if (String(today_day).length < 2) {
-    CREATE_EVENT_START_DATE.value =
-      today_year + "-" + today_month + "-0" + today_day;
-    CREATE_EVENT_END_DATE.value =
-      today_year + "-" + today_month + "-0" + today_day;
-  } else {
-    CREATE_EVENT_START_DATE.value =
-      today_year + "-" + today_month + "-" + today_day;
-    CREATE_EVENT_END_DATE.value =
-      today_year + "-" + today_month + "-" + today_day;
-  }
-}
 
-// hour: 0~9
-if (String(today_hour).length < 2) {
-  // next hour: 0~9
-  if (String(today_hour + 1).length < 2) {
-    CREATE_EVENT_START_TIME.value = "0" + String(today_hour) + ":00";
-    CREATE_EVENT_END_TIME.value = "0" + String(today_hour + 1) + ":00";
+  // hour: 0~9
+  if (String(today_hour).length < 2) {
+    // next hour: 0~9
+    if (String(today_hour + 1).length < 2) {
+      CREATE_EVENT_START_TIME.value = "0" + String(today_hour) + ":00";
+      CREATE_EVENT_END_TIME.value = "0" + String(today_hour + 1) + ":00";
+    }
+    // next hour: 10
+    else {
+      CREATE_EVENT_START_TIME.value = "0" + String(today_hour) + ":00";
+      CREATE_EVENT_END_TIME.value = String(today_hour + 1) + ":00";
+    }
   }
-  // next hour: 10
-  else {
-    CREATE_EVENT_START_TIME.value = "0" + String(today_hour) + ":00";
-    CREATE_EVENT_END_TIME.value = String(today_hour + 1) + ":00";
-  }
-}
 
-// hour: 10~23
-else {
-  // next hour: 0
-  if (String(today_hour + 1).length < 2) {
-    CREATE_EVENT_START_TIME.value = String(today_hour) + ":00";
-    CREATE_EVENT_END_TIME.value = "0" + String(today_hour + 1) + ":00";
-  }
-  // next hour: 10~23
+  // hour: 10~23
   else {
-    CREATE_EVENT_START_TIME.value = String(today_hour) + ":00";
-    CREATE_EVENT_END_TIME.value = String(today_hour + 1) + ":00";
+    // next hour: 0
+    if (String(today_hour + 1).length < 2) {
+      CREATE_EVENT_START_TIME.value = String(today_hour) + ":00";
+      CREATE_EVENT_END_TIME.value = "0" + String(today_hour + 1) + ":00";
+    }
+    // next hour: 10~23
+    else {
+      CREATE_EVENT_START_TIME.value = String(today_hour) + ":00";
+      CREATE_EVENT_END_TIME.value = String(today_hour + 1) + ":00";
+    }
   }
 }
 
 // ADD_EVENT button
 
 ADD_EVENT.addEventListener("click", function () {
+  initCreateEventDateTime();
+  CREATE_EVENT_EVENTNAME_INPUT.value = "";
+  CREATE_EVENT_CATEGORY_SELECT.value = "";
+  CREATE_EVENT_DESCRIPTION_INPUT.value = "";
+  CREATE_EVENT_VERTICAL.style.backgroundColor = "rgb(200, 200, 200)";
   CREATE_EVENT_CONTAINER.style.display = "block";
   OVERLAY.style.display = "block";
   // CREATE_EVENT_CONTAINER.style.display == "none" ? "block" : "none";
