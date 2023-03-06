@@ -25,19 +25,16 @@
   width: 220px;
   height: 220px;
   border-radius: 50%;
-  background-color: white;
   margin: 20px auto 10px auto;
-  overflow: hidden;
   background-color: rgb(240, 240, 240);
-}
-
-.account-photo img {
-  object-fit: cover;
+  background-size: cover;
 }
 
 .account-name {
   width: 100%;
   height: 30px;
+  font-size: 24px;
+  font-weight: bold;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -56,7 +53,7 @@
   font-size: 16px;
   background-color: rgb(255, 255, 255);
   border-radius: 10px;
-  margin-top: 10px;
+  margin: 10px 0px 30px 0px;
 }
 
 .account-button-item {
@@ -74,26 +71,26 @@
   cursor: pointer;
 }
 
-.account-edit-button {
-  margin: 30px auto 10px auto;
+.account-edit-name-button,
+.account-edit-photo-button {
+  margin: 10px auto;
 }
 
-.account-edit-button:hover {
+.account-edit-name-button:hover,
+.account-edit-photo-button:hover,
+.account-finish-name-button:hover,
+.account-finish-photo-button:hover {
   background-color: black;
   color: white;
+}
+
+.account-finish-name-button,
+.account-finish-photo-button {
+  display: none;
 }
 
 .account-log-out-button {
   background-color: red;
-  color: white;
-}
-
-.account-finish-button {
-  display: none;
-}
-
-.account-finish-button:hover {
-  background-color: black;
   color: white;
 }
 
