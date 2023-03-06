@@ -1,0 +1,133 @@
+.account-container {
+  display: none;
+  width: 500px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  top: 80px;
+  padding: 30px;
+  border-radius: 20px;
+  border: 1px solid gray;
+  background-color: #ffffff;
+  z-index: 99;
+}
+
+.account-title {
+  margin: 0px auto 10px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.account-photo {
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background-color: white;
+  margin: 20px auto 10px auto;
+  overflow: hidden;
+  background-color: rgb(240, 240, 240);
+}
+
+.account-photo img {
+  object-fit: cover;
+}
+
+.account-name {
+  width: 100%;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(255, 255, 255);
+  border-radius: 10px;
+  margin-top: 10px;
+}
+
+.account-email {
+  width: 100%;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: gray;
+  font-size: 16px;
+  background-color: rgb(255, 255, 255);
+  border-radius: 10px;
+  margin-top: 10px;
+}
+
+.account-button-item {
+  width: 150px;
+  height: 40px;
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  border: none;
+  background-color: rgb(240, 240, 240);
+  text-align: center;
+  margin: 10px auto;
+  cursor: pointer;
+}
+
+.account-edit-button {
+  margin: 30px auto 10px auto;
+}
+
+.account-edit-button:hover {
+  background-color: black;
+  color: white;
+}
+
+.account-log-out-button {
+  background-color: red;
+  color: white;
+}
+
+.account-finish-button {
+  display: none;
+}
+
+.account-finish-button:hover {
+  background-color: black;
+  color: white;
+}
+
+.account-edit-name {
+  display: none;
+  height: 30px;
+  width: 200px;
+  text-align: center;
+  border: none;
+  border-radius: 5px;
+  margin: 15px auto;
+  padding: 0px 10px;
+  background-color: rgb(240, 240, 240);
+  cursor: pointer;
+}
+
+#file-uploader {
+  display: none;
+  height: 30px;
+  width: 300px;
+  border: none;
+  margin: 15px auto;
+}
+
+.account-wrongMessage {
+  display: none;
+  width: 100%;
+  color: red;
+  text-align: center;
+}
+
+.account-correctMessage {
+  display: none;
+  width: 100%;
+  color: green;
+  text-align: center;
+}

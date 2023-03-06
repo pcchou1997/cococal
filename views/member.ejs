@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="/member.css" />
     <link rel="stylesheet" href="/category.css" />
     <link rel="stylesheet" href="/search.css" />
+    <link rel="stylesheet" href="/account.css" />
     <script
       src="https://kit.fontawesome.com/605526aab0.js"
       crossorigin="anonymous"
@@ -221,6 +222,29 @@
       <i class="fa-solid fa-xmark search-result-close"></i>
     </div>
     <!-- search-result-container end-->
+    <!-- account-container -->
+    <div class="account-container">
+      <h1 class="account-title title-font">Account</h1>
+      <div class="account-photo"></div>
+      <input
+        type="file"
+        id="file-uploader"
+        data-target="file-uploader"
+        accept="image/*"
+      />
+      <div class="account-name"></div>
+      <input type="text" class="account-edit-name" placeholder="name" />
+      <div class="account-email"></div>
+      <button class="account-edit-button account-button-item">edit</button>
+      <button class="account-finish-button account-button-item">finish</button>
+      <button class="account-log-out-button account-button-item">
+        log out
+      </button>
+      <div class="account-wrongMessage"></div>
+      <div class="account-correctMessage"></div>
+      <i class="fa-solid fa-xmark account-close"></i>
+    </div>
+    <!-- account-container end-->
 
     <script src="/event.js"></script>
     <script src="/category.js"></script>
