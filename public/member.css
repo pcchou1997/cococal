@@ -45,6 +45,22 @@ body {
   justify-content: center;
 }
 
+/* ----- navbar ----- */
+
+.navbar {
+  width: 70px;
+  background-color: rgb(44, 62, 80);
+  display: flex;
+  justify-content: center;
+  padding: 20px 0px;
+}
+
+.account-icon {
+  color: rgb(220, 220, 220);
+  font-size: 45px;
+  cursor: pointer;
+}
+
 /* ----- sidebar ----- */
 
 .sidebar {
@@ -52,6 +68,8 @@ body {
   padding: 20px 20px 30px 20px;
   background-color: rgb(240, 240, 240);
 }
+
+/* ----- searchBar ----- */
 
 .searchBar {
   height: 40px;
@@ -78,6 +96,8 @@ body {
 .fa-magnifying-glass {
   cursor: pointer;
 }
+
+/* ----- function-buttons ----- */
 
 .functionButton {
   width: 100%;
