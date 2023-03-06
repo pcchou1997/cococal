@@ -15,6 +15,9 @@ const {
   insertMember,
   readMember,
   updateMember,
+  readSpecificPhoto,
+  createPhoto,
+  deletePhoto,
 } = require("./public/database");
 
 const express = require("express");
@@ -26,6 +29,7 @@ const cookieParser = require("cookie-parser");
 const io = require("socket.io")(server);
 // const { Server } = require("socket.io");
 // const io = new Server(server);
+const { generateUploadURL } = require("./s3.js");
 
 // socket.io 連線
 io.on("connection", (socket) => {
@@ -294,6 +298,33 @@ app.post("/updateMember", async (req, res) => {
 app.get("/logout", async (req, res) => {
   res.clearCookie("JWT");
   res.status(200).json({ ok: true });
+});
+
+app.post("/readSpecificPhoto", async (req, res) => {
+  let data = req.body;
+  const email = data.email;
+  const result = await readSpecificPhoto(email);
+  res.send(result);
+});
+
+app.get("/imgStorage", async (req, res) => {
+  const url = await generateUploadURL();
+  res.send({ url });
+});
+
+app.post("/createPhoto", async (req, res) => {
+  let data = req.body;
+  const email = data.email;
+  const image = data.image;
+  const result = await createPhoto(email, image);
+  res.send(result);
+});
+
+app.post("/deletePhoto", async (req, res) => {
+  let data = req.body;
+  const email = data.email;
+  const result = await deletePhoto(email);
+  res.send(result);
 });
 
 server.listen(3000, () => {

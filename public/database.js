@@ -323,6 +323,54 @@ async function updateMember(name, oldName, email) {
   return data;
 }
 
+// Read specific Photo
+
+async function readSpecificPhoto(email) {
+  let sql = "SELECT * FROM photos WHERE email = ?";
+  let values = [email];
+  let data = await new Promise((resolve, reject) => {
+    connection.query(sql, values, function (err, result) {
+      if (err) throw err;
+      else {
+        return resolve(result);
+      }
+    });
+  });
+  return data;
+}
+
+// Create Photo
+
+async function createPhoto(email, image) {
+  let sql = "INSERT INTO photos (email, image) VALUES ?";
+  let values = [[email, image]];
+  let data = await new Promise((resolve, reject) => {
+    connection.query(sql, [values], function (err, result) {
+      if (err) throw err;
+      else {
+        return resolve(result);
+      }
+    });
+  });
+  return data;
+}
+
+// Delete Photo
+
+async function deletePhoto(email) {
+  let sql = "DELETE FROM photos WHERE email=?";
+  let values = [email];
+  let data = await new Promise((resolve, reject) => {
+    connection.query(sql, values, function (err, result) {
+      if (err) throw err;
+      else {
+        return resolve(result);
+      }
+    });
+  });
+  return data;
+}
+
 module.exports = {
   insertEvent,
   readEvent,
@@ -340,4 +388,7 @@ module.exports = {
   insertMember,
   readMember,
   updateMember,
+  readSpecificPhoto,
+  createPhoto,
+  deletePhoto,
 };

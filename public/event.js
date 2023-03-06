@@ -44,11 +44,13 @@ const CREATE_EVENT_DESCRIPTION_INPUT = document.querySelector(
 const OVERLAY = document.querySelector(".overlay");
 const ACCOUNT_NAME = document.querySelector(".account-name");
 const ACCOUNT_EMAIL = document.querySelector(".account-email");
+const ACCOUNT_PHOTO = document.querySelector(".account-photo");
 let userName;
 let userEmail;
 
-window.addEventListener("DOMContentLoaded", () => {
-  fetch("/user", {
+window.addEventListener("DOMContentLoaded", async () => {
+  // read user name & email
+  await fetch("/user", {
     method: "GET",
     credentials: "include",
   })
@@ -67,6 +69,31 @@ window.addEventListener("DOMContentLoaded", () => {
     })
     .catch((error) => {
       location.href = "/";
+    });
+
+  // read user photo
+  await fetch("/readSpecificPhoto", {
+    method: "POST",
+    headers: { "Content-type": "application/json" },
+    body: JSON.stringify({
+      email: userEmail,
+    }),
+  })
+    .then((res) => {
+      return res.json();
+    })
+    .then((photoData) => {
+      console.log(photoData);
+      if (photoData.length != 0) {
+        let photo =
+          "http://d1v357yavrduf9.cloudfront.net/" + photoData[0].image;
+        ACCOUNT_PHOTO.style.backgroundImage = `url(${photo})`;
+      } else {
+      }
+    })
+    .catch((err) => {
+      // handle error
+      console.error(err);
     });
 });
 
