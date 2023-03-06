@@ -222,6 +222,9 @@ ADD_CATEGORY.addEventListener("click", function () {
   EDIT_CONTAINER.style.display = "none";
   CATEGORY_CONTAINER.style.display = "block";
   OVERLAY.style.display = "block";
+  CATEGORYNAME_INPUT.value = "";
+  CATEGORY_VERTICAL.style.backgroundColor = "rgb(200, 200, 200)";
+  CATEGORY_COLOR_PICKER.value = "#c8c8c8";
 });
 
 CATEGORY_CLOSE.addEventListener("click", function () {
