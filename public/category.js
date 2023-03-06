@@ -662,4 +662,24 @@ socket.on("delete-category", async function (msg) {
     CATEGORYLIST.appendChild(div);
   } else {
   }
+
+  // remove in create event block
+  const CREATEEVENT_CATEGORY_SELECT = document.querySelector(
+    ".createEvent-category-select"
+  );
+  Array.from(CREATEEVENT_CATEGORY_SELECT).forEach((option) => {
+    if (option.innerHTML == categoryName && option.value == color) {
+      option.remove();
+    } else {
+    }
+  });
+
+  // remove in edit event block
+  const EDIT_CATEGORY_SELECT = document.querySelector(".edit-category-select");
+  Array.from(EDIT_CATEGORY_SELECT).forEach((option) => {
+    if (option.innerHTML == categoryName && option.value == color) {
+      option.remove();
+    } else {
+    }
+  });
 });
