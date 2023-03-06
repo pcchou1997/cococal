@@ -14,12 +14,15 @@ const {
   searchEvent,
   insertMember,
   readMember,
+  updateMember,
 } = require("./public/database");
 
 const express = require("express");
 const app = express();
 const http = require("http");
 const server = http.createServer(app);
+const jwt = require("jsonwebtoken");
+const cookieParser = require("cookie-parser");
 const io = require("socket.io")(server);
 // const { Server } = require("socket.io");
 // const io = new Server(server);
@@ -59,6 +62,7 @@ io.on("connection", (socket) => {
 });
 
 app.use(express.static("public"));
+app.use(cookieParser());
 
 app.set("view engine", "ejs");
 
@@ -71,6 +75,43 @@ app.get("/", function (req, res) {
 
 app.get("/member", function (req, res) {
   res.render("member");
+});
+
+app.post("/signin", async (req, res) => {
+  const email = req.body.email;
+  const password = req.body.password;
+
+  try {
+    let result = await readMember(email, password);
+    if (result !== []) {
+      // JWT + cookie
+      const name = result[0].name;
+      const token = jwt.sign({ name, email }, "Hello", { expiresIn: "600s" });
+      res.cookie("JWT", token, { maxAge: 600000, httpOnly: true });
+      res.status(200).json({ ok: true, name: result.name });
+    } else {
+      res
+        .status(400)
+        .json({ error: true, message: "帳號或密碼錯誤，請重新輸入。" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: true, message: "伺服器內部錯誤" });
+  }
+});
+
+app.get("/user", async (req, res) => {
+  const cookie = req.cookies;
+  if (cookie.JWT != undefined) {
+    try {
+      const value = cookie.JWT;
+      const token = jwt.verify(value, "Hello");
+      res.status(200).json({ ok: true, name: token.name, email: token.email });
+    } catch (error) {
+      res.status(500).json({ error: true, message: "伺服器內部錯誤" });
+    }
+  } else {
+    res.status(200).json({ ok: false });
+  }
 });
 
 app.post("/insertEvent", async function (req, res) {
@@ -241,9 +282,19 @@ app.post("/readMember", async (req, res) => {
   res.send(result);
 });
 
-// app.listen(3000, function () {
-//   console.log("伺服器已經啟動在port=3000，網址：http://127.0.0.1:3000/"); // 成功啟動後顯示在終端機的文字
-// });
+app.post("/updateMember", async (req, res) => {
+  let data = req.body;
+  const name = data.name;
+  const userName = data.userName;
+  const email = data.email;
+  const result = await updateMember(name, userName, email);
+  res.send(result);
+});
+
+app.get("/logout", async (req, res) => {
+  res.clearCookie("JWT");
+  res.status(200).json({ ok: true });
+});
 
 server.listen(3000, () => {
   console.log("伺服器已經啟動在port=3000，網址：http://127.0.0.1:3000/");

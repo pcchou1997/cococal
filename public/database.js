@@ -307,6 +307,22 @@ async function readMember(email, password) {
   return data;
 }
 
+// Update member
+
+async function updateMember(name, oldName, email) {
+  let sql = "UPDATE members SET name=? WHERE name=? and email=?";
+  let values = [name, oldName, email];
+  let data = await new Promise((resolve, reject) => {
+    connection.query(sql, values, function (err, result) {
+      if (err) throw err;
+      else {
+        return resolve(result);
+      }
+    });
+  });
+  return data;
+}
+
 module.exports = {
   insertEvent,
   readEvent,
@@ -323,4 +339,5 @@ module.exports = {
   searchEvent,
   insertMember,
   readMember,
+  updateMember,
 };

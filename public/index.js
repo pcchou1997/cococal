@@ -119,7 +119,7 @@ SIGNIN_BUTTON.addEventListener("click", function () {
     SIGNIN_WRONG_MESSAGE.style.display = "block";
     SIGNIN_WRONG_MESSAGE.innerHTML = "Wrong Password format";
   } else {
-    fetch("/readMember", {
+    fetch("/signin", {
       method: "POST",
       headers: { "Content-type": "application/json" },
       body: JSON.stringify({
@@ -131,8 +131,8 @@ SIGNIN_BUTTON.addEventListener("click", function () {
         return res.json();
       })
       .then((response) => {
-        console.log(response);
-        if (response.length != 0) {
+        if (response["ok"]) {
+          userName = response.name;
           SIGNIN_CORRECT_MESSAGE.style.display = "block";
           location.href = "/member";
         } else {

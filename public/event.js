@@ -42,6 +42,33 @@ const CREATE_EVENT_DESCRIPTION_INPUT = document.querySelector(
   ".createEvent-description-input"
 );
 const OVERLAY = document.querySelector(".overlay");
+const ACCOUNT_NAME = document.querySelector(".account-name");
+const ACCOUNT_EMAIL = document.querySelector(".account-email");
+let userName;
+let userEmail;
+
+window.addEventListener("DOMContentLoaded", () => {
+  fetch("/user", {
+    method: "GET",
+    credentials: "include",
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      if (data["ok"]) {
+        userName = data.name;
+        userEmail = data.email;
+        ACCOUNT_NAME.innerHTML = userName;
+        ACCOUNT_EMAIL.innerHTML = userEmail;
+      } else {
+        location.href = "/";
+      }
+    })
+    .catch((error) => {
+      location.href = "/";
+    });
+});
 
 let oldTitle;
 let oldStartDate;
