@@ -21,6 +21,9 @@ const SIGNUP_PASSWORD_HINT = document.querySelector(".signup-password-hint");
 let emailREGEX = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 let passwordREGEX = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/;
 
+SIGNIN_EMAIL.value = "test@test.com";
+SIGNIN_PASSWORD.value = "Test1234";
+
 TURN_TO_SIGNIN.addEventListener("click", function () {
   SIGNUP_NAME.value = "";
   SIGNUP_EMAIL.value = "";
