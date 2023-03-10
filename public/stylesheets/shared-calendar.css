@@ -1,0 +1,214 @@
+@import url(//fonts.googleapis.com/earlyaccess/notosanstc.css);
+
+* {
+  box-sizing: border-box;
+  font-size: 18px;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  height: 100%;
+  font-family: "Noto Sans TC", "微軟正黑體", sans-serif;
+}
+
+/* ==================================================
+                    self-setting
+===================================================*/
+
+.title-font {
+  font-size: 24px;
+}
+
+.fc-event {
+  cursor: pointer;
+}
+
+/* ==================================================
+                    content
+===================================================*/
+
+.overlay {
+  display: none;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(255, 255, 255, 0.5);
+  z-index: 99;
+}
+
+.content {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* ----- navbar ----- */
+
+.navbar {
+  width: 70px;
+  background-color: rgb(44, 62, 80);
+  display: flex;
+  justify-content: center;
+  padding: 20px 0px;
+}
+
+.account-icon {
+  color: rgb(220, 220, 220);
+  font-size: 45px;
+  cursor: pointer;
+}
+
+/* ----- sidebar ----- */
+
+.sidebar {
+  width: 20%;
+  padding: 20px 20px 30px 20px;
+  background-color: rgb(240, 240, 240);
+}
+
+/* ----- searchBar ----- */
+
+.searchBar {
+  height: 40px;
+  padding: 0px 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  background-color: white;
+}
+
+.search-input {
+  width: 90%;
+  height: 25px;
+  border: none;
+}
+
+.search-input:focus {
+  outline: none;
+  /* 去邊框 */
+}
+
+/* 搜尋icon */
+.fa-magnifying-glass {
+  cursor: pointer;
+}
+
+/* ----- function-buttons ----- */
+
+.functionButton {
+  width: 100%;
+  margin: 15px auto 0px auto;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  background-color: rgb(44, 62, 80);
+}
+
+.functionButton:hover {
+  background-color: rgb(27, 39, 50);
+}
+
+/* ----- categoryList ----- */
+
+.categoryList {
+  width: 100%;
+  max-height: 645px;
+  /* border: 1px solid rgb(161, 178, 196); */
+  margin-top: 15px;
+  overflow: auto;
+}
+
+.categoryList-title {
+  color: rgb(27, 42, 57);
+  font-weight: 700;
+  padding-top: 15px;
+  padding-left: 5px;
+  margin-bottom: 10px;
+  border-top: 1px solid rgb(44, 62, 80);
+}
+
+.no-category {
+  width: 100%;
+  padding: 3px 10px;
+  font-weight: bold;
+  color: rgb(135, 0, 0);
+}
+
+.categoryList-item {
+  width: 100%;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 3px 10px;
+  border: 2px solid rgb(240, 240, 240);
+  border-radius: 5px;
+  margin-bottom: 5px;
+}
+
+.categoryList-item:hover {
+  background-color: rgb(220, 220, 220);
+}
+
+.categoryList-category-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: baseline;
+}
+
+.categoryList-item-dot {
+  width: 10px;
+  height: 10px;
+  border: none;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.categoryList-button-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.categoryList .fa-square-check-regular {
+  display: none;
+  margin-left: 5px;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.categoryList .fa-square-check-solid {
+  margin-left: 5px;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.categoryList .fa-pen-to-square {
+  margin-left: 5px;
+  cursor: pointer;
+  z-index: 1;
+}
+
+/* ----- calendar-container ----- */
+
+.calendar-container {
+  width: 70%;
+  padding: 30px 0px;
+  margin: 0px auto;
+}
+
+.fc-event-time {
+  font-size: 16px;
+}
+
+.fc-event-title {
+  font-size: 16px;
+}

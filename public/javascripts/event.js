@@ -381,6 +381,7 @@ CREATE_EVENT_BUTTON.addEventListener("click", async function () {
         return res.json();
       })
       .then((jsonResponse) => {
+        console.log(jsonResponse);
         id = jsonResponse[0].id;
       });
 
