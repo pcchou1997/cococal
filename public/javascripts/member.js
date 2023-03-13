@@ -124,6 +124,7 @@ ACCOUNT_FINISH_PHOTO_BUTTON.addEventListener("click", async function () {
   ACCOUNT_WRONG_Message.style.display = "none";
   ACCOUNT_CORRECT_Message.style.display = "none";
   ACCOUNT_FINISH_PHOTO_BUTTON.style.display = "none";
+  ACCOUNT_NAME.style.display = "flex";
   ACCOUNT_EDIT_NAME_BUTTON.style.display = "block";
   ACCOUNT_EDIT_PHOTO_BUTTON.style.display = "block";
   ACCOUNT_LOG_OUT_BUTTON.style.display = "block";
