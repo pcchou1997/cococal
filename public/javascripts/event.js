@@ -45,6 +45,11 @@ const OVERLAY = document.querySelector(".overlay");
 const ACCOUNT_NAME = document.querySelector(".account-name");
 const ACCOUNT_EMAIL = document.querySelector(".account-email");
 const ACCOUNT_PHOTO = document.querySelector(".account-photo");
+const ACCOUNT_NO_PHOTO = document.querySelector(".account-no-photo");
+const USER_PHOTO_CONTAINER = document.querySelector(".user-photo-container");
+const USER_PHOTO = document.querySelector(".user-photo");
+const USER_NO_PHOTO = document.querySelector(".user-no-photo");
+
 let userName;
 let userEmail;
 
@@ -88,7 +93,13 @@ window.addEventListener("DOMContentLoaded", async () => {
         let photo =
           "http://d1v357yavrduf9.cloudfront.net/" + photoData[0].image;
         ACCOUNT_PHOTO.style.backgroundImage = `url(${photo})`;
+        ACCOUNT_NO_PHOTO.style.display = "none";
+        USER_PHOTO.style.backgroundImage = `url(${photo})`;
+        USER_NO_PHOTO.style.display = "none";
       } else {
+        USER_PHOTO.style.display = "none";
+        USER_NO_PHOTO.style.display = "block";
+        ACCOUNT_PHOTO.style.display = "none";
       }
     })
     .catch((err) => {

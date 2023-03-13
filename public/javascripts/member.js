@@ -1,4 +1,3 @@
-const ACCOUNT_ICON = document.querySelector(".account-icon");
 const ACCOUNT_CONTAINER = document.querySelector(".account-container");
 const ACCOUNT_CLOSE = document.querySelector(".account-close");
 const ACCOUNT_EDIT_NAME_BUTTON = document.querySelector(
@@ -24,7 +23,7 @@ const ACCOUNT_CORRECT_Message = document.querySelector(
 );
 ACCOUNT_NAME.innerHTML = userName;
 
-ACCOUNT_ICON.addEventListener("click", function () {
+USER_PHOTO_CONTAINER.addEventListener("click", function () {
   ACCOUNT_CONTAINER.style.display = "block";
   OVERLAY.style.display = "block";
 });
@@ -175,6 +174,7 @@ ACCOUNT_FINISH_PHOTO_BUTTON.addEventListener("click", async function () {
 
     let photo = "http://d1v357yavrduf9.cloudfront.net/" + image;
     ACCOUNT_PHOTO.style.backgroundImage = `url(${photo})`;
+    USER_PHOTO.style.backgroundImage = `url(${photo})`;
   }
 });
 

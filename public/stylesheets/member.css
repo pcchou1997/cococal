@@ -21,13 +21,24 @@
   align-items: center;
 }
 
-.account-photo {
+.account-photo-container {
   width: 220px;
   height: 220px;
   border-radius: 50%;
   margin: 20px auto 10px auto;
-  background-color: rgb(240, 240, 240);
+  border: 1px solid rgb(240, 240, 240);
+}
+
+.account-photo {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
   background-size: cover;
+}
+
+.account-no-photo {
+  color: rgb(230, 230, 230);
+  font-size: 220px;
 }
 
 .account-name {

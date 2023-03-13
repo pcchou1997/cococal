@@ -23,7 +23,10 @@
     <div class="content">
       <!-- navbar -->
       <div class="navbar">
-        <i class="fa-solid fa-circle-user account-icon"></i>
+        <div class="user-photo-container">
+          <div class="user-photo"></div>
+          <i class="fa-solid fa-circle-user user-no-photo"></i>
+        </div>
       </div>
       <!-- navbar end-->
 
@@ -225,7 +228,10 @@
     <!-- account-container -->
     <div class="account-container">
       <h1 class="account-title title-font">Account</h1>
-      <div class="account-photo"></div>
+      <div class="account-photo-container">
+        <div class="account-photo"></div>
+        <i class="fa-solid fa-circle-user account-no-photo"></i>
+      </div>
       <input
         type="file"
         id="file-uploader"
