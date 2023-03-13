@@ -1,5 +1,6 @@
 @import url(//fonts.googleapis.com/earlyaccess/notosanstc.css);
 @import url("https://fonts.googleapis.com/css2?family=Source+Serif+Pro:ital,wght@1,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap");
 
 * {
   box-sizing: border-box;
@@ -34,12 +35,15 @@ body {
 }
 
 .logo {
-  display: block;
   width: 500px;
   margin: 0px auto;
+  font-size: 120px;
+  font-family: "Luckiest Guy", cursive;
+  color: rgb(44, 62, 80);
 }
 
 .product-introduction {
+  color: rgb(145, 145, 145);
   font-family: "Source Serif Pro", serif;
   font-size: 50px;
 }
