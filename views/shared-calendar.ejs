@@ -233,15 +233,20 @@
         <div class="account-photo"></div>
         <i class="fa-solid fa-circle-user account-no-photo"></i>
       </div>
+      <div class="account-name"></div>
+      <input type="text" class="account-edit-name" placeholder="name" />
+      <div class="account-email"></div>
       <input
         type="file"
         id="file-uploader"
         data-target="file-uploader"
         accept="image/*"
       />
-      <div class="account-name"></div>
-      <input type="text" class="account-edit-name" placeholder="name" />
-      <div class="account-email"></div>
+      <label for="file-uploader" class="file-uploader-label"
+        ><i class="fa-solid fa-upload"></i>&nbsp;&nbsp;&nbsp;Choose a file
+        ...</label
+      >
+      <div class="file-name"></div>
       <button class="account-edit-name-button account-button-item">
         edit name
       </button>

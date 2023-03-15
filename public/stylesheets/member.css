@@ -6,6 +6,7 @@
   right: 0;
   margin-left: auto;
   margin-right: auto;
+  text-align: center;
   top: 80px;
   padding: 30px;
   border-radius: 20px;
@@ -68,23 +69,15 @@
 }
 
 .account-button-item {
+  display: block;
   width: 150px;
   height: 40px;
   font-size: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  background-color: rgb(240, 240, 240);
   border-radius: 10px;
   border: none;
-  background-color: rgb(240, 240, 240);
-  text-align: center;
   margin: 10px auto;
   cursor: pointer;
-}
-
-.account-edit-name-button,
-.account-edit-photo-button {
-  margin: 10px auto;
 }
 
 .account-edit-name-button:hover,
@@ -98,6 +91,7 @@
 .account-finish-name-button,
 .account-finish-photo-button {
   display: none;
+  margin-top: 30px;
 }
 
 .account-log-out-button {
@@ -119,11 +113,48 @@
 }
 
 #file-uploader {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+#file-uploader + .file-uploader-label {
   display: none;
-  height: 30px;
-  width: 300px;
-  border: none;
-  margin: 15px auto;
+  font-weight: 700;
+  color: white;
+  background-color: rgb(44, 62, 80);
+  cursor: pointer;
+  padding: 10px 10px;
+  border-radius: 5px;
+}
+
+.file-uploader-label {
+  width: 200px;
+  margin: 10px auto;
+}
+
+#file-uploader:focus + .file-uploader-label,
+#file-uploader + .file-uploader-label:hover {
+  background-color: black;
+}
+
+#file-uploader:focus + .file-uploader-label {
+  outline: 1px dotted #000;
+  outline: -webkit-focus-ring-color auto 5px;
+}
+
+.file-name {
+  display: none;
+  width: 80%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  font-size: 14px;
+  color: gray;
+  margin: 0px auto 20px auto;
 }
 
 .account-wrongMessage {

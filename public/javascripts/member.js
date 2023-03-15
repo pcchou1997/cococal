@@ -17,6 +17,11 @@ const ACCOUNT_FINISH_PHOTO_BUTTON = document.querySelector(
 );
 const ACCOUNT_EDIT_NAME = document.querySelector(".account-edit-name");
 const ACCOUNT_FILE_UPLOADER = document.querySelector("#file-uploader");
+const ACCOUNT_FILE_UPLOADER_LABEL = document.querySelector(
+  ".file-uploader-label"
+);
+const ACCOUNT_FILE_NAME = document.querySelector(".file-name");
+
 const ACCOUNT_WRONG_Message = document.querySelector(".account-wrongMessage");
 const ACCOUNT_CORRECT_Message = document.querySelector(
   ".account-correctMessage"
@@ -33,7 +38,7 @@ ACCOUNT_CLOSE.addEventListener("click", function () {
   ACCOUNT_CORRECT_Message.style.display = "none";
   ACCOUNT_CONTAINER.style.display = "none";
   OVERLAY.style.display = "none";
-  ACCOUNT_FILE_UPLOADER.style.display = "none";
+  ACCOUNT_FILE_UPLOADER_LABEL.style.display = "none";
   ACCOUNT_EDIT_NAME.style.display = "none";
   ACCOUNT_FINISH_NAME_BUTTON.style.display = "none";
   ACCOUNT_FINISH_PHOTO_BUTTON.style.display = "none";
@@ -42,12 +47,14 @@ ACCOUNT_CLOSE.addEventListener("click", function () {
   ACCOUNT_LOG_OUT_BUTTON.style.display = "block";
   ACCOUNT_NAME.style.display = "flex";
   ACCOUNT_EMAIL.style.display = "flex";
+  ACCOUNT_FILE_UPLOADER.value = "";
+  ACCOUNT_FILE_NAME.style.display = "none";
 });
 
 ACCOUNT_EDIT_NAME_BUTTON.addEventListener("click", function () {
   ACCOUNT_WRONG_Message.style.display = "none";
   ACCOUNT_CORRECT_Message.style.display = "none";
-  ACCOUNT_FILE_UPLOADER.style.display = "none";
+  ACCOUNT_FILE_UPLOADER_LABEL.style.display = "none";
   ACCOUNT_EDIT_NAME.style.display = "block";
   ACCOUNT_FINISH_NAME_BUTTON.style.display = "block";
   ACCOUNT_FINISH_PHOTO_BUTTON.style.display = "none";
@@ -65,9 +72,9 @@ ACCOUNT_EDIT_NAME_BUTTON.addEventListener("click", function () {
 ACCOUNT_EDIT_PHOTO_BUTTON.addEventListener("click", function () {
   ACCOUNT_WRONG_Message.style.display = "none";
   ACCOUNT_CORRECT_Message.style.display = "none";
-  ACCOUNT_FILE_UPLOADER.style.display = "block";
+  ACCOUNT_FILE_UPLOADER_LABEL.style.display = "block";
   ACCOUNT_FINISH_PHOTO_BUTTON.style.display = "block";
-  ACCOUNT_NAME.style.display = "none";
+  // ACCOUNT_NAME.style.display = "none";
   ACCOUNT_EDIT_NAME_BUTTON.style.display = "none";
   ACCOUNT_EDIT_PHOTO_BUTTON.style.display = "none";
   ACCOUNT_LOG_OUT_BUTTON.style.display = "none";
@@ -120,22 +127,22 @@ ACCOUNT_FINISH_NAME_BUTTON.addEventListener("click", async function () {
 });
 
 ACCOUNT_FINISH_PHOTO_BUTTON.addEventListener("click", async function () {
-  ACCOUNT_WRONG_Message.style.display = "none";
-  ACCOUNT_CORRECT_Message.style.display = "none";
-  ACCOUNT_FINISH_PHOTO_BUTTON.style.display = "none";
-  ACCOUNT_NAME.style.display = "flex";
-  ACCOUNT_EDIT_NAME_BUTTON.style.display = "block";
-  ACCOUNT_EDIT_PHOTO_BUTTON.style.display = "block";
-  ACCOUNT_LOG_OUT_BUTTON.style.display = "block";
-
   const file = ACCOUNT_FILE_UPLOADER.files[0];
-  ACCOUNT_FILE_UPLOADER.value = "";
-  ACCOUNT_FILE_UPLOADER.style.display = "none";
-
   if (file == undefined) {
     ACCOUNT_WRONG_Message.innerHTML = "Please upload the photo";
     ACCOUNT_WRONG_Message.style.display = "block";
   } else {
+    ACCOUNT_WRONG_Message.style.display = "none";
+    ACCOUNT_CORRECT_Message.style.display = "none";
+    ACCOUNT_FINISH_PHOTO_BUTTON.style.display = "none";
+    ACCOUNT_NAME.style.display = "flex";
+    ACCOUNT_EDIT_NAME_BUTTON.style.display = "block";
+    ACCOUNT_EDIT_PHOTO_BUTTON.style.display = "block";
+    ACCOUNT_LOG_OUT_BUTTON.style.display = "block";
+    ACCOUNT_FILE_UPLOADER.value = "";
+    ACCOUNT_FILE_NAME.style.display = "none";
+    ACCOUNT_FILE_UPLOADER_LABEL.style.display = "none";
+
     // get secure url from server
 
     const { url } = await fetch("/imgStorage").then((res) => res.json());
@@ -186,4 +193,10 @@ ACCOUNT_LOG_OUT_BUTTON.addEventListener("click", async function () {
     .catch((err) => {
       console.error(err);
     });
+});
+
+ACCOUNT_FILE_UPLOADER.addEventListener("change", async function () {
+  let filename = ACCOUNT_FILE_UPLOADER.value;
+  ACCOUNT_FILE_NAME.style.display = "block";
+  ACCOUNT_FILE_NAME.innerHTML = filename;
 });
