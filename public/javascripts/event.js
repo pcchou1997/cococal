@@ -88,18 +88,20 @@ window.addEventListener("DOMContentLoaded", async () => {
       return res.json();
     })
     .then((photoData) => {
-      console.log(photoData);
       if (photoData.length != 0) {
         let photo =
           "http://d1v357yavrduf9.cloudfront.net/" + photoData[0].image;
         ACCOUNT_PHOTO.style.backgroundImage = `url(${photo})`;
+        ACCOUNT_PHOTO.style.display = "block";
         ACCOUNT_NO_PHOTO.style.display = "none";
         USER_PHOTO.style.backgroundImage = `url(${photo})`;
+        USER_PHOTO.style.display = "block";
         USER_NO_PHOTO.style.display = "none";
       } else {
         USER_PHOTO.style.display = "none";
         USER_NO_PHOTO.style.display = "block";
         ACCOUNT_PHOTO.style.display = "none";
+        ACCOUNT_NO_PHOTO.style.display = "block";
       }
     })
     .catch((err) => {
