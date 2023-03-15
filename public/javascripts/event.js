@@ -116,8 +116,6 @@ let oldStartTime;
 let events = [];
 let calendar;
 
-let socket = io();
-
 function createCalendar(events) {
   let calendarEl = document.getElementById("calendar");
   calendar = new FullCalendar.Calendar(calendarEl, {

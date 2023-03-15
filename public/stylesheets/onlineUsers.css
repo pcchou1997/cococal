@@ -1,0 +1,53 @@
+.navbar {
+  width: 70px;
+  background-color: rgb(44, 62, 80);
+  padding: 5px 0px;
+}
+
+.onlineUser-num-container {
+  width: 75%;
+  margin: 0px auto;
+  text-align: center;
+  padding: 10px 0px;
+  border-bottom: 1px solid rgb(240, 240, 240);
+}
+
+.onlineUser-num {
+  width: 100%;
+  font-size: 45px;
+  color: white;
+  font-weight: 700;
+  line-height: 50px;
+}
+
+.onlineUser-num-container div:nth-child(2) {
+  color: rgb(220, 220, 220);
+}
+
+.onlineUsers-list {
+  width: 100%;
+  padding-top: 10px;
+}
+
+.user-photo-container {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  border: 1px solid rgb(220, 220, 220);
+  cursor: pointer;
+  margin: 0px auto 10px auto;
+}
+
+.user-photo {
+  display: none;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-size: cover;
+}
+
+.user-no-photo {
+  display: none;
+  color: rgb(220, 220, 220);
+  font-size: 45px;
+}

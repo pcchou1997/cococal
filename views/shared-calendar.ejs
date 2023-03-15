@@ -6,6 +6,7 @@
     <script src="/javascripts/fullcalendar/fullcalendar-locales-all.global.js"></script>
     <script src="/socket.io/socket.io.js"></script>
 
+    <link rel="stylesheet" href="/stylesheets/onlineUsers.css" />
     <link rel="stylesheet" href="/stylesheets/shared-calendar.css" />
     <link rel="stylesheet" href="/stylesheets/event.css" />
     <link rel="stylesheet" href="/stylesheets/category.css" />
@@ -23,21 +24,21 @@
     <div class="content">
       <!-- navbar -->
       <div class="navbar">
-        <div class="user-photo-container">
-          <div class="user-photo"></div>
-          <i class="fa-solid fa-circle-user user-no-photo"></i>
+        <div class="onlineUser-num-container">
+          <div class="onlineUser-num">0</div>
+          <div>users</div>
+        </div>
+        <div class="onlineUsers-list">
+          <div class="user-photo-container">
+            <div class="user-photo"></div>
+            <i class="fa-solid fa-circle-user user-no-photo"></i>
+          </div>
         </div>
       </div>
       <!-- navbar end-->
 
       <!-- sidebar -->
       <div class="sidebar">
-        <div class="member-Info">
-          <div class="member-photo"></div>
-          <div class="member-name"></div>
-          <div class="member-email"></div>
-        </div>
-
         <div class="searchBar">
           <input type="text" placeholder="search event" class="search-input" />
           <i class="fa-solid fa-magnifying-glass search-icon"></i>
@@ -262,6 +263,7 @@
     </div>
     <!-- account-container end-->
 
+    <script src="/javascripts/onlineUsers.js"></script>
     <script src="/javascripts/event.js"></script>
     <script src="/javascripts/category.js"></script>
     <script src="/javascripts/search.js"></script>

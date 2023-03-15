@@ -25,12 +25,18 @@ app.use(eventRoute);
 app.use(categoryRoute);
 app.use(memberRoute);
 
+let onlineUsersCount = 0;
+
 // socket.io 連線
 io.on("connection", (socket) => {
   console.log("a user connected");
+  onlineUsersCount++;
+  io.emit("change-onlineUsersCount", onlineUsersCount);
 
   socket.on("disconnect", () => {
     console.log("user disconnected");
+    onlineUsersCount--;
+    io.emit("change-onlineUsersCount", onlineUsersCount);
   });
 
   // socket: server 傳送給所有 client
