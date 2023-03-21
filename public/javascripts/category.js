@@ -54,7 +54,7 @@ fetch("/readCategory")
         let categoryList_category_container = document.createElement("div");
         let categoryList_category = document.createElement("div");
         let dot = document.createElement("div");
-        let addContent = `<div class="categoryList-button-container"><i class="fa-regular fa-square-check fa-square-check-regular"></i></i><i class="fa-solid fa-square-check fa-square-check-solid"></i><i class="fa-regular fa-pen-to-square"></i></div>`;
+        let addContent = `<div class="categoryList-button-container"><i class="fa-regular fa-square-check unchecked-icon"></i></i><i class="fa-solid fa-square-check checked-icon"></i><i class="fa-regular fa-pen-to-square edit-icon"></i></div>`;
 
         // Edit Event Block
         option.value = element.color;
@@ -88,11 +88,9 @@ fetch("/readCategory")
   })
   .then((jsonResponse) => {
     console.log(jsonResponse);
-    const PRESSED_BUTTON = document.querySelectorAll(".fa-square-check-solid");
-    const UNPRESSED_BUTTON = document.querySelectorAll(
-      ".fa-square-check-regular"
-    );
-    const EDIT_CATEGORY_BUTTON = document.querySelectorAll(".fa-pen-to-square");
+    const PRESSED_BUTTON = document.querySelectorAll(".checked-icon");
+    const UNPRESSED_BUTTON = document.querySelectorAll(".unchecked-icon");
+    const EDIT_CATEGORY_BUTTON = document.querySelectorAll(".edit-icon");
 
     EDIT_CATEGORY_SELECT.addEventListener("change", function () {
       EDIT_VERTICAL.style.backgroundColor = this.value;
@@ -112,7 +110,6 @@ fetch("/readCategory")
         ).backgroundColor;
         let className =
           this.parentNode.parentNode.children[0].children[1].innerHTML;
-        let idList = [];
 
         await fetch("/readEventsOfSpecificCategory", {
           method: "POST",
@@ -124,14 +121,10 @@ fetch("/readCategory")
           })
           .then((EventsOfSpecificCategory) => {
             EventsOfSpecificCategory.forEach((event) => {
-              idList.push(event.id);
+              let calendarEventId = calendar.getEventById(event.id);
+              calendarEventId.setProp("display", "none");
             });
           });
-
-        idList.forEach((id) => {
-          let calendarEventId = calendar.getEventById(id);
-          calendarEventId.setProp("display", "none");
-        });
         editCalendarEvents();
       });
     });
@@ -147,7 +140,6 @@ fetch("/readCategory")
         ).backgroundColor;
         let className =
           this.parentNode.parentNode.children[0].children[1].innerHTML;
-        let idList = [];
 
         await fetch("/readEventsOfSpecificCategory", {
           method: "POST",
@@ -159,15 +151,10 @@ fetch("/readCategory")
           })
           .then((EventsOfSpecificCategory) => {
             EventsOfSpecificCategory.forEach((event) => {
-              idList.push(event.id);
+              let calendarEventId = calendar.getEventById(event.id);
+              calendarEventId.setProp("display", "auto");
             });
           });
-        console.log(idList);
-
-        idList.forEach((id) => {
-          let calendarEventId = calendar.getEventById(id);
-          calendarEventId.setProp("display", "auto");
-        });
         editCalendarEvents();
       });
     });
@@ -452,7 +439,7 @@ socket.on("insert-category", async function (msg) {
   let categoryList_category_container = document.createElement("div");
   let categoryList_category = document.createElement("div");
   let dot = document.createElement("div");
-  let addContent = `<div class="categoryList-button-container"><i class="fa-regular fa-square-check fa-square-check-regular"></i></i><i class="fa-solid fa-square-check fa-square-check-solid"></i><i class="fa-regular fa-pen-to-square"></i></div>`;
+  let addContent = `<div class="categoryList-button-container"><i class="fa-regular fa-square-check unchecked-icon"></i></i><i class="fa-solid fa-square-check checked-icon"></i><i class="fa-regular fa-pen-to-square edit-icon"></i></div>`;
 
   // Edit Event Block
   option.value = color;
@@ -483,7 +470,7 @@ socket.on("insert-category", async function (msg) {
   // add event listener
 
   // PRESSED_BUTTON
-  const PRESSED_BUTTON = document.querySelectorAll(".fa-square-check-solid");
+  const PRESSED_BUTTON = document.querySelectorAll(".checked-icon");
   let lastCategoryPressedButton = PRESSED_BUTTON[PRESSED_BUTTON.length - 1];
 
   lastCategoryPressedButton.addEventListener("click", async function () {
@@ -494,7 +481,6 @@ socket.on("insert-category", async function (msg) {
     ).backgroundColor;
     let className =
       this.parentNode.parentNode.children[0].children[1].innerHTML;
-    let idList = [];
 
     await fetch("/readEventsOfSpecificCategory", {
       method: "POST",
@@ -506,21 +492,15 @@ socket.on("insert-category", async function (msg) {
       })
       .then((EventsOfSpecificCategory) => {
         EventsOfSpecificCategory.forEach((event) => {
-          idList.push(event.id);
+          let calendarEventId = calendar.getEventById(event.id);
+          calendarEventId.setProp("display", "none");
         });
       });
-
-    idList.forEach((id) => {
-      let calendarEventId = calendar.getEventById(id);
-      calendarEventId.setProp("display", "none");
-    });
     editCalendarEvents();
   });
 
   // UNPRESSED_BUTTON
-  const UNPRESSED_BUTTON = document.querySelectorAll(
-    ".fa-square-check-regular"
-  );
+  const UNPRESSED_BUTTON = document.querySelectorAll(".unchecked-icon");
   let lastCategoryUnpressedButton =
     UNPRESSED_BUTTON[UNPRESSED_BUTTON.length - 1];
 
@@ -532,7 +512,6 @@ socket.on("insert-category", async function (msg) {
     ).backgroundColor;
     let className =
       this.parentNode.parentNode.children[0].children[1].innerHTML;
-    let idList = [];
 
     await fetch("/readEventsOfSpecificCategory", {
       method: "POST",
@@ -544,19 +523,15 @@ socket.on("insert-category", async function (msg) {
       })
       .then((EventsOfSpecificCategory) => {
         EventsOfSpecificCategory.forEach((event) => {
-          idList.push(event.id);
+          let calendarEventId = calendar.getEventById(event.id);
+          calendarEventId.setProp("display", "auto");
         });
       });
-
-    idList.forEach((id) => {
-      let calendarEventId = calendar.getEventById(id);
-      calendarEventId.setProp("display", "auto");
-    });
     editCalendarEvents();
   });
 
   // EDIT_CATEGORY_BUTTON
-  const EDIT_CATEGORY_BUTTON = document.querySelectorAll(".fa-pen-to-square");
+  const EDIT_CATEGORY_BUTTON = document.querySelectorAll(".edit-icon");
   Array.from(EDIT_CATEGORY_BUTTON).forEach((element) => {
     element.addEventListener("click", function () {
       EDIT_CATEGORY_CONTAINER.style.display = "block";

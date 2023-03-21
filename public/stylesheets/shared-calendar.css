@@ -41,6 +41,7 @@ body {
 
 .content {
   width: 100%;
+  /* height: 100vh; */
   display: flex;
   justify-content: center;
 }
@@ -76,9 +77,14 @@ body {
   /* 去邊框 */
 }
 
-/* 搜尋icon */
-.fa-magnifying-glass {
+.search-icon {
+  color: rgb(180, 180, 180);
   cursor: pointer;
+  transition: all 0.8s;
+}
+
+.search-icon:hover {
+  color: black;
 }
 
 /* ----- function-buttons ----- */
@@ -162,20 +168,23 @@ body {
   align-items: center;
 }
 
-.categoryList .fa-square-check-regular {
+.categoryList .unchecked-icon {
   display: none;
+  color: rgb(50, 50, 50);
   margin-left: 5px;
   cursor: pointer;
   z-index: 1;
 }
 
-.categoryList .fa-square-check-solid {
+.categoryList .checked-icon {
+  color: rgb(50, 50, 50);
   margin-left: 5px;
   cursor: pointer;
   z-index: 1;
 }
 
-.categoryList .fa-pen-to-square {
+.categoryList .edit-icon {
+  color: rgb(50, 50, 50);
   margin-left: 5px;
   cursor: pointer;
   z-index: 1;
@@ -184,15 +193,19 @@ body {
 /* ----- calendar-container ----- */
 
 .calendar-container {
-  width: 70%;
-  padding: 30px 0px;
+  width: 65%;
+  padding: 20px 0px;
   margin: 0px auto;
 }
 
 .fc-event-time {
-  font-size: 16px;
+  font-size: 14px;
 }
 
 .fc-event-title {
-  font-size: 16px;
+  font-size: 14px;
+}
+
+.fc-daygrid-day-number {
+  font-size: 14px;
 }
