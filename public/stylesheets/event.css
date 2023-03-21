@@ -117,7 +117,7 @@
 
 .createEvent-category-select {
   cursor: pointer;
-  width: 150px;
+  width: 200px;
   height: 35px;
   border: none;
   border-radius: 15px;
@@ -326,7 +326,7 @@
 
 .edit-category-select {
   cursor: pointer;
-  width: 150px;
+  width: 200px;
   height: 35px;
   border: none;
   border-radius: 15px;
