@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="/stylesheets/login.css" />
+    <script
+      src="https://kit.fontawesome.com/605526aab0.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+
+  <body>
+    <!-- index-content -->
+    <div class="index-content">
+      <!-- left -->
+      <div class="index-left">
+        <div class="logo">cococal</div>
+        <div class="product">
+          <div class="product-introduction">
+            <div class="product-introduction-title">Start for free!</div>
+            <div class="product-introduction-slogan">
+              simple, real-time, Shared Calendar for groups
+              <!-- simple, real-time, shared calendar for you and your partner -->
+            </div>
+          </div>
+          <div class="product-image">
+            <img
+              src="/images/Events-cuate.jpeg"
+              alt=""
+              class="product-image-img"
+            />
+          </div>
+        </div>
+      </div>
+      <!-- left end-->
+
+      <!-- right -->
+      <div class="index-right">
+        <div class="login-container container">
+          <h2 class="login-title title">Login</h2>
+          <div class="login-field-title">Email</div>
+          <div class="login-email login-field">
+            <i class="fa-regular fa-envelope email-icon login-icon"></i>
+            <input type="text" class="login-email-input" placeholder="email" />
+          </div>
+          <div class="login-field-title">Password</div>
+          <div class="login-password login-field">
+            <i class="fa-solid fa-lock lock-icon login-icon"></i
+            ><input
+              type="password"
+              class="login-password-input"
+              placeholder="password"
+            />
+          </div>
+
+          <button class="login-button button">Login</button>
+          <div class="login-WrongMessage wrongMessage"></div>
+          <div class="login-CorrectMessage correctMessage">
+            Login successfully!
+          </div>
+          <div class="toggleGuideText">
+            <p class="accountText">Haven't an account yet?</p>
+            <p class="turnToRegister turnButton">&nbsp;register here!</p>
+          </div>
+        </div>
+        <div class="register-container container">
+          <h2 class="register-title title">Register</h2>
+          <div class="register-field-title">Name</div>
+          <div class="register-name register-field">
+            <i class="fa-regular fa-user name-icon register-icon"></i>
+            <input type="name" class="register-name-input" placeholder="name" />
+          </div>
+          <div class="register-field-title">Email</div>
+          <div class="register-email register-field">
+            <i class="fa-regular fa-envelope email-icon register-icon"></i>
+            <input
+              type="text"
+              class="register-email-input"
+              placeholder="email"
+            />
+          </div>
+          <div class="register-field-title">Password</div>
+          <div class="register-password register-field">
+            <i class="fa-solid fa-lock lock-icon register-icon"></i
+            ><input
+              type="password"
+              class="register-password-input"
+              placeholder="password"
+            />
+          </div>
+          <!-- 8 characters, including 1 digit, 1 uppercase letter) -->
+          <button class="register-button button">Register</button>
+          <div class="register-WrongMessage wrongMessage"></div>
+          <div class="register-CorrectMessage correctMessage">
+            Signup successfully! Please turn to login page.
+          </div>
+          <div class="toggleGuideText">
+            <p class="accountText">Already have an account?</p>
+            <p class="turnToLogin turnButton">&nbsp;login here!</p>
+          </div>
+        </div>
+      </div>
+      <!-- right end-->
+    </div>
+    <!-- content end-->
+    <script src="/javascripts/login.js"></script>
+  </body>
+</html>

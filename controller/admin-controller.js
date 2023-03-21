@@ -2,7 +2,7 @@ const memberModel = require("../model/member-model");
 const jwt = require("jsonwebtoken");
 
 exports.getIndexPage = function (req, res) {
-  res.render("index");
+  res.render("login");
 };
 
 exports.postLogin = async (req, res) => {

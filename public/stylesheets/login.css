@@ -1,0 +1,201 @@
+@import url(//fonts.googleapis.com/earlyaccess/notosanstc.css);
+@import url("https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap");
+
+* {
+  box-sizing: border-box;
+  font-size: 18px;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  height: 100%;
+  font-family: "Noto Sans TC", "微軟正黑體", sans-serif;
+}
+
+.index-content {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+}
+
+/* -------------- left part -------------- */
+
+.index-left {
+  width: 60%;
+  height: 100%;
+  position: relative;
+}
+
+.logo {
+  width: 500px;
+  /* margin: 0px auto; */
+  font-size: 40px;
+  font-family: "Luckiest Guy", cursive;
+  color: rgb(44, 62, 80);
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+
+.product {
+  width: 80%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 0px 80px;
+}
+
+.product-introduction {
+  width: 80%;
+  margin: 0px auto;
+}
+
+.product-introduction-title {
+  font-size: 40px;
+  font-weight: 900;
+  color: rgb(44, 62, 80);
+}
+
+.product-introduction-slogan {
+  color: rgb(145, 145, 145);
+  font-size: 20px;
+}
+
+.product-image {
+  width: 80%;
+  margin: 40px auto 0 auto;
+}
+
+.product-image-img {
+  display: block;
+  width: 100%;
+}
+
+/* -------------- right part -------------- */
+
+.index-right {
+  width: 40%;
+  height: 100%;
+  /* background-color: rgb(44, 62, 80); */
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.container {
+  width: 450px;
+  /* background-color: rgb(143, 171, 199); */
+  color: rgb(44, 62, 80);
+  border-radius: 10px;
+  padding: 30px;
+  border: 1px solid rgb(220, 220, 220);
+}
+
+.register-container {
+  display: none;
+}
+
+.title {
+  width: 100%;
+  text-align: center;
+  margin: 0px auto 50px auto;
+  font-size: 40px;
+}
+
+.login-field,
+.register-field {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  border: 1px solid rgb(220, 220, 220);
+  border-radius: 5px;
+  margin-bottom: 20px;
+  padding: 0px 15px;
+  background-color: white;
+}
+
+.login-field-title,
+.register-field-title {
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.login-icon,
+.register-icon {
+  font-size: 20px;
+  color: rgb(44, 62, 80);
+}
+
+.index-right input {
+  display: block;
+  width: 100%;
+  height: 30px;
+  border: none;
+  border-radius: 5px;
+  margin: 10px 10px;
+  padding: 0px 10px;
+  background-color: rgb(255, 255, 255);
+}
+
+.index-right input:focus {
+  outline: none;
+  /* 去邊框 */
+}
+
+.button {
+  width: 100%;
+  height: 50px;
+  color: rgb(44, 62, 80);
+  border-radius: 5px;
+  font-size: 24px;
+  margin: 20px 0px 10px 0px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.8s;
+}
+
+.button:hover {
+  color: white;
+  background-color: rgb(44, 62, 80);
+}
+
+.wrongMessage {
+  width: 100%;
+  display: none;
+  text-align: center;
+  color: red;
+  margin: 0px auto;
+}
+
+.correctMessage {
+  width: 100%;
+  display: none;
+  text-align: center;
+  color: green;
+  margin: 0px auto;
+}
+
+.toggleGuideText {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.accountText {
+  color: gray;
+}
+
+.turnButton {
+  cursor: pointer;
+}
+
+.turnButton:hover {
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+}
