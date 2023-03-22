@@ -2,17 +2,15 @@ const express = require("express");
 const router = express.Router();
 const categoryController = require("../controller/category-controller");
 
-router.post("/insertCategory", categoryController.postInsertCategory);
+router
+  .route("/api/category")
+  .post(categoryController.insertCategory)
+  .get(categoryController.readCategory)
+  .put(categoryController.updateCategory)
+  .delete(categoryController.deleteCategory);
 
-router.get("/readCategory", categoryController.getReadCategory);
-
-router.post(
-  "/readSpecificCategory",
-  categoryController.postReadSpecificCategory
-);
-
-router.post("/updateCategory", categoryController.postUpdateCategory);
-
-router.post("/deleteCategory", categoryController.postDeleteCategory);
+router
+  .route("/api/category/:categoryName")
+  .get(categoryController.readSpecificCategory);
 
 module.exports = router;

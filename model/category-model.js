@@ -27,9 +27,9 @@ exports.readCategory = async function () {
   return data;
 };
 
-exports.readSpecificCategory = async function (color) {
-  let sql = "SELECT * FROM categories WHERE color=?";
-  let values = [color];
+exports.readSpecificCategory = async function (categoryName) {
+  let sql = "SELECT * FROM categories WHERE categoryName=?";
+  let values = [categoryName];
   let data = await new Promise((resolve, reject) => {
     db.query(sql, values, function (err, result) {
       if (err) throw err;

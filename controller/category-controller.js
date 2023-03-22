@@ -1,44 +1,97 @@
 const categoryModel = require("../model/category-model");
 
-exports.postInsertCategory = async (req, res) => {
-  let data = req.body;
-  const categoryName = data.categoryName;
-  const color = data.color;
-  const result = await categoryModel.insertCategory(categoryName, color);
-  res.send(result);
+exports.insertCategory = async (req, res) => {
+  try {
+    let data = req.body;
+    const categoryName = data.categoryName;
+    const color = data.color;
+
+    if (categoryName == "" || color == "") {
+      res.status(400).json({ error: true, message: "Wrong request data" });
+    } else {
+      const result = await categoryModel.insertCategory(categoryName, color);
+      if (result.constructor.name == "OkPacket") {
+        res.status(200).json({ ok: true, data: result });
+      } else {
+        res.status(400).json({ error: true, message: "Fail to insert data" });
+      }
+    }
+  } catch (error) {
+    res.status(500).json({ error: true, message: "Internal Server Error" });
+  }
 };
 
-exports.getReadCategory = async (req, res) => {
-  const result = await categoryModel.readCategory();
-  res.json(result);
+exports.readCategory = async (req, res) => {
+  try {
+    const result = await categoryModel.readCategory();
+    res.status(200).json({ ok: true, data: result });
+  } catch (error) {
+    res.status(500).json({ error: true, message: "Internal Server Error" });
+  }
 };
 
-exports.postReadSpecificCategory = async (req, res) => {
-  let data = req.body;
-  const color = data.color;
-  const result = await categoryModel.readSpecificCategory(color);
-  res.send(result);
+exports.updateCategory = async (req, res) => {
+  try {
+    let data = req.body;
+    const categoryName = data.categoryName;
+    const color = data.color;
+    const oldCategoryName = data.oldCategoryName;
+    const oldColor = data.oldColor;
+    if (
+      categoryName == "" ||
+      color == "" ||
+      oldCategoryName == "" ||
+      oldColor == ""
+    ) {
+      res.status(400).json({ error: true, message: "Wrong request data" });
+    } else {
+      const result = await categoryModel.updateCategory(
+        categoryName,
+        color,
+        oldCategoryName,
+        oldColor
+      );
+      if (result.constructor.name == "OkPacket") {
+        res.status(200).json({ ok: true, data: result });
+      } else {
+        res.status(400).json({ error: true, message: "Fail to update data" });
+      }
+    }
+  } catch (error) {
+    res.status(500).json({ error: true, message: "Internal Server Error" });
+  }
 };
 
-exports.postUpdateCategory = async (req, res) => {
-  let data = req.body;
-  const categoryName = data.categoryName;
-  const color = data.color;
-  const oldCategoryName = data.oldCategoryName;
-  const oldColor = data.oldColor;
-  const result = await categoryModel.updateCategory(
-    categoryName,
-    color,
-    oldCategoryName,
-    oldColor
-  );
-  res.send(result);
+exports.deleteCategory = async (req, res) => {
+  try {
+    let data = req.body;
+    const categoryName = data.categoryName;
+    const color = data.color;
+    if (categoryName == "" || color == "") {
+      res.status(400).json({ error: true, message: "Wrong request data" });
+    } else {
+      const result = await categoryModel.deleteCategory(categoryName, color);
+      if (result.constructor.name == "OkPacket") {
+        res.status(200).json({ ok: true, data: result });
+      } else {
+        res.status(400).json({ error: true, message: "Fail to delete data" });
+      }
+    }
+  } catch (error) {
+    res.status(500).json({ error: true, message: "Internal Server Error" });
+  }
 };
 
-exports.postDeleteCategory = async (req, res) => {
-  let data = req.body;
-  const categoryName = data.categoryName;
-  const color = data.color;
-  const result = await categoryModel.deleteCategory(categoryName, color);
-  res.send(result);
+exports.readSpecificCategory = async (req, res) => {
+  try {
+    const { categoryName } = req.params;
+    if (categoryName == "") {
+      res.status(400).json({ error: true, message: "Wrong request data" });
+    } else {
+      const result = await categoryModel.readSpecificCategory(categoryName);
+      res.status(200).json({ ok: true, data: result });
+    }
+  } catch (error) {
+    res.status(500).json({ error: true, message: "Internal Server Error" });
+  }
 };

@@ -37,18 +37,13 @@ let oldCategoryName;
 
 // get DB categories
 
-fetch("/readCategory")
+fetch("/api/category")
   .then((res) => {
     return res.json();
   })
-  .then((jsonResponse) => {
-    if (jsonResponse.length == 0) {
-      let div = document.createElement("div");
-      div.setAttribute("class", "no-category");
-      div.innerHTML = "Doesn't have any category? Try to create one now!";
-      CATEGORYLIST.appendChild(div);
-    } else {
-      Array.from(jsonResponse).forEach((element) => {
+  .then((categories) => {
+    if (categories.ok == true && categories.data.length > 0) {
+      Array.from(categories.data).forEach((element) => {
         let option = document.createElement("option");
         let div = document.createElement("div");
         let categoryList_category_container = document.createElement("div");
@@ -82,12 +77,15 @@ fetch("/readCategory")
         div.innerHTML += addContent;
         CATEGORYLIST.appendChild(div);
       });
+    } else {
+      let div = document.createElement("div");
+      div.setAttribute("class", "no-category");
+      div.innerHTML = "Doesn't have any category? Try to create one now!";
+      CATEGORYLIST.appendChild(div);
     }
-
-    return jsonResponse;
+    return categories;
   })
-  .then((jsonResponse) => {
-    console.log(jsonResponse);
+  .then((categories) => {
     const PRESSED_BUTTON = document.querySelectorAll(".checked-icon");
     const UNPRESSED_BUTTON = document.querySelectorAll(".unchecked-icon");
     const EDIT_CATEGORY_BUTTON = document.querySelectorAll(".edit-icon");
@@ -190,6 +188,9 @@ fetch("/readCategory")
         );
       });
     });
+  })
+  .catch((error) => {
+    console.log(error);
   });
 
 // the function of changing color from RGB to HEX
@@ -242,25 +243,21 @@ CREATE_CATEGORY_BUTTON.addEventListener("click", async function () {
 
     CATEGORY_CONTAINER.style.display = "none";
     OVERLAY.style.display = "none";
-    await fetch("/insertCategory", {
+    await fetch("/api/category", {
       method: "POST",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify({
-        color: color,
-        categoryName: categoryName,
-      }),
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify({ color: color, categoryName: categoryName }),
+    }).then((res) => {
+      if (res.ok) {
+        // socket.io
+        let message = { color: color, categoryName: categoryName };
+
+        // socket: client 傳送到 server
+        socket.emit("insert-category", message);
+      } else {
+        alert("Fail to insert category");
+      }
     });
-
-    // socket.io
-    let message = {
-      color: color,
-      categoryName: categoryName,
-    };
-
-    // socket: client 傳送到 server
-    socket.emit("insert-category", message);
   }
 });
 
@@ -311,11 +308,9 @@ EDIT_CATEGORY_REVISE.addEventListener("click", async function () {
         });
       })
       .then(
-        fetch("/updateCategory", {
-          method: "POST",
-          headers: {
-            "Content-type": "application/json",
-          },
+        fetch("/api/category", {
+          method: "PUT",
+          headers: { "Content-type": "application/json" },
           body: JSON.stringify({
             color: color,
             categoryName: categoryName,
@@ -358,68 +353,65 @@ EDIT_CATEGORY_DELETE.addEventListener("click", async function () {
   if (confirmResponse == true) {
     let color = getComputedStyle(EDIT_CATEGORY_VERTICAL).backgroundColor;
     let categoryName = EDIT_CATEGORYNAME_INPUT.value;
-    let EventsOfSpecificCategoryList = [];
-    let categoryList = [];
-
-    await fetch("/readSpecificCategory", {
-      method: "POST",
-      headers: { "Content-type": "application/json" },
-      body: JSON.stringify({ color: color }),
-    })
-      .then((res) => {
-        return res.json();
-      })
-      .then((category) => {
-        categoryList = category;
-      });
 
     if (categoryName == "") {
       alert("Please fill the blank");
-    } else if (categoryList[0].categoryName != categoryName) {
-      alert("Please enter correct information");
-    }
-    // 確認是否有該分類的事件
-    else {
-      await fetch("/readEventsOfSpecificCategory", {
-        method: "POST",
-        headers: { "Content-type": "application/json" },
-        body: JSON.stringify({ oldColor: color }),
-      })
+    } else {
+      // 確認是否有該分類
+      let result = await fetch("/api/category/" + categoryName)
         .then((res) => {
           return res.json();
         })
-        .then((EventsOfSpecificCategory) => {
-          EventsOfSpecificCategoryList = EventsOfSpecificCategory;
+        .then((category) => {
+          return category;
         });
-      if (EventsOfSpecificCategoryList.length != 0) {
-        alert("There are events in this category so it can't be deleted");
+
+      if (
+        result.ok == false ||
+        result.data.length == 0 ||
+        result.data[0].color != color
+      ) {
+        alert("Please enter correct information");
       } else {
-        await fetch("/deleteCategory", {
+        // 確認該分類是否有事件
+        let result = await fetch("/readEventsOfSpecificCategory", {
           method: "POST",
-          headers: {
-            "Content-type": "application/json",
-          },
-          body: JSON.stringify({
-            categoryName: categoryName,
-            color: color,
-          }),
+          headers: { "Content-type": "application/json" },
+          body: JSON.stringify({ oldColor: color }),
         })
           .then((res) => {
-            EDIT_CATEGORY_CONTAINER.style.display = "none";
-            OVERLAY.style.display = "none";
-
-            // socket.io
-            let message = {
-              categoryName: categoryName,
-              color: color,
-            };
-
-            // socket: client 傳送到 server
-            socket.emit("delete-category", message);
+            return res.json();
           })
-          .catch((error) => {
-            alert("Sorry, there is something wrong");
+          .then((EventsOfSpecificCategory) => {
+            return EventsOfSpecificCategory;
           });
+
+        if (result.length != 0) {
+          alert("There are events in this category so it can't be deleted");
+        } else {
+          await fetch("/api/category", {
+            method: "DELETE",
+            headers: { "Content-type": "application/json" },
+            body: JSON.stringify({ categoryName: categoryName, color: color }),
+          })
+            .then((res) => {
+              if (res.ok) {
+                EDIT_CATEGORY_CONTAINER.style.display = "none";
+                OVERLAY.style.display = "none";
+
+                // socket.io
+                let message = { categoryName: categoryName, color: color };
+
+                // socket: client 傳送到 server
+                socket.emit("delete-category", message);
+              } else {
+              }
+            })
+            .catch((error) => {
+              console.log(error);
+              alert("Sorry, there is something wrong");
+            });
+        }
       }
     }
   } else {
