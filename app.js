@@ -11,7 +11,7 @@ const pageRoute = require("./routes/page");
 const adminRoute = require("./routes/admin");
 const eventRoute = require("./routes/event");
 const categoryRoute = require("./routes/category");
-const memberRoute = require("./routes/member");
+const photoRoute = require("./routes/photo");
 
 app.use(express.static("public"));
 
@@ -25,7 +25,7 @@ app.use(pageRoute);
 app.use(adminRoute);
 app.use(eventRoute);
 app.use(categoryRoute);
-app.use(memberRoute);
+app.use(photoRoute);
 
 let onlineUsersCount = 0;
 

@@ -145,8 +145,9 @@ ACCOUNT_FINISH_PHOTO_BUTTON.addEventListener("click", async function () {
 
     // get secure url from server
 
-    const { url } = await fetch("/imgStorage").then((res) => res.json());
-    console.log(url);
+    const { url } = await fetch("/api/securePhotoURL").then((res) =>
+      res.json()
+    );
 
     // post the image directly to the s3 bucket
 
@@ -157,21 +158,20 @@ ACCOUNT_FINISH_PHOTO_BUTTON.addEventListener("click", async function () {
     });
 
     const imageURL = url.split("?")[0];
-    console.log(imageURL);
     const imageHex = imageURL.split("/");
     const image = imageHex[imageHex.length - 1];
 
     // delete old photo
 
-    await fetch("/deletePhoto", {
-      method: "POST",
+    await fetch("/api/photo", {
+      method: "DELETE",
       headers: { "Content-type": "application/json" },
       body: JSON.stringify({ email: userEmail }),
     });
 
     // add new photo
 
-    await fetch("/createPhoto", {
+    await fetch("/api/photo", {
       method: "POST",
       headers: { "Content-type": "application/json" },
       body: JSON.stringify({ email: userEmail, image: image }),

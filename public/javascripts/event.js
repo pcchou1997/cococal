@@ -74,13 +74,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     });
 
   // read user photo
-  await fetch("/readSpecificPhoto", {
-    method: "POST",
-    headers: { "Content-type": "application/json" },
-    body: JSON.stringify({
-      email: userEmail,
-    }),
-  })
+  await fetch("/api/photo/" + userEmail)
     .then((res) => {
       return res.json();
     })

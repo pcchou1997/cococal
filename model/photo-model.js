@@ -1,6 +1,6 @@
 const db = require("../database");
 
-exports.readSpecificPhoto = async function (email) {
+exports.readPhoto = async function (email) {
   let sql = "SELECT * FROM photos WHERE email = ?";
   let values = [email];
   let data = await new Promise((resolve, reject) => {
@@ -14,7 +14,7 @@ exports.readSpecificPhoto = async function (email) {
   return data;
 };
 
-exports.createPhoto = async function (email, image) {
+exports.insertPhoto = async function (email, image) {
   let sql = "INSERT INTO photos (email, image) VALUES ?";
   let values = [[email, image]];
   let data = await new Promise((resolve, reject) => {
