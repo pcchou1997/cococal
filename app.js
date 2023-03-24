@@ -7,6 +7,7 @@ const io = require("socket.io")(server);
 // const io = new Server(server);
 
 // routes
+const pageRoute = require("./routes/page");
 const adminRoute = require("./routes/admin");
 const eventRoute = require("./routes/event");
 const categoryRoute = require("./routes/category");
@@ -20,6 +21,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // routes
+app.use(pageRoute);
 app.use(adminRoute);
 app.use(eventRoute);
 app.use(categoryRoute);

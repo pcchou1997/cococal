@@ -1,18 +1,19 @@
 const express = require("express");
-const router = express.Router();
 const cookieParser = require("cookie-parser");
+const router = express.Router();
 const adminController = require("../controller/admin-controller");
 
 router.use(cookieParser());
 
-router.get("/", adminController.getIndexPage);
+router
+  .route("/api/user/auth")
+  .post(adminController.login)
+  .get(adminController.getUser)
+  .delete(adminController.logout);
 
-router.get("/shared-calendar", adminController.getSharedCalendarPage);
-
-router.post("/login", adminController.postLogin);
-
-router.get("/user", adminController.getUser);
-
-router.get("/logout", adminController.getLogout);
+router
+  .route("/api/user")
+  .patch(adminController.updateUser)
+  .post(adminController.insertUser);
 
 module.exports = router;

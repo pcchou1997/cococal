@@ -1,52 +1,77 @@
-const memberModel = require("../model/member-model");
+const adminModel = require("../model/admin-model");
 const jwt = require("jsonwebtoken");
 
-exports.getIndexPage = function (req, res) {
-  res.render("login");
-};
-
-exports.postLogin = async (req, res) => {
-  const email = req.body.email;
-  const password = req.body.password;
-
+exports.login = async (req, res) => {
   try {
-    let result = await memberModel.readMember(email, password);
+    const email = req.body.email;
+    const password = req.body.password;
+
+    let result = await adminModel.readUser(email, password);
     if (result !== []) {
       // JWT + cookie
       const name = result[0].name;
       const token = jwt.sign({ name, email }, "Hello", { expiresIn: "600s" });
       res.cookie("JWT", token, { maxAge: 600000, httpOnly: true });
-      res.status(200).json({ ok: true, name: result.name });
+      res.status(200).json({ ok: true, data: result });
     } else {
       res
         .status(400)
-        .json({ error: true, message: "帳號或密碼錯誤，請重新輸入。" });
+        .json({ error: true, message: "Fail to read user information" });
     }
   } catch (error) {
-    res.status(500).json({ error: true, message: "伺服器內部錯誤" });
+    res.status(500).json({ error: true, message: "Internal Server Error" });
   }
 };
 
 exports.getUser = async (req, res) => {
-  const cookie = req.cookies;
-  if (cookie.JWT != undefined) {
-    try {
+  try {
+    const cookie = req.cookies;
+    if (cookie.JWT != undefined) {
       const value = cookie.JWT;
       const token = jwt.verify(value, "Hello");
-      res.status(200).json({ ok: true, name: token.name, email: token.email });
-    } catch (error) {
-      res.status(500).json({ error: true, message: "伺服器內部錯誤" });
+      const result = { name: token.name, email: token.email };
+      res.status(200).json({ ok: true, data: result });
+    } else {
+      res
+        .status(400)
+        .json({ error: true, message: "Fail to get user information" });
     }
-  } else {
-    res.status(200).json({ ok: false });
+  } catch (error) {
+    res.status(500).json({ error: true, message: "Internal Server Error" });
   }
 };
 
-exports.getSharedCalendarPage = function (req, res) {
-  res.render("shared-calendar");
+exports.logout = async (req, res) => {
+  try {
+    res.clearCookie("JWT");
+    res.status(200).json({ ok: true });
+  } catch (error) {
+    res.status(500).json({ error: true, message: "Internal Server Error" });
+  }
 };
 
-exports.getLogout = async (req, res) => {
-  res.clearCookie("JWT");
-  res.status(200).json({ ok: true });
+exports.insertUser = async (req, res) => {
+  let data = req.body;
+  const name = data.name;
+  const email = data.email;
+  const password = data.password;
+  const result = await adminModel.insertUser(name, email, password);
+  res.send(result);
+};
+
+exports.readUser = async (req, res) => {
+  let data = req.body;
+  const email = data.email;
+  const password = data.password;
+  const result = await adminModel.readUser(email, password);
+  res.send(result);
+};
+
+exports.updateUser = async (req, res) => {
+  let data = req.body;
+  const name = data.name;
+  const userName = data.userName;
+  const email = data.email;
+  const result = await adminModel.updateUser(name, userName, email);
+  res.send(result);
 };

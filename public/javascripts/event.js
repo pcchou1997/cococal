@@ -55,17 +55,14 @@ let userEmail;
 
 window.addEventListener("DOMContentLoaded", async () => {
   // read user name & email
-  await fetch("/user", {
-    method: "GET",
-    credentials: "include",
-  })
+  await fetch("/api/user/auth", { method: "GET" })
     .then((response) => {
       return response.json();
     })
-    .then((data) => {
-      if (data["ok"]) {
-        userName = data.name;
-        userEmail = data.email;
+    .then((userData) => {
+      if (userData["ok"]) {
+        userName = userData.data.name;
+        userEmail = userData.data.email;
         ACCOUNT_NAME.innerHTML = userName;
         ACCOUNT_EMAIL.innerHTML = userEmail;
       } else {

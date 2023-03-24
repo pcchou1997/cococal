@@ -93,8 +93,8 @@ ACCOUNT_FINISH_NAME_BUTTON.addEventListener("click", async function () {
     ACCOUNT_FINISH_NAME_BUTTON.style.display = "none";
     ACCOUNT_LOG_OUT_BUTTON.style.display = "block";
   } else {
-    fetch("/updateMember", {
-      method: "POST",
+    fetch("/api/user", {
+      method: "PATCH",
       headers: { "Content-type": "application/json" },
       body: JSON.stringify({
         name: name,
@@ -117,7 +117,7 @@ ACCOUNT_FINISH_NAME_BUTTON.addEventListener("click", async function () {
         ACCOUNT_LOG_OUT_BUTTON.style.display = "block";
 
         // 刪除cookie
-        fetch("/logout", { method: "GET" });
+        fetch("/api/user/auth", { method: "DELETE" });
       })
       .catch((err) => {
         // handle error
@@ -186,7 +186,7 @@ ACCOUNT_FINISH_PHOTO_BUTTON.addEventListener("click", async function () {
 });
 
 ACCOUNT_LOG_OUT_BUTTON.addEventListener("click", async function () {
-  fetch("/logout", { method: "GET" })
+  fetch("/api/user/auth", { method: "DELETE" })
     .then(() => {
       location.href = "/";
     })

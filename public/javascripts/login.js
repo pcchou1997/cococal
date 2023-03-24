@@ -67,7 +67,7 @@ REGISTER_BUTTON.addEventListener("click", function () {
     REGISTER_WRONG_MESSAGE.style.display = "block";
     REGISTER_WRONG_MESSAGE.innerHTML = "Wrong Password format";
   } else {
-    fetch("/insertMember", {
+    fetch("/api/user", {
       method: "POST",
       headers: { "Content-type": "application/json" },
       body: JSON.stringify({
@@ -107,7 +107,7 @@ LOGIN_BUTTON.addEventListener("click", function () {
     LOGIN_WRONG_MESSAGE.style.display = "block";
     LOGIN_WRONG_MESSAGE.innerHTML = "Wrong Password format";
   } else {
-    fetch("/login", {
+    fetch("/api/user/auth", {
       method: "POST",
       headers: { "Content-type": "application/json" },
       body: JSON.stringify({
