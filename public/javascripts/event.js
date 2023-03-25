@@ -116,9 +116,11 @@ function createCalendar(events) {
     selectable: true,
     navLinks: true,
     headerToolbar: {
-      left: "prev,next today",
+      left: "prev",
+      // left: "prev,next, today",
       center: "title",
-      right: "dayGridMonth,timeGridWeek,timeGridDay,listMonth",
+      right: "next",
+      // right: "dayGridMonth,timeGridWeek,timeGridDay,listMonth",
     },
     events: {
       events,
@@ -212,15 +214,13 @@ function editCalendarEvents() {
       oldStartDate = startDate;
       oldStartTime = startTime;
 
-      await fetch("/readSpecificEvent", {
+      await fetch("/api/readSpecificEvent", {
         method: "POST",
-        headers: {
-          "Content-type": "application/json",
-        },
+        headers: { "Content-type": "application/json" },
         body: JSON.stringify({
-          title: title,
-          startDate: startDate,
-          startTime: startTime,
+          title: oldTitle,
+          startDate: oldStartDate,
+          startTime: oldStartTime,
         }),
       })
         .then((res) => {
@@ -245,12 +245,11 @@ function editCalendarEvents() {
 
 // get DB events
 
-fetch("/readEvent")
+fetch("/api/event")
   .then((res) => {
     return res.json();
   })
   .then((jsonResponse) => {
-    console.log(jsonResponse);
     for (let i = 0; i < jsonResponse.length; i++) {
       let eventDict = {};
       let id = jsonResponse[i].id;
@@ -294,11 +293,11 @@ fetch("/readEvent")
     let buttonList = [
       PREV_BUTTON,
       NEXT_BUTTON,
-      TODAY_BUTTON,
-      dayGridMonth_BUTTON,
-      timeGridWeek_BUTTON,
-      timeGridDay_BUTTON,
-      listMonth_BUTTON,
+      // TODAY_BUTTON,
+      // dayGridMonth_BUTTON,
+      // timeGridWeek_BUTTON,
+      // timeGridDay_BUTTON,
+      // listMonth_BUTTON,
     ];
     buttonList.forEach((el) => {
       el.addEventListener("click", function () {
@@ -350,11 +349,9 @@ CREATE_EVENT_BUTTON.addEventListener("click", async function () {
   } else {
     CREATE_EVENT_CONTAINER.style.display = "none";
     OVERLAY.style.display = "none";
-    await fetch("/insertEvent", {
+    await fetch("/api/event", {
       method: "POST",
-      headers: {
-        "Content-type": "application/json",
-      },
+      headers: { "Content-type": "application/json" },
       body: JSON.stringify({
         title: title,
         startDate: startDate,
@@ -368,11 +365,9 @@ CREATE_EVENT_BUTTON.addEventListener("click", async function () {
       }),
     });
 
-    await fetch("/readSpecificEvent", {
+    await fetch("/api/readSpecificEvent", {
       method: "POST",
-      headers: {
-        "Content-type": "application/json",
-      },
+      headers: { "Content-type": "application/json" },
       body: JSON.stringify({
         title: title,
         startDate: startDate,
@@ -383,7 +378,6 @@ CREATE_EVENT_BUTTON.addEventListener("click", async function () {
         return res.json();
       })
       .then((jsonResponse) => {
-        console.log(jsonResponse);
         id = jsonResponse[0].id;
       });
 
@@ -544,11 +538,9 @@ EDIT_REVISE.addEventListener("click", async function () {
 
     // 進入資料庫得到事件id
 
-    await fetch("/readSpecificEvent", {
+    await fetch("/api/readSpecificEvent", {
       method: "POST",
-      headers: {
-        "Content-type": "application/json",
-      },
+      headers: { "Content-type": "application/json" },
       body: JSON.stringify({
         title: oldTitle,
         startDate: oldStartDate,
@@ -581,11 +573,10 @@ EDIT_REVISE.addEventListener("click", async function () {
 
     CREATE_EVENT_CONTAINER.style.display = "none";
     OVERLAY.style.display = "none";
-    await fetch("/updateEvent", {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json",
-      },
+
+    await fetch("/api/event", {
+      method: "PATCH",
+      headers: { "Content-type": "application/json" },
       body: JSON.stringify({
         title: title,
         startDate: startDate,
@@ -621,13 +612,10 @@ EDIT_DELETE.addEventListener("click", async function () {
     let description;
     let className;
 
-    // socket.io
     // 進入資料庫得到欲刪除事件
-    await fetch("/readSpecificEvent", {
+    await fetch("/api/readSpecificEvent", {
       method: "POST",
-      headers: {
-        "Content-type": "application/json",
-      },
+      headers: { "Content-type": "application/json" },
       body: JSON.stringify({
         title: oldTitle,
         startDate: oldStartDate,
@@ -650,6 +638,8 @@ EDIT_DELETE.addEventListener("click", async function () {
         description = jsonResponse[0].description;
       });
 
+    // socket.io
+
     // client 傳送到 server
     let message = {
       id: id,
@@ -666,11 +656,9 @@ EDIT_DELETE.addEventListener("click", async function () {
     socket.emit("delete-event", message);
 
     // 從資料庫刪除該事件
-    await fetch("/deleteEvent", {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json",
-      },
+    await fetch("/api/event", {
+      method: "DELETE",
+      headers: { "Content-type": "application/json" },
       body: JSON.stringify({
         oldTitle: oldTitle,
         oldStartDate: oldStartDate,

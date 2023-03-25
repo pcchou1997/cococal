@@ -31,20 +31,15 @@ SERACH_BUTTON.addEventListener("click", function () {
     SERACH_RESULT_CONTAINER.style.display = "block";
     OVERLAY.style.display = "block";
 
-    fetch("/searchEvent", {
+    fetch("/api/event/search", {
       method: "POST",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify({
-        keyword: keyword,
-      }),
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify({ keyword: keyword }),
     })
       .then((res) => {
         return res.json();
       })
       .then((searchEvents) => {
-        console.log(searchEvents);
         let resultDiv = document.createElement("div");
         resultDiv.setAttribute("class", "search-result-results");
         let eventNums = document.createElement("div");
@@ -128,10 +123,8 @@ SERACH_BUTTON.addEventListener("click", function () {
 
             // whether event duration > 1 day or <= 1 day
             title = this.childNodes[1].childNodes[0].innerHTML;
-            //   console.log(title);
             startDate =
               this.childNodes[1].childNodes[1].childNodes[0].innerHTML;
-            //   console.log(startDate);
             startTime = this.childNodes[1].childNodes[1].innerHTML.replace(
               "<b>" + startDate + "</b>",
               ""
@@ -141,13 +134,10 @@ SERACH_BUTTON.addEventListener("click", function () {
               .replaceAll(" ", "")
               .split("-")[0];
             startTime = startTime.substring(0, startTime.length - 1);
-            //   console.log(startTime);
 
-            await fetch("/readSpecificEvent", {
+            await fetch("/api/readSpecificEvent", {
               method: "POST",
-              headers: {
-                "Content-type": "application/json",
-              },
+              headers: { "Content-type": "application/json" },
               body: JSON.stringify({
                 title: title,
                 startDate: startDate,
@@ -158,7 +148,6 @@ SERACH_BUTTON.addEventListener("click", function () {
                 return res.json();
               })
               .then((specificEvent) => {
-                console.log(specificEvent);
                 endTime = specificEvent[0].endTime;
                 endDate = specificEvent[0].endDate;
                 color = specificEvent[0].color;

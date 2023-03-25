@@ -2,23 +2,20 @@ const express = require("express");
 const router = express.Router();
 const eventController = require("../controller/event-controller");
 
-router.post("/insertEvent", eventController.postInsertEvent);
+router
+  .route("/api/event")
+  .post(eventController.insertEvent)
+  .get(eventController.readEvent)
+  .patch(eventController.updateEvent)
+  .delete(eventController.deleteEvent);
 
-router.get("/readEvent", eventController.getReadEvent);
+router
+  .route("/api/event/:categoryColor")
+  .get(eventController.readEventsOfSpecificCategory)
+  .patch(eventController.updateEventsCategory);
 
-router.post("/readSpecificEvent", eventController.postReadSpecificEvent);
+router.route("/api/event/search").post(eventController.searchEvent);
 
-router.post(
-  "/readEventsOfSpecificCategory",
-  eventController.postReadEventsOfSpecificCategory
-);
-
-router.post("/updateEvent", eventController.postUpdateEvent);
-
-router.post("/updateEventCategory", eventController.postUpdateEventCategory);
-
-router.post("/deleteEvent", eventController.postDeleteEvent);
-
-router.post("/searchEvent", eventController.postSearchEvent);
+router.route("/api/readSpecificEvent").post(eventController.readSpecificEvent);
 
 module.exports = router;

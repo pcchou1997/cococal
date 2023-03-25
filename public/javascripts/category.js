@@ -109,11 +109,7 @@ fetch("/api/category")
         let className =
           this.parentNode.parentNode.children[0].children[1].innerHTML;
 
-        await fetch("/readEventsOfSpecificCategory", {
-          method: "POST",
-          headers: { "Content-type": "application/json" },
-          body: JSON.stringify({ oldColor: color }),
-        })
+        await fetch("/api/event/" + color)
           .then((res) => {
             return res.json();
           })
@@ -139,11 +135,7 @@ fetch("/api/category")
         let className =
           this.parentNode.parentNode.children[0].children[1].innerHTML;
 
-        await fetch("/readEventsOfSpecificCategory", {
-          method: "POST",
-          headers: { "Content-type": "application/json" },
-          body: JSON.stringify({ oldColor: color }),
-        })
+        await fetch("/api/event/" + color)
           .then((res) => {
             return res.json();
           })
@@ -294,11 +286,7 @@ EDIT_CATEGORY_REVISE.addEventListener("click", async function () {
     EDIT_CATEGORY_CONTAINER.style.display = "none";
     OVERLAY.style.display = "none";
 
-    await fetch("/readEventsOfSpecificCategory", {
-      method: "POST",
-      headers: { "Content-type": "application/json" },
-      body: JSON.stringify({ oldColor: oldColor }),
-    })
+    await fetch("/api/event/" + oldColor)
       .then((res) => {
         return res.json();
       })
@@ -306,31 +294,28 @@ EDIT_CATEGORY_REVISE.addEventListener("click", async function () {
         EventsOfSpecificCategory.forEach((event) => {
           EventsOfSpecificCategoryIds.push(event.id);
         });
-      })
-      .then(
-        fetch("/api/category", {
-          method: "PUT",
-          headers: { "Content-type": "application/json" },
-          body: JSON.stringify({
-            color: color,
-            categoryName: categoryName,
-            oldColor: oldColor,
-            oldCategoryName: oldCategoryName,
-          }),
-        })
-      )
-      .then(
-        fetch("/updateEventCategory", {
-          method: "POST",
-          headers: { "Content-type": "application/json" },
-          body: JSON.stringify({
-            color: color,
-            oldColor: oldColor,
-            className: categoryName,
-            oldClassName: oldCategoryName,
-          }),
-        })
-      );
+      });
+
+    await fetch("/api/category", {
+      method: "PUT",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify({
+        color: color,
+        categoryName: categoryName,
+        oldColor: oldColor,
+        oldCategoryName: oldCategoryName,
+      }),
+    });
+
+    await fetch("/api/event/" + oldColor, {
+      method: "PATCH",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify({
+        color: color,
+        categoryName: categoryName,
+        oldCategoryName: oldCategoryName,
+      }),
+    });
 
     // socket.io
     let message = {
@@ -374,11 +359,7 @@ EDIT_CATEGORY_DELETE.addEventListener("click", async function () {
         alert("Please enter correct information");
       } else {
         // 確認該分類是否有事件
-        let result = await fetch("/readEventsOfSpecificCategory", {
-          method: "POST",
-          headers: { "Content-type": "application/json" },
-          body: JSON.stringify({ oldColor: color }),
-        })
+        let result = await fetch("/api/event/" + color)
           .then((res) => {
             return res.json();
           })
@@ -474,11 +455,7 @@ socket.on("insert-category", async function (msg) {
     let className =
       this.parentNode.parentNode.children[0].children[1].innerHTML;
 
-    await fetch("/readEventsOfSpecificCategory", {
-      method: "POST",
-      headers: { "Content-type": "application/json" },
-      body: JSON.stringify({ oldColor: color }),
-    })
+    await fetch("/api/event/" + color)
       .then((res) => {
         return res.json();
       })
@@ -505,11 +482,7 @@ socket.on("insert-category", async function (msg) {
     let className =
       this.parentNode.parentNode.children[0].children[1].innerHTML;
 
-    await fetch("/readEventsOfSpecificCategory", {
-      method: "POST",
-      headers: { "Content-type": "application/json" },
-      body: JSON.stringify({ oldColor: color }),
-    })
+    await fetch("/api/event/" + color)
       .then((res) => {
         return res.json();
       })

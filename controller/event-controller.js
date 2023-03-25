@@ -1,6 +1,6 @@
 const eventModel = require("../model/event-model");
 
-exports.postInsertEvent = async function (req, res) {
+exports.insertEvent = async function (req, res) {
   let data = req.body;
   const title = data.title;
   const startDate = data.startDate;
@@ -25,32 +25,12 @@ exports.postInsertEvent = async function (req, res) {
   res.send(result);
 };
 
-exports.getReadEvent = async (req, res) => {
+exports.readEvent = async (req, res) => {
   const result = await eventModel.readEvent();
   res.json(result);
 };
 
-exports.postReadSpecificEvent = async (req, res) => {
-  let data = req.body;
-  const title = data.title;
-  const startDate = data.startDate;
-  const startTime = data.startTime;
-  const result = await eventModel.readSpecificEvent(
-    title,
-    startDate,
-    startTime
-  );
-  res.send(result);
-};
-
-exports.postReadEventsOfSpecificCategory = async (req, res) => {
-  let data = req.body;
-  const oldColor = data.oldColor;
-  const result = await eventModel.readEventsOfSpecificCategory(oldColor);
-  res.send(result);
-};
-
-exports.postUpdateEvent = async (req, res) => {
+exports.updateEvent = async (req, res) => {
   let data = req.body;
   const title = data.title;
   const startDate = data.startDate;
@@ -81,22 +61,7 @@ exports.postUpdateEvent = async (req, res) => {
   res.send(result);
 };
 
-exports.postUpdateEventCategory = async (req, res) => {
-  let data = req.body;
-  const oldColor = data.oldColor;
-  const color = data.color;
-  const className = data.className;
-  const oldClassName = data.oldClassName;
-  const result = await eventModel.updateEventCategory(
-    color,
-    className,
-    oldColor,
-    oldClassName
-  );
-  res.send(result);
-};
-
-exports.postDeleteEvent = async (req, res) => {
+exports.deleteEvent = async (req, res) => {
   let data = req.body;
   const oldTitle = data.oldTitle;
   const oldStartDate = data.oldStartDate;
@@ -109,9 +74,44 @@ exports.postDeleteEvent = async (req, res) => {
   res.send(result);
 };
 
-exports.postSearchEvent = async (req, res) => {
+exports.readEventsOfSpecificCategory = async (req, res) => {
+  const oldColor = req.params.categoryColor;
+  console.log(oldColor);
+  const result = await eventModel.readEventsOfSpecificCategory(oldColor);
+  console.log(result);
+  res.send(result);
+};
+
+exports.updateEventsCategory = async (req, res) => {
+  const oldColor = req.params.categoryColor;
   let data = req.body;
-  const keyword = data.keyword;
+  const color = data.color;
+  const categoryName = data.categoryName;
+  const oldCategoryName = data.oldCategoryName;
+  const result = await eventModel.updateEventsCategory(
+    color,
+    categoryName,
+    oldColor,
+    oldCategoryName
+  );
+  res.send(result);
+};
+
+exports.readSpecificEvent = async (req, res) => {
+  let data = req.body;
+  const title = data.title;
+  const startDate = data.startDate;
+  const startTime = data.startTime;
+  const result = await eventModel.readSpecificEvent(
+    title,
+    startDate,
+    startTime
+  );
+  res.send(result);
+};
+
+exports.searchEvent = async (req, res) => {
+  const keyword = req.body.keyword;
   const result = await eventModel.searchEvent(keyword);
   res.send(result);
 };

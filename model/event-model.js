@@ -46,35 +46,6 @@ exports.readEvent = async function () {
   return data;
 };
 
-exports.readSpecificEvent = async function (title, startDate, startTime) {
-  let sql =
-    "SELECT * FROM calendarEvents WHERE title = ? AND startDate = ? AND startTime = ?";
-  let values = [title, startDate, startTime];
-  let data = await new Promise((resolve, reject) => {
-    db.query(sql, values, function (err, result) {
-      if (err) throw err;
-      else {
-        return resolve(result);
-      }
-    });
-  });
-  return data;
-};
-
-exports.readEventsOfSpecificCategory = async function (oldColor) {
-  let sql = "SELECT * FROM calendarEvents WHERE color = ?";
-  let values = [oldColor];
-  let data = await new Promise((resolve, reject) => {
-    db.query(sql, values, function (err, result) {
-      if (err) throw err;
-      else {
-        return resolve(result);
-      }
-    });
-  });
-  return data;
-};
-
 exports.updateEvent = async function (
   title,
   startDate,
@@ -116,7 +87,37 @@ exports.updateEvent = async function (
   return data;
 };
 
-exports.updateEventCategory = async function (
+exports.deleteEvent = async function (oldTitle, oldStartDate, oldStartTime) {
+  let sql =
+    "DELETE FROM calendarEvents WHERE title=? and startDate=? and startTime=?";
+  let values = [oldTitle, oldStartDate, oldStartTime];
+  let data = await new Promise((resolve, reject) => {
+    db.query(sql, values, function (err, result) {
+      if (err) throw err;
+      else {
+        return resolve(result);
+      }
+    });
+  });
+  return data;
+};
+
+exports.readEventsOfSpecificCategory = async function (oldColor) {
+  console.log(oldColor);
+  let sql = "SELECT * FROM calendarEvents WHERE color = ?";
+  let values = [oldColor];
+  let data = await new Promise((resolve, reject) => {
+    db.query(sql, values, function (err, result) {
+      if (err) throw err;
+      else {
+        return resolve(result);
+      }
+    });
+  });
+  return data;
+};
+
+exports.updateEventsCategory = async function (
   color,
   className,
   oldColor,
@@ -136,10 +137,10 @@ exports.updateEventCategory = async function (
   return data;
 };
 
-exports.deleteEvent = async function (oldTitle, oldStartDate, oldStartTime) {
+exports.readSpecificEvent = async function (title, startDate, startTime) {
   let sql =
-    "DELETE FROM calendarEvents WHERE title=? and startDate=? and startTime=?";
-  let values = [oldTitle, oldStartDate, oldStartTime];
+    "SELECT * FROM calendarEvents WHERE title = ? AND startDate = ? AND startTime = ?";
+  let values = [title, startDate, startTime];
   let data = await new Promise((resolve, reject) => {
     db.query(sql, values, function (err, result) {
       if (err) throw err;
